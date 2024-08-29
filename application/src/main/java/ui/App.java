@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import db.ConnectDB;
+
 /**
  * JavaFX App
  */
@@ -18,9 +20,13 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         rootLayout = DefindUI.loadFXML(DefindUI.getLayout());
-        scene = new Scene(rootLayout.load(), 640, 480);
+        scene = new Scene(rootLayout.load());
         stage.setScene(scene);
         stage.show();
+
+        // try connect to database
+        ConnectDB connectDB = new ConnectDB();
+        connectDB.closeConnect();
     }
 
     static void setRoot(String fxml) throws IOException {

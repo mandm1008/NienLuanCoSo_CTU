@@ -1,0 +1,20 @@
+.menu-ctn {
+  -fx-padding: 30px 20px;
+  -fx-background-color: #211951;
+}
+
+.menu-title {
+  -fx-font-size: 16px;
+  -fx-text-fill: #fff;
+}
+
+.menu-item {
+  -fx-font-size: 12px;
+  -fx-padding: 10px 0;
+  -fx-alignment: center;
+}
+
+.menu-item .label {
+  -fx-padding: 0 0 0 8px;
+  -fx-text-fill: #fff;
+}

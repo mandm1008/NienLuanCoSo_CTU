@@ -9,6 +9,7 @@ public class DefindUI {
   private static String home = "home";
   private static String header = "header";
   private static String footer = "footer";
+  private static String menu = "menu";
 
   public static String getLayout() {
     return layout;
@@ -24,6 +25,10 @@ public class DefindUI {
 
   public static String getFooter() {
     return footer;
+  }
+
+  public static String getMenu() {
+    return menu;
   }
 
   @SuppressWarnings("exports")

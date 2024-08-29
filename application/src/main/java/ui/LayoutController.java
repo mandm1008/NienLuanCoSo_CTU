@@ -18,11 +18,12 @@ public class LayoutController {
       Parent header = DefindUI.loadFXML(DefindUI.getHeader()).load();
       Parent content = DefindUI.loadFXML(DefindUI.getHome()).load();
       Parent footer = DefindUI.loadFXML(DefindUI.getFooter()).load();
+      Parent menu = DefindUI.loadFXML(DefindUI.getMenu()).load();
 
       rootBorderPane.setTop(header);
       rootBorderPane.setCenter(content);
       rootBorderPane.setBottom(footer);
-
+      rootBorderPane.setLeft(menu);
     } catch (IOException e) {
       e.printStackTrace();
     }

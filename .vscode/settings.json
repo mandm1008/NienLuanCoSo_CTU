@@ -1,0 +1,4 @@
+{
+  "css.lint.unknownVendorSpecificProperties": "warning",
+  "css.lint.vendorPrefix": "ignore"
+}
