@@ -3,6 +3,7 @@ package db;
 import java.sql.PreparedStatement;
 
 public class AlbumSchema extends Schema {
+  private int albumId;
   private String title;
   private int releaseYear;
   private int artistId;
@@ -27,6 +28,11 @@ public class AlbumSchema extends Schema {
   @Override
   protected String getTableName() {
     return "Albums";
+  }
+
+  @Override
+  protected int getId() {
+    return albumId;
   }
 
   @Override

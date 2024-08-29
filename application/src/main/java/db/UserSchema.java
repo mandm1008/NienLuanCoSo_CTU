@@ -3,6 +3,7 @@ package db;
 import java.sql.PreparedStatement;
 
 public class UserSchema extends Schema {
+  private int userId;
   private String username;
   private String password;
   private String email;
@@ -27,6 +28,11 @@ public class UserSchema extends Schema {
   @Override
   protected String getTableName() {
     return "Users";
+  }
+
+  @Override
+  protected int getId() {
+    return userId;
   }
 
   @Override
