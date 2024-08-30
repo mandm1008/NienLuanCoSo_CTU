@@ -2,17 +2,17 @@ package db;
 
 import java.sql.PreparedStatement;
 
-public class ArtistSchema extends Schema {
+public class ArtistModel extends Model {
   private int artistId;
   private String name;
   private String genre;
 
-  public ArtistSchema(String name, String genre) {
+  public ArtistModel(String name, String genre) {
     this.name = name;
     this.genre = genre;
   }
 
-  public ArtistSchema(ArtistSchema artist) {
+  public ArtistModel(ArtistModel artist) {
     this.name = artist.name;
     this.genre = artist.genre;
   }

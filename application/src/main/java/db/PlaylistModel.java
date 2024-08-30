@@ -2,17 +2,17 @@ package db;
 
 import java.sql.PreparedStatement;
 
-public class PlaylistSchema extends Schema {
+public class PlaylistModel extends Model {
   private int playlistId;
   private String name;
   private int userId;
 
-  public PlaylistSchema(String name, int userId) {
+  public PlaylistModel(String name, int userId) {
     this.name = name;
     this.userId = userId;
   }
 
-  public PlaylistSchema(PlaylistSchema playlist) {
+  public PlaylistModel(PlaylistModel playlist) {
     this.name = playlist.name;
     this.userId = playlist.userId;
   }

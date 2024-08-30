@@ -2,30 +2,33 @@ package db;
 
 import java.sql.PreparedStatement;
 
-public class SongSchema extends Schema {
+public class SongModel extends Model {
   private int songId;
   private String title;
   private int duration;
   private int albumId;
   private int artistId;
+  private String href;
 
-  public SongSchema(String title, int duration, int albumId, int artistId) {
+  public SongModel(String title, int duration, int albumId, int artistId, String href) {
     this.title = title;
     this.duration = duration;
     this.albumId = albumId;
     this.artistId = artistId;
+    this.href = href;
   }
 
-  public SongSchema(SongSchema song) {
+  public SongModel(SongModel song) {
     this.title = song.title;
     this.duration = song.duration;
     this.albumId = song.albumId;
     this.artistId = song.artistId;
+    this.href = song.href;
   }
 
   @Override
   protected String getSQLString() {
-    return "INSERT INTO Songs (title, duration, album_id, artist_id) VALUES (?, ?, ?, ?)";
+    return "INSERT INTO Songs (title, duration, album_id, artist_id, href) VALUES (?, ?, ?, ?, ?)";
   }
 
   @Override
@@ -45,6 +48,7 @@ public class SongSchema extends Schema {
       pstmt.setInt(2, duration);
       pstmt.setInt(3, albumId);
       pstmt.setInt(4, artistId);
+      pstmt.setString(5, href);
     } catch (Exception e) {
       e.printStackTrace();
     }

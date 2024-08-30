@@ -2,19 +2,19 @@ package db;
 
 import java.sql.PreparedStatement;
 
-public class AlbumSchema extends Schema {
+public class AlbumModel extends Model {
   private int albumId;
   private String title;
   private int releaseYear;
   private int artistId;
 
-  public AlbumSchema(String title, int releaseYear, int artistId) {
+  public AlbumModel(String title, int releaseYear, int artistId) {
     this.title = title;
     this.releaseYear = releaseYear;
     this.artistId = artistId;
   }
 
-  public AlbumSchema(AlbumSchema album) {
+  public AlbumModel(AlbumModel album) {
     this.title = album.title;
     this.releaseYear = album.releaseYear;
     this.artistId = album.artistId;

@@ -3,7 +3,7 @@ package db;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public abstract class Schema {
+public abstract class Model {
   protected abstract String getSQLString();
 
   protected abstract String getTableName();

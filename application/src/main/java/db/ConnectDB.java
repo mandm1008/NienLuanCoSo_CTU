@@ -49,6 +49,7 @@ public class ConnectDB {
         "duration INT, " +
         "album_id INT, " +
         "artist_id INT, " +
+        "href VARCHAR(2083) NOT NULL," +
         "FOREIGN KEY (artist_id) REFERENCES Artists(artist_id)," +
         "FOREIGN KEY (album_id) REFERENCES Albums(album_id))";
 
