@@ -1,0 +1,5 @@
+1. Nên connect db 1 lần hay cần thì connect
+2. Lưu nhạc ở đâu
+  - Tạo server
+  - Dùng gg drive
+3. Em có lật trang bằng cách đổi thành phần trong scene được không

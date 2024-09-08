@@ -18,10 +18,14 @@ public abstract class Model {
       setValues(pstmt);
       pstmt.executeUpdate();
       System.out.println("Inserted data successfully into table: " + getTableName());
+
+      connectDB.closeConnect();
       return true;
     } catch (SQLException e) {
       System.out.println("Failed to insert data into table: " + getTableName());
       e.printStackTrace();
+
+      connectDB.closeConnect();
       return false;
     }
   }
@@ -33,10 +37,14 @@ public abstract class Model {
       pstmt.setInt(1, getId());
       pstmt.executeUpdate();
       System.out.println("Deleted data successfully from table: " + getTableName());
+
+      connectDB.closeConnect();
       return true;
     } catch (SQLException e) {
       System.out.println("Failed to delete data from table: " + getTableName());
       e.printStackTrace();
+
+      connectDB.closeConnect();
       return false;
     }
   }

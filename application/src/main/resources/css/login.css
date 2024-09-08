@@ -1,0 +1,78 @@
+/* Background styling */
+.login-background {
+  -fx-background-color: #2C2F33;
+  -fx-padding: 40px;
+  -fx-spacing: 40px;
+}
+
+/* Center box styling */
+.login-box {
+  -fx-background-color: #40444B;
+  -fx-padding: 40px;
+  -fx-border-radius: 10;
+  -fx-background-radius: 10;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 20, 0, 0, 5);
+}
+
+/* Login title */
+.login-title {
+  -fx-font-size: 24px;
+  -fx-text-fill: #FFFFFF;
+  -fx-font-weight: bold;
+}
+
+.login-label {
+  -fx-font-size: 14px;
+  -fx-text-fill: #FFFFFF;
+}
+
+.login-notification {
+  -fx-font-size: 12px;
+  -fx-text-fill: #FF0000;
+  -fx-alignment: center;
+}
+
+/* Input fields styling */
+.login-field {
+  -fx-background-color: #2C2F33;
+  -fx-text-fill: #B0B3B8;
+  -fx-prompt-text-fill: #8A8F94;
+  -fx-font-size: 14px;
+  -fx-padding: 10px;
+  -fx-border-color: transparent;
+  -fx-border-radius: 5;
+  -fx-background-radius: 5;
+  -fx-pref-width: 300;
+}
+
+/* Login button */
+.login-button {
+  -fx-background-color: #5865F2;
+  -fx-text-fill: white;
+  -fx-font-size: 14px;
+  -fx-font-weight: bold;
+  -fx-padding: 10px;
+  -fx-border-radius: 5;
+  -fx-background-radius: 5;
+  -fx-pref-width: 300;
+}
+
+.login-button:hover {
+  -fx-background-color: #4752C4;
+}
+
+/* Forgot password styling */
+.forgot-password {
+  -fx-text-fill: #8A8F94;
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
+  -fx-border-width: 0;
+  -fx-font-size: 12px;
+  -fx-cursor: hand;
+  -fx-alignment: center-right;
+  -fx-padding: 0;
+}
+
+.forgot-password:hover {
+  -fx-text-fill: #B0B3B8;
+}
