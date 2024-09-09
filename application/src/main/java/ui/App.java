@@ -9,7 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import db.ConnectDB;
+// import db.ConnectDB;
 
 /**
  * JavaFX App
@@ -34,11 +34,11 @@ public class App extends Application {
         stage.show();
 
         // try connect to database
-        ConnectDB connectDB = new ConnectDB();
-        connectDB.closeConnect();
+        // ConnectDB connectDB = new ConnectDB();
+        // connectDB.closeConnect();
 
         // just for testing
-        redirect(DefindUI.getNoLayout(), DefindUI.getRegister());
+        // redirect(DefindUI.getNoLayout(), DefindUI.getRegister());
     }
 
     public static void redirect(String content) {

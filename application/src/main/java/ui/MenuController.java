@@ -9,13 +9,7 @@ public class MenuController {
   private Button exploreButton;
 
   @FXML
-  private Button suggestButton;
-
-  @FXML
-  private Button topChartsButton;
-
-  @FXML
-  private Button newStuffButton;
+  private Button newMusicButton;
 
   @FXML
   private Button favoriteButton;
@@ -25,9 +19,6 @@ public class MenuController {
 
   @FXML
   private Button playlistsButton;
-
-  @FXML
-  private Button genresButton;
 
   @FXML
   private Button createPlaylistButton;

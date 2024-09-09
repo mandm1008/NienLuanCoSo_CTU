@@ -17,7 +17,7 @@ public class LayoutController {
       // load the header, content, and footer from the FXML files
       Parent header = DefindUI.loadFXML(DefindUI.getHeader()).load();
       // Parent content = DefindUI.loadFXML(DefindUI.getHome()).load();
-      Parent footer = DefindUI.loadFXML(DefindUI.getFooter()).load();
+      Parent footer = DefindUI.loadFXML(DefindUI.getPlayer()).load();
       Parent menu = DefindUI.loadFXML(DefindUI.getMenu()).load();
 
       rootBorderPane.setTop(header);

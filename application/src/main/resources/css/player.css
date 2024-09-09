@@ -1,0 +1,84 @@
+.player-wrapper {
+  -fx-background-color: #1E1E2E;
+  -fx-padding: 20px;
+  -fx-spacing: 10px;
+}
+
+.player-logo {
+  -fx-max-width: 100px;
+  -fx-max-height: 100px;
+  -fx-border-radius: 50%;
+}
+
+.player-info {
+  -fx-alignment: CENTER;
+}
+
+.player-info--item {
+  -fx-text-fill: #AAAAAA;
+  -fx-font-size: 10px;
+  -fx-font-weight: bold;
+  -fx-padding: 4px 0 4px 0;
+  -fx-text-alignment: LEFT;
+  -fx-arc-width: 200px;
+}
+
+.player-info--item-title {
+  -fx-text-fill: #fff;
+  -fx-font-size: 14px;
+}
+
+.player-info--item-subtitle {
+  -fx-translate-y: -8px;
+}
+
+.player-info--icon {
+  -fx-max-width: 16px;
+  -fx-max-height: 16px;
+  -fx-padding: 8px 8px 8px 16px;
+  -fx-cursor: hand;
+}
+
+.player-info--icon:hover {
+  -fx-text-fill: #fff;
+}
+
+.player-control--time {
+  -fx-text-fill: #fff;
+  -fx-font-size: 12px;
+  -fx-font-weight: bold;
+  -fx-padding: 0 8px;
+}
+
+.player-control--box {
+  -fx-alignment: CENTER;
+  -fx-spacing: 20px;
+  -fx-padding: 0 40px;
+}
+
+.player-control--item {
+  -fx-background-color: transparent;
+  -fx-background-insets: 0;
+  -fx-border-color: transparent;
+  -fx-border-width: 0;
+  -fx-effect: none;
+
+  -fx-cursor: hand;
+}
+
+.player-setting--box {
+  -fx-alignment: CENTER;
+  -fx-spacing: 10px;
+  -fx-padding: 0 40px;
+}
+
+.player-setting--item {
+  -fx-background-color: transparent;
+  -fx-background-insets: 0;
+  -fx-border-color: transparent;
+  -fx-border-width: 0;
+  -fx-effect: none;
+
+  -fx-padding: 0;
+  -fx-cursor: hand;
+}

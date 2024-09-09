@@ -9,7 +9,7 @@ public class DefindUI {
   private static String noLayout = "no_layout";
   private static String home = "home";
   private static String header = "header";
-  private static String footer = "footer";
+  private static String player = "player";
   private static String menu = "menu";
   private static String login = "login";
   private static String register = "register";
@@ -30,8 +30,8 @@ public class DefindUI {
     return header;
   }
 
-  public static String getFooter() {
-    return footer;
+  public static String getPlayer() {
+    return player;
   }
 
   public static String getMenu() {
