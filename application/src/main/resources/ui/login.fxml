@@ -14,7 +14,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 
-<HBox maxHeight="520.0" maxWidth="860.0" styleClass="login-background" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.LoginController">
+<HBox maxHeight="520.0" maxWidth="860.0" styleClass="login-background" stylesheets="@../css/login.css"
+   xmlns="http://javafx.com/javafx/22"
+   xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.LoginController">
    <children>
       <StackPane prefHeight="326.0" prefWidth="326.0" style="-fx-padding: 20px;">
          <children>
@@ -23,6 +25,15 @@
                   <Image url="@../images/banner.png" />
                </image>
             </ImageView>
+            <Button fx:id="backToHomeButton" mnemonicParsing="false" styleClass="clear-button" text="Bỏ qua" translateX="-175.0" translateY="-175.0" translateZ="-175.0">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/arrow-left-solid.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </StackPane>
 
@@ -37,10 +48,10 @@
          <Label styleClass="login-label" text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
          <PasswordField fx:id="txtPassword" prefHeight="48.0" prefWidth="299.0" styleClass="login-field" GridPane.columnSpan="2" GridPane.rowIndex="4" />
 
-         <Button onAction="#handleLogin" prefHeight="26.0" prefWidth="214.0" styleClass="login-button" text="Login" GridPane.columnSpan="2" GridPane.rowIndex="6" />
+         <Button onAction="#handleLogin" prefHeight="26.0" prefWidth="214.0" styleClass="login-button" text="Đăng nhập" GridPane.columnSpan="2" GridPane.rowIndex="6" />
          <Text fx:id="actionMessage" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="297.3368034362793" GridPane.columnSpan="2" />
-         <Button fx:id="forgotPassword" mnemonicParsing="false" onAction="#handleForgotPassword" prefHeight="18.0" prefWidth="224.0" styleClass="forgot-password" text="Forgot Password?" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-         <Button fx:id="createNew" mnemonicParsing="false" onAction="#handleCreateNew" prefHeight="26.0" prefWidth="224.0" styleClass="forgot-password" text="Create New" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+         <Button fx:id="forgotPassword" mnemonicParsing="false" onAction="#handleForgotPassword" prefHeight="18.0" prefWidth="224.0" styleClass="forgot-password" text="Quên mật khẩu?" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+         <Button fx:id="createNew" mnemonicParsing="false" onAction="#handleCreateNew" prefHeight="26.0" prefWidth="224.0" styleClass="forgot-password" text="Bạn chưa có tài khoản?" GridPane.columnIndex="1" GridPane.rowIndex="7" />
          <columnConstraints>
             <ColumnConstraints />
             <ColumnConstraints />

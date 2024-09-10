@@ -1,4 +1,4 @@
-package ui;
+package ui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -6,6 +6,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import modules.AccountManager;
+import ui.App;
+import ui.DefindUI;
 
 public class LoginController {
 
@@ -24,6 +26,19 @@ public class LoginController {
   @FXML
   private Text actionMessage;
 
+  @FXML
+  private Button backToHomeButton;
+
+  public void initialize() {
+    // backToHomeButton
+    backToHomeButton.toFront();
+    backToHomeButton.setOnAction(e -> {
+      // back
+      System.out.println("Back to Home");
+      App.redirect(DefindUI.getHome());
+    });
+  }
+
   // Submit handler
   @FXML
   protected void handleLogin() {
@@ -32,25 +47,23 @@ public class LoginController {
 
     // verify data
     if (username.isEmpty()) {
-      actionMessage.setText("Username is required!");
+      actionMessage.setText("Chưa nhập username!");
       txtUsername.requestFocus();
       return;
     }
 
     if (password.isEmpty()) {
-      actionMessage.setText("Password is required!");
+      actionMessage.setText("Chưa nhập password!");
       txtPassword.requestFocus();
       return;
     }
 
     // Start login
-    System.out.println("Username: " + username);
-    System.out.println("Password: " + password);
     if (AccountManager.login(username, password)) {
       actionMessage.setText("");
       App.redirect(DefindUI.getLayout(), DefindUI.getHome());
     } else {
-      actionMessage.setText("Username or password is incorrect! Please try again.");
+      actionMessage.setText("Username hoặc Password không đúng! Vui lòng thử lại.");
     }
   }
 

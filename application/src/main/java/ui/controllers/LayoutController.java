@@ -1,10 +1,11 @@
-package ui;
+package ui.controllers;
 
 import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
+import ui.DefindUI;
 
 public class LayoutController {
 

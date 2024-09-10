@@ -76,3 +76,13 @@
 .forgot-password:hover {
   -fx-text-fill: #B0B3B8;
 }
+
+.clear-button {
+  -fx-background-color: transparent;
+  -fx-background-insets: 0;
+  -fx-border-color: transparent;
+  -fx-border-width: 0;
+  -fx-effect: none;
+  -fx-text-fill: #ffffff;
+  -fx-cursor: hand;
+}

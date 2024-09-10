@@ -10,6 +10,15 @@ public class SongModel extends Model {
   private int artistId;
   private String href;
 
+  public SongModel() {
+    this.songId = -1;
+    this.title = "";
+    this.duration = 0;
+    this.albumId = -1;
+    this.artistId = -1;
+    this.href = "";
+  }
+
   public SongModel(String title, int duration, int albumId, int artistId, String href) {
     this.title = title;
     this.duration = duration;
@@ -39,6 +48,30 @@ public class SongModel extends Model {
   @Override
   protected int getId() {
     return songId;
+  }
+
+  public int getSongId() {
+    return songId;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public int getDuration() {
+    return duration;
+  }
+
+  public int getAlbumId() {
+    return albumId;
+  }
+
+  public int getArtistId() {
+    return artistId;
+  }
+
+  public String getHref() {
+    return href;
   }
 
   @Override

@@ -1,11 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
 
-
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.HeaderController">
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" styleClass="header-box" stylesheets="@../css/header.css"
+   xmlns="http://javafx.com/javafx/22"
+   xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.HeaderController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="616.0" text="Header Here" textAlignment="CENTER" textFill="#c90707" />
+      <Button fx:id="backBtn" mnemonicParsing="false" styleClass="clear-button" HBox.hgrow="NEVER">
+         <graphic>
+            <ImageView fitHeight="23.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/arrow-left-solid.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="nextBtn" mnemonicParsing="false" styleClass="clear-button" HBox.hgrow="NEVER">
+         <graphic>
+            <ImageView fitHeight="23.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/arrow-right-solid.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <HBox fx:id="searchBox" alignment="CENTER_LEFT" maxHeight="40.0" prefHeight="40.0" styleClass="header-search--box" HBox.hgrow="ALWAYS">
+         <children>
+            <Button mnemonicParsing="false" styleClass="clear-button">
+               <graphic>
+                  <ImageView fitHeight="23.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/magnifying-glass-solid.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <TextField fx:id="searchField" styleClass="header-search--input" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+      <StackPane prefHeight="60.0" prefWidth="100.0" HBox.hgrow="NEVER">
+         <children>
+            <Button fx:id="avartaButton" mnemonicParsing="false" style="-fx-padding: 0;" styleClass="clear-button" StackPane.alignment="CENTER">
+               <graphic>
+                  <Circle fx:id="avartaBox" radius="20.0" stroke="WHITE" strokeLineJoin="ROUND" strokeType="INSIDE">
+                     <fill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="0.3592592477798462" green="0.38061729073524475" blue="1.0" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="1.0" blue="1.0" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </LinearGradient>
+                     </fill>
+                  </Circle>
+               </graphic>
+            </Button>
+         </children>
+      </StackPane>
    </children>
 </HBox>

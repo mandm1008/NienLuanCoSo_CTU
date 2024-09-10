@@ -41,6 +41,7 @@
   -fx-padding: 8px 0;
   -fx-pref-width: 200px;
   -fx-alignment: CENTER;
+  -fx-cursor: hand;
 }
 
 .create-playlist:hover {

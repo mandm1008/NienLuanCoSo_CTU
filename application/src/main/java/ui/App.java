@@ -10,6 +10,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 // import db.ConnectDB;
+import modules.MusicManager;
+import db.SongModel;
 
 /**
  * JavaFX App
@@ -17,6 +19,7 @@ import javafx.stage.Stage;
 public class App extends Application {
 
     private static Scene scene;
+    private static MusicManager musicManager;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -33,12 +36,19 @@ public class App extends Application {
         stage.setMaximized(true);
         stage.show();
 
+        // init music media
+        SongModel song = new SongModel("Anh đếch cần gì nhiều ngoài em", 0, 0, 0,
+                "https://dl165.filemate2.shop/?file=M3R4SUNiN3JsOHJ6WWQ2a3NQS1Y5ZGlxVlZIOCtyaGh1NEYvbmtBbUQrQUhrcDlxOHJYbEFlc0tkL1lCaHI3bk1vMFIxQjNWT3RhZmV5SzlnTk1rUTMyRnZQc0w5ekxmb01nbVVNVjBhUWI1ais3KzAyTlFrQWpnYXMzUEVQMEVTM3ByOEFVeDlTVFdudGZqcWxqSnYyMmVxMW1STkdvSG9taE5PdkRmcktsbWsyelRmLzcyMW9RTW9DUENzODBiaktETjVGU25rdlF0c2Nad0F4QWtLOElFamMrenpPYVJvVVZJMFE9PQ%3D%3D");
+        musicManager = new MusicManager(song);
+
         // try connect to database
         // ConnectDB connectDB = new ConnectDB();
         // connectDB.closeConnect();
 
         // just for testing
         // redirect(DefindUI.getNoLayout(), DefindUI.getRegister());
+
+        musicManager.playMusic();
     }
 
     public static void redirect(String content) {
@@ -78,6 +88,11 @@ public class App extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @SuppressWarnings("exports")
+    public static MusicManager getMusicManager() {
+        return musicManager;
     }
 
     public static void main(String[] args) {

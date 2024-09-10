@@ -3,9 +3,9 @@ package modules;
 import db.UserModel;
 
 public class AccountManager {
-  private static int id;
-  private static String username;
-  private static String email;
+  private static int id = -1;
+  private static String username = null;
+  private static String email = null;
 
   public static int getId() {
     return id;

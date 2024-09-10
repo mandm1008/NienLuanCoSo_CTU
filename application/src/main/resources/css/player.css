@@ -1,12 +1,12 @@
 .player-wrapper {
   -fx-background-color: #1E1E2E;
-  -fx-padding: 20px;
-  -fx-spacing: 10px;
+  -fx-padding: 12px 20px;
+  -fx-spacing: 12px;
 }
 
 .player-logo {
-  -fx-max-width: 100px;
-  -fx-max-height: 100px;
+  -fx-max-width: 80px;
+  -fx-max-height: 80px;
   -fx-border-radius: 50%;
 }
 
