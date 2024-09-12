@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 
 // import db.ConnectDB;
 import modules.MusicManager;
-import db.SongModel;
 
 /**
  * JavaFX App
@@ -20,14 +19,19 @@ public class App extends Application {
 
     private static Scene scene;
     private static MusicManager musicManager;
+    private static String currentLayout;
+    private static String currentContent;
 
     @Override
     public void start(Stage stage) throws IOException {
         // load layout
         BorderPane rootLayout = DefindUI.loadFXML(DefindUI.getLayout()).load();
+        currentLayout = DefindUI.getLayout();
 
         // set main content
         Parent content = DefindUI.loadFXML(DefindUI.getHome()).load();
+        currentContent = DefindUI.getHome();
+
         rootLayout.setCenter(content);
 
         // set scene
@@ -37,18 +41,19 @@ public class App extends Application {
         stage.show();
 
         // init music media
-        SongModel song = new SongModel("Anh đếch cần gì nhiều ngoài em", 0, 0, 0,
-                "https://dl165.filemate2.shop/?file=M3R4SUNiN3JsOHJ6WWQ2a3NQS1Y5ZGlxVlZIOCtyaGh1NEYvbmtBbUQrQUhrcDlxOHJYbEFlc0tkL1lCaHI3bk1vMFIxQjNWT3RhZmV5SzlnTk1rUTMyRnZQc0w5ekxmb01nbVVNVjBhUWI1ais3KzAyTlFrQWpnYXMzUEVQMEVTM3ByOEFVeDlTVFdudGZqcWxqSnYyMmVxMW1STkdvSG9taE5PdkRmcktsbWsyelRmLzcyMW9RTW9DUENzODBiaktETjVGU25rdlF0c2Nad0F4QWtLOElFamMrenpPYVJvVVZJMFE9PQ%3D%3D");
-        musicManager = new MusicManager(song);
+        musicManager = new MusicManager();
 
         // try connect to database
         // ConnectDB connectDB = new ConnectDB();
         // connectDB.closeConnect();
+    }
 
-        // just for testing
-        // redirect(DefindUI.getNoLayout(), DefindUI.getRegister());
+    public static Scene getScene() {
+        return scene;
+    }
 
-        musicManager.playMusic();
+    public static void reload() {
+        redirect(currentLayout, currentContent);
     }
 
     public static void redirect(String content) {
@@ -63,6 +68,9 @@ public class App extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        currentLayout = DefindUI.getLayout();
+        currentContent = content;
     }
 
     public static void redirect(String layout, String content) {
@@ -88,6 +96,17 @@ public class App extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        currentLayout = layout;
+        currentContent = content;
+    }
+
+    public static String getCurrentLayout() {
+        return currentLayout;
+    }
+
+    public static String getCurrentContent() {
+        return currentContent;
     }
 
     @SuppressWarnings("exports")

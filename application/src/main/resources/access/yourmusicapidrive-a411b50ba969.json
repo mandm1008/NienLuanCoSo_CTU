@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "yourmusicapidrive",
+  "private_key_id": "a411b50ba969073da04f85b149ad6c60af0724f1",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCcEtCPdjB24gCF\n0hPh11plV5yq+Rfxx9bH5KeypQ7zvqPmu7v72Vh7w/J6iy4s1fXDVrVIqXBRkumj\ndmvVgecuSrQ4KH+N/rkoZopGWl0gfX4ylHugzL++PrZF+u/DEXfW8yHYq8O1UtaT\ny946teHauos03lpZoSAylQLDb96TpxbSPozXyo62ZU8Qb5cUNh85AvmJQbh1gwke\npScvKS2V56Qc7Pj7O5gIdYy4OW8HtqSprOEIhF+pciqgMIEYken/lXY5m7zoJFqf\ncvj6XawCVouAt+e3FKnKDZIQKgMRPzgBgTpwFS64d2PlAb9B6jqOwFzUpinuxQSM\nD1IiQH+xAgMBAAECggEACSVLmiqIeMDx26Wls11fn1Jo3HZ8DheiKQTHxG7Kb2NX\nnqrX31BbUGZZOE/dWPSBQiz7sso2ChuwK/thoolqEwL+6E8MOXWIo1rN5cVAEYo1\nCdD8ZR32avcpDnT/1YgZpAuLi1M2ZNLZvt+qkjlsBpmZlHOmqvung7tKZgoxSmjf\n2bxnC9c/fn1NIsvHBQ/PSMAe4y0io4FN2396OjNaAIeUNu/67BpTOiMcs1XfDyJD\n4yetN5Vchiwu2BghtIOGqs+D21l4nspR5QIop4rP0o9SdVNnmmDZ63uIlNMWWbiT\nIWfYGUR5efnU1e0d1qx6DFBx3kzEyv7S4smpP3twAQKBgQDQXLDNtK5sI8pCuznH\nSf4H4hbF0l+4hleJIFoLJJ4VC+1BJMf7B1U1gQZ2qQnQ3uP06TTpRb/rjWTery+w\nsLR1iTd89gq+h6KzSz+DR6Xrp/ob8dSBUWWrhV0OEguAK1t2p7QB3Fho6LNkR4ul\nTZ9kJgdOzJ6bPwTUykZ1KCRHsQKBgQC/wbRS9NyJHQ5HT/EFuGphPrb29XeDntCe\nNj+6nSPzZGa+OdmgGRizG2WZERKcauldwb9gsQn0zZZj9lZtbB/NlMsrJKGAnQ31\n/9SofPNFcLDgVlg35CY2Mu19HHJXaj+W7EOXrVJZpGH2WUvSOaofLJqtzsrqWgSa\nvTT5qiW4AQKBgQDMzE574jwOzp7fOGdyGqg112PKzRyIooMnpUTb7wHybealQSHO\n+0YlcMyJlVywkGQ/NXlsT8J0JGYg+tBFO2oknNqNWMj2vRqOYEftIV9UYabUEL5u\n3TKxhEQSsGndcMBVwECOE6ZSd2bcCfaYY9Nm/HnyWe0LasW04ZyfSvVeAQKBgQCo\nnBCNKRWJ0uytM9PAremMXHLRMAHI0CqsExNyaZ4k89GLzp5XMfoP8zUgpGxy8WcF\ns8ktoj4Y7XUhrIdOa9aDFCSZaPpBdtfByRQamtPl6TL9765eZtRar+k3K3428wu7\nD0BX7GUOwYYJ8XbEAURfaP8ReVXfPwvxbBFavouwAQKBgCpeZHRVtHI8CkE1LoFt\n8ssi5Arw+TW5UDz8LWRkMc+kgLoo4wNKZsAPuM07HcpLjj3GBhMgcqlafuex1Nt2\nuiEzcyhH+50FylDWrqJ+Ket3k4XdN91gOAAHi2DH8flK6wyNBBLb+vSDeDJUfiYq\nvnZYqR4YI+gyWmQmwz6/Z8Vr\n-----END PRIVATE KEY-----\n",
+  "client_email": "users-479@yourmusicapidrive.iam.gserviceaccount.com",
+  "client_id": "112319892642978507423",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/users-479%40yourmusicapidrive.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
