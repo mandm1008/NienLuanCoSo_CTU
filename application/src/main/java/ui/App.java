@@ -5,11 +5,11 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-// import db.ConnectDB;
 import modules.MusicManager;
 
 /**
@@ -17,6 +17,7 @@ import modules.MusicManager;
  */
 public class App extends Application {
 
+    private static Stage primaryStage;
     private static Scene scene;
     private static MusicManager musicManager;
     private static String currentLayout;
@@ -24,6 +25,10 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        // init music media
+        musicManager = new MusicManager();
+        primaryStage = stage;
+
         // load layout
         BorderPane rootLayout = DefindUI.loadFXML(DefindUI.getLayout()).load();
         currentLayout = DefindUI.getLayout();
@@ -38,14 +43,13 @@ public class App extends Application {
         scene = new Scene(rootLayout);
         stage.setScene(scene);
         stage.setMaximized(true);
+        stage.setTitle("Your Music");
+        stage.getIcons().add(new Image(App.class.getResource("/images/banner-solid.png").toExternalForm()));
         stage.show();
+    }
 
-        // init music media
-        musicManager = new MusicManager();
-
-        // try connect to database
-        // ConnectDB connectDB = new ConnectDB();
-        // connectDB.closeConnect();
+    public static Stage getPrimaryStage() {
+        return primaryStage;
     }
 
     public static Scene getScene() {

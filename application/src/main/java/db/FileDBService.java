@@ -1,7 +1,6 @@
 // package db;
 
 // import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-// // import com.google.api.client.json.JsonFactory;
 // import com.google.api.client.json.gson.GsonFactory;
 // import com.google.api.services.drive.Drive;
 // import com.google.api.services.drive.DriveScopes;
@@ -10,7 +9,7 @@
 // import com.google.auth.http.HttpCredentialsAdapter;
 // import com.google.auth.oauth2.GoogleCredentials;
 // import com.google.auth.oauth2.ServiceAccountCredentials;
-// import com.google.api.client.http.FileContent;
+// // import com.google.api.client.http.FileContent;
 
 // import java.io.FileInputStream;
 // import java.io.IOException;
@@ -50,14 +49,14 @@
 // File fileMetadata = new File();
 // fileMetadata.setName("My Uploaded File");
 
-// // Load File
-// java.io.File filePathToUpload = new java.io.File(filePath);
-// FileContent mediaContent = new FileContent(mimeType, filePathToUpload);
+// // // Load File
+// // java.io.File filePathToUpload = new java.io.File(filePath);
+// // FileContent mediaContent = new FileContent(mimeType, filePathToUpload);
 
 // Drive service = getDriveService();
 
 // // Upload file
-// File file = service.files().create(fileMetadata, mediaContent)
+// File file = service.files().create(fileMetadata)
 // .setFields("id")
 // .execute();
 

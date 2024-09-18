@@ -2,8 +2,35 @@ package db;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class PlaylistModel extends Model {
+
+  // defind table
+  private static final String createTable = "" +
+      "CREATE TABLE IF NOT EXISTS Playlists (" +
+      "playlist_id INT AUTO_INCREMENT PRIMARY KEY, " +
+      "name VARCHAR(255) NOT NULL, " +
+      "user_id INT, " +
+      "FOREIGN KEY (user_id) REFERENCES Users(user_id))";
+  private final String tableName = "Playlists";
+  private final String idName = "playlist_id";
+
+  protected static String getCreateTable() {
+    return createTable;
+  }
+
+  @Override
+  protected String getTableName() {
+    return tableName;
+  }
+
+  @Override
+  protected String getIdName() {
+    return idName;
+  }
+
+  // for model
   private int playlistId;
   private String name;
   private int userId;
@@ -30,12 +57,7 @@ public class PlaylistModel extends Model {
 
   @Override
   protected String getInsertString() {
-    return "INSERT INTO Playlists (name, user_id) VALUES (?, ?)";
-  }
-
-  @Override
-  protected String getTableName() {
-    return "Playlists";
+    return "INSERT INTO " + getTableName() + " (name, user_id) VALUES (?, ?)";
   }
 
   @Override
@@ -51,6 +73,27 @@ public class PlaylistModel extends Model {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  @Override
+  protected boolean checkAccess() {
+    // check with title
+    try {
+      if (super.query("SELECT * FROM " + getTableName() + " WHERE (user_id, name) = (?, ?)", (pstmt) -> {
+        try {
+          pstmt.setInt(1, userId);
+          pstmt.setString(2, name);
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }) == null)
+        return true;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+
+    return false;
   }
 
   public boolean findData() {

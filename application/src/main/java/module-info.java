@@ -1,5 +1,6 @@
 module ui {
   requires transitive javafx.graphics;
+  requires javafx.base;
   requires javafx.media;
   requires javafx.controls;
   requires javafx.fxml;
@@ -8,6 +9,7 @@ module ui {
   requires google.api.client;
   requires com.google.api.client.json.gson;
   requires com.google.auth.oauth2;
+  requires com.google.api.services.drive;
 
   opens ui to javafx.fxml;
   opens ui.controllers to javafx.fxml;

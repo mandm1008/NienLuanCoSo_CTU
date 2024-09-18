@@ -2,8 +2,36 @@ package db;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class PlaylistSongModel extends Model {
+
+  // defind table
+  private static final String createTable = "" +
+      "CREATE TABLE IF NOT EXISTS Playlist_Songs (" +
+      "playlist_song_id INT AUTO_INCREMENT PRIMARY KEY, " +
+      "playlist_id INT, " +
+      "song_id INT, " +
+      "FOREIGN KEY (playlist_id) REFERENCES Playlists(playlist_id)," +
+      "FOREIGN KEY (song_id) REFERENCES Songs(song_id))";
+  private final String tableName = "Playlist_Songs";
+  private final String idName = "playlist_song_id";
+
+  protected static String getCreateTable() {
+    return createTable;
+  }
+
+  @Override
+  protected String getTableName() {
+    return tableName;
+  }
+
+  @Override
+  protected String getIdName() {
+    return idName;
+  }
+
+  // for model
   private int playlistSongId;
   private int playlistId;
   private int songId;
@@ -30,12 +58,7 @@ public class PlaylistSongModel extends Model {
 
   @Override
   protected String getInsertString() {
-    return "INSERT INTO PlaylistSongs (playlist_id, song_id) VALUES (?, ?)";
-  }
-
-  @Override
-  protected String getTableName() {
-    return "PlaylistSongs";
+    return "INSERT INTO " + getTableName() + " (playlist_id, song_id) VALUES (?, ?)";
   }
 
   @Override
@@ -51,6 +74,27 @@ public class PlaylistSongModel extends Model {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  @Override
+  protected boolean checkAccess() {
+    // check with title
+    try {
+      if (super.query("SELECT * FROM " + getTableName() + " WHERE (playlist_id, song_id) = (?, ?)", (pstmt) -> {
+        try {
+          pstmt.setInt(1, playlistId);
+          pstmt.setInt(2, songId);
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }) == null)
+        return true;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+
+    return false;
   }
 
   public boolean findData() {

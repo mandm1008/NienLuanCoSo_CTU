@@ -13,6 +13,8 @@ public class DefindUI {
   private static String menu = "menu";
   private static String login = "login";
   private static String register = "register";
+  private static String playlist = "playlist";
+  private static String playlistItem = "playlist-item";
 
   public static String getLayout() {
     return layout;
@@ -44,6 +46,14 @@ public class DefindUI {
 
   public static String getRegister() {
     return register;
+  }
+
+  public static String getPlaylist() {
+    return playlist;
+  }
+
+  public static String getPlaylistItem() {
+    return playlistItem;
   }
 
   @SuppressWarnings("exports")

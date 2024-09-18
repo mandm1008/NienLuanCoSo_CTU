@@ -6,6 +6,7 @@ public class AccountManager {
   private static int id = -1;
   private static String username = null;
   private static String email = null;
+  private static String avatar = null;
 
   public static int getId() {
     return id;
@@ -19,8 +20,12 @@ public class AccountManager {
     return email;
   }
 
-  public static boolean register(String username, String email, String password) {
-    UserModel user = new UserModel(username, password, email);
+  public static String getAvatar() {
+    return avatar;
+  }
+
+  public static boolean register(String username, String email, String password, String avatar) {
+    UserModel user = new UserModel(username, password, email, avatar);
     return user.insert();
   }
 
@@ -34,13 +39,15 @@ public class AccountManager {
     AccountManager.id = user.getId();
     AccountManager.username = user.getUsername();
     AccountManager.email = user.getEmail();
+    AccountManager.avatar = user.getAvatar();
 
     return true;
   }
 
   public static void logout() {
-    AccountManager.id = 0;
+    AccountManager.id = -1;
     AccountManager.username = null;
     AccountManager.email = null;
+    AccountManager.avatar = null;
   }
 }

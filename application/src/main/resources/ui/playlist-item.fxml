@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox alignment="CENTER_LEFT" spacing="12.0" stylesheets="@../css/playlist.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.PlaylistItemController">
+   <children>
+      <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="32.0" prefWidth="32.0">
+         <children>
+            <Button fx:id="playButton" mnemonicParsing="false" styleClass="clear-button">
+               <graphic>
+                  <ImageView fx:id="playImage" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/play-solid.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </StackPane>
+      <StackPane maxHeight="1.7976931348623157E308">
+         <children>
+            <ImageView fx:id="image" fitHeight="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/demo_music.png" />
+               </image>
+            </ImageView>
+         </children>
+      </StackPane>
+      <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="48.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+         <children>
+            <Label fx:id="title" styleClass="playlist-text" text="Đố em biết anh đang nghĩ gì" />
+            <Label fx:id="artist" styleClass="playlist-subtext" text="Đen Vâu" />
+         </children>
+      </VBox>
+      <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="32.0" prefWidth="32.0">
+         <children>
+            <Button mnemonicParsing="false" styleClass="clear-button">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/ellipsis-vertical-solid.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </StackPane>
+   </children>
+   <padding>
+      <Insets bottom="4.0" left="8.0" right="8.0" top="4.0" />
+   </padding>
+</HBox>

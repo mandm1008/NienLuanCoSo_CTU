@@ -4,13 +4,44 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
 
 public class UserModel extends Model {
+
+  // defind table
+  private static final String createTable = "" +
+      "CREATE TABLE IF NOT EXISTS Users (" +
+      "user_id INT AUTO_INCREMENT PRIMARY KEY, " +
+      "username VARCHAR(255) NOT NULL UNIQUE, " +
+      "password VARCHAR(255) NOT NULL," +
+      "email VARCHAR(255) NOT NULL," +
+      "avatar VARCHAR(255) NOT NULL," +
+      "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+      "deleted_at TIMESTAMP NULL DEFAULT NULL)";
+  private final String tableName = "Users";
+  private final String idName = "user_id";
+
+  protected static String getCreateTable() {
+    return createTable;
+  }
+
+  @Override
+  protected String getTableName() {
+    return tableName;
+  }
+
+  @Override
+  protected String getIdName() {
+    return idName;
+  }
+
+  // for model
   private int userId;
   private String username;
   private String password;
   private String email;
   private String avatar;
+  private LinkedList<SongModel> likedSongs;
 
   public UserModel() {
     this.userId = -1;
@@ -77,12 +108,7 @@ public class UserModel extends Model {
 
   @Override
   protected String getInsertString() {
-    return "INSERT INTO Users (username, password, email) VALUES (?, ?, ?)";
-  }
-
-  @Override
-  protected String getTableName() {
-    return "Users";
+    return "INSERT INTO " + getTableName() + " (username, password, email, avatar) VALUES (?, ?, ?, ?)";
   }
 
   @Override
@@ -96,9 +122,45 @@ public class UserModel extends Model {
       pstmt.setString(1, username);
       pstmt.setString(2, password);
       pstmt.setString(3, email);
+      pstmt.setString(4, avatar);
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  @Override
+  protected boolean checkAccess() {
+    // check with username, email
+    try {
+      if (super.query("SELECT * FROM " + getTableName() + " WHERE username = ?", (pstmt) -> {
+        try {
+          pstmt.setString(1, username);
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }) == null) {
+        try {
+          if (super.query("SELECT * FROM " + getTableName() + " WHERE email = ?", (pstmt) -> {
+            try {
+              pstmt.setString(1, email);
+            } catch (SQLException e) {
+              e.printStackTrace();
+            }
+          }) == null)
+            return true;
+        } catch (Exception e) {
+          e.printStackTrace();
+          return false;
+        }
+
+        return false;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+
+    return false;
   }
 
   public boolean findData() {
@@ -137,6 +199,53 @@ public class UserModel extends Model {
 
   public int getUserId() {
     return userId;
+  }
+
+  public LinkedList<SongModel> getLiked() {
+    if (likedSongs == null) {
+      likedSongs = new LinkedList<>();
+      getLikedSongs();
+    }
+
+    return likedSongs;
+  }
+
+  public void getLikedSongs() {
+    // get all liked songs
+    UserLikes userLikes = new UserLikes(userId);
+    ResultSet rs = userLikes.findByUserId();
+
+    try {
+      while (rs.next()) {
+        SongModel song = new SongModel(rs.getInt("song_id"));
+        song.findData();
+
+        likedSongs.add(song);
+
+        System.out.println(song.getTitle() + " - " + userId);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public boolean checkLikedSong(int songId) {
+    UserLikes userLikes = new UserLikes(userId, songId);
+
+    return userLikes.checkLikeUser();
+  }
+
+  public void likeSong(int songId) {
+    UserLikes userLikes = new UserLikes(userId, songId);
+
+    userLikes.insert();
+  }
+
+  public void unlikeSong(int songId) {
+    UserLikes userLikes = new UserLikes(userId, songId);
+    userLikes.findData();
+
+    userLikes.delete();
   }
 
 }

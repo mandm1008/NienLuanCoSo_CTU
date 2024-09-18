@@ -12,9 +12,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Text?>
 
-<HBox maxHeight="520.0" maxWidth="860.0" styleClass="login-background" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.RegisterController">
+<HBox maxHeight="600.0" maxWidth="860.0" styleClass="login-background" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.RegisterController">
    <children>
       <StackPane prefHeight="326.0" prefWidth="326.0" style="-fx-padding: 20px;">
          <children>
@@ -35,7 +36,7 @@
          </children>
       </StackPane>
 
-      <GridPane alignment="CENTER" hgap="10" styleClass="login-box" vgap="10">
+      <GridPane alignment="CENTER" hgap="10" maxHeight="1.7976931348623157E308" styleClass="login-box" vgap="10">
          <padding>
             <Insets bottom="20" left="20" right="20" top="20" />
          </padding>
@@ -49,9 +50,50 @@
          <Label styleClass="login-label" text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
          <PasswordField fx:id="txtPassword" prefHeight="48.0" prefWidth="299.0" styleClass="login-field" GridPane.columnSpan="2" GridPane.rowIndex="6" />
 
-         <Button onAction="#handleRegister" prefHeight="26.0" prefWidth="214.0" styleClass="login-button" text="Đăng ký ngay" GridPane.columnSpan="2" GridPane.rowIndex="8" />
+         <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#handleRegister" prefHeight="41.0" prefWidth="360.0" styleClass="login-button" text="Đăng ký ngay" GridPane.columnSpan="2" GridPane.rowIndex="9" />
          <Text fx:id="actionMessage" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="297.3368034362793" GridPane.columnSpan="2" />
-         <Button fx:id="toLogin" mnemonicParsing="false" onAction="#handleToLogin" prefHeight="26.0" prefWidth="224.0" styleClass="forgot-password" text="Bạn đã có tài khoản?" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+         <Button fx:id="toLogin" mnemonicParsing="false" onAction="#handleToLogin" prefHeight="26.0" prefWidth="224.0" styleClass="forgot-password" text="Bạn đã có tài khoản?" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+         <Label styleClass="login-label" text="Chọn Avatar:" GridPane.rowIndex="7" />
+         <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0" spacing="20.0" GridPane.columnSpan="2" GridPane.rowIndex="8">
+            <children>
+               <StackPane>
+                  <children>
+                     <Button fx:id="chooseAvatarButton1" mnemonicParsing="false" styleClass="clear-button">
+                        <graphic>
+                           <Circle fx:id="chooseAvarta1" fill="DODGERBLUE" radius="24.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+                        </graphic>
+                     </Button>
+                  </children>
+               </StackPane>
+               <StackPane>
+                  <children>
+                     <Button fx:id="chooseAvatarButton2" mnemonicParsing="false" styleClass="clear-button">
+                        <graphic>
+                           <Circle fx:id="chooseAvarta2" fill="DODGERBLUE" radius="24.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+                        </graphic>
+                     </Button>
+                  </children>
+               </StackPane>
+               <StackPane>
+                  <children>
+                     <Button fx:id="chooseAvatarButton3" mnemonicParsing="false" styleClass="clear-button">
+                        <graphic>
+                           <Circle fx:id="chooseAvarta3" fill="DODGERBLUE" radius="24.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+                        </graphic>
+                     </Button>
+                  </children>
+               </StackPane>
+               <StackPane>
+                  <children>
+                     <Button fx:id="chooseAvatarButton4" mnemonicParsing="false" styleClass="clear-button">
+                        <graphic>
+                           <Circle fx:id="chooseAvarta4" fill="DODGERBLUE" radius="24.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+                        </graphic>
+                     </Button>
+                  </children>
+               </StackPane>
+            </children>
+         </HBox>
 
          <columnConstraints>
             <ColumnConstraints />
@@ -66,6 +108,7 @@
             <RowConstraints />
             <RowConstraints minHeight="10.0" prefHeight="30.0" />
             <RowConstraints maxHeight="24.79999389648438" minHeight="10.0" prefHeight="20.800006103515614" />
+            <RowConstraints maxHeight="80.0" minHeight="10.0" />
             <RowConstraints maxHeight="41.600012207031256" minHeight="32.00000610351563" prefHeight="36.79999389648438" />
             <RowConstraints maxHeight="41.600012207031256" minHeight="16.799963378906227" prefHeight="24.799963378906227" />
          </rowConstraints>

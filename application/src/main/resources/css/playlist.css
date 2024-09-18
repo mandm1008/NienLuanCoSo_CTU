@@ -1,0 +1,23 @@
+.playlist-box {
+  -fx-background-color: #1E1E2E;
+  -fx-padding: 12px 8px;
+}
+
+.playlist-text {
+  -fx-text-fill: #fff;
+  -fx-font-size: 12px;
+}
+
+.playlist-subtext {
+  -fx-text-fill: #5c6360;
+  -fx-font-size: 10px;
+}
+
+.clear-button {
+  -fx-background-color: transparent;
+  -fx-background-insets: 0;
+  -fx-border-color: transparent;
+  -fx-border-width: 0;
+  -fx-effect: none;
+  -fx-cursor: hand;
+}

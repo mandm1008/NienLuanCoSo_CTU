@@ -2,8 +2,31 @@ package db;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class AlbumModel extends Model {
+
+  // defind table
+  private static final String createTable = "" +
+      "CREATE TABLE IF NOT EXISTS Albums (" +
+      "album_id INT AUTO_INCREMENT PRIMARY KEY, " +
+      "title VARCHAR(255) NOT NULL, " +
+      "release_year INT, " +
+      "artist_id INT, " +
+      "FOREIGN KEY (artist_id) REFERENCES Artists(artist_id))";
+  private final String tableName = "Albums";
+  private final String idName = "album_id";
+
+  @Override
+  protected String getTableName() {
+    return tableName;
+  }
+
+  @Override
+  protected String getIdName() {
+    return idName;
+  }
+
   private int albumId;
   private String title;
   private int releaseYear;
@@ -33,18 +56,17 @@ public class AlbumModel extends Model {
   }
 
   @Override
-  protected String getInsertString() {
-    return "INSERT INTO Albums (title, release_year, artist_id) VALUES (?, ?, ?)";
-  }
-
-  @Override
-  protected String getTableName() {
-    return "Albums";
-  }
-
-  @Override
   protected int getId() {
     return albumId;
+  }
+
+  public static String getCreateTable() {
+    return createTable;
+  }
+
+  @Override
+  protected String getInsertString() {
+    return "INSERT INTO " + getTableName() + " (title, release_year, artist_id) VALUES (?, ?, ?)";
   }
 
   @Override
@@ -56,6 +78,26 @@ public class AlbumModel extends Model {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  @Override
+  protected boolean checkAccess() {
+    // check with title
+    try {
+      if (super.query("SELECT * FROM " + getTableName() + " WHERE title = ?", (pstmt) -> {
+        try {
+          pstmt.setString(1, title);
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }) == null)
+        return true;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+
+    return false;
   }
 
   public boolean findData() {

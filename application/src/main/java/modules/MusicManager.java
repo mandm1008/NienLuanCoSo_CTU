@@ -4,48 +4,72 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 import db.PlaylistModel;
 import db.SongModel;
-import ui.App;
 
 public class MusicManager {
-
+  // root data
   private MediaPlayer mediaPlayer;
   private PlaylistModel playlistInfo = new PlaylistModel("default", -1);
-  private List<SongModel> playlist;
+  private LinkedList<SongModel> playlist = new LinkedList<>();
   private int index = 0;
 
+  // for mode
+  private boolean modeRepeat = false;
+  private boolean modeShuffle = false;
+
+  // for event
+  private HashMap<String, Runnable> eventOnChange = new HashMap<>();
+  private HashMap<String, Runnable> eventOnPlay = new HashMap<>();
+
   public MusicManager() {
-    this.mediaPlayer = null;
+    this.playlist = SongModel.getNewSongs(5);
+    Media media = new Media(playlist.get(index).getHref());
+    this.mediaPlayer = new MediaPlayer(media);
+    setting();
   }
 
   public MusicManager(SongModel song) {
     setSong(song);
   }
 
-  public MusicManager(List<SongModel> playlist) {
+  public MusicManager(LinkedList<SongModel> playlist) {
     this.playlist = playlist;
     this.index = 0;
     reLoadData();
   }
 
   private void setting() {
+    // check REPEAT mode and SHUFFLE mode
     this.mediaPlayer.setOnEndOfMedia(() -> {
-      this.mediaPlayer.stop();
-      this.mediaPlayer.seek(Duration.ZERO);
+      if (modeRepeat) {
+        this.mediaPlayer.seek(Duration.ZERO);
+        this.mediaPlayer.play();
+      } else if (modeShuffle) {
+        int newIndex = (int) (Math.random() * playlist.size());
+        changeMusic(newIndex);
+      } else {
+        forwardMusic();
+      }
+    });
+
+    this.mediaPlayer.setOnPlaying(() -> {
+      runEventOnPlay();
     });
   }
 
   private void reLoadData() {
-    this.mediaPlayer.stop();
+    if (this.mediaPlayer != null)
+      this.mediaPlayer.stop();
     Media media = new Media(playlist.get(index).getHref());
     this.mediaPlayer = new MediaPlayer(media);
     setting();
 
     // update ui
-    App.reload();
+    runEventOnChange();
   }
 
   public void setSong(SongModel song) {
@@ -54,7 +78,7 @@ public class MusicManager {
     reLoadData();
   }
 
-  public void setPlaylist(List<SongModel> playlist) {
+  public void setPlaylist(LinkedList<SongModel> playlist) {
     this.playlist = playlist;
     this.index = 0;
     reLoadData();
@@ -72,7 +96,11 @@ public class MusicManager {
     return this.playlist.get(index);
   }
 
-  public List<SongModel> getPlaylist() {
+  public int getIndex() {
+    return this.index;
+  }
+
+  public LinkedList<SongModel> getPlaylist() {
     return this.playlist;
   }
 
@@ -80,23 +108,61 @@ public class MusicManager {
     return this.mediaPlayer;
   }
 
-  private void changeMusic(int index) {
+  public void changeMusic(int index) {
     if (index < 0 || index >= playlist.size()) {
       return;
     }
+
+    if (this.index == index)
+      return;
 
     this.index = index;
     reLoadData();
     playMusic();
   }
 
+  public void changeMusic(SongModel song) {
+    if (includeMusic(song)) {
+      this.index = findIndexOfSong(song);
+    } else {
+      addToPlaylist(song);
+      this.index = playlist.size() - 1;
+    }
+
+    // reload data
+    reLoadData();
+    playMusic();
+  }
+
+  public boolean includeMusic(SongModel song) {
+    return this.playlist.contains(song);
+  }
+
+  public int findIndexOfSong(SongModel song) {
+    return this.playlist.indexOf(song);
+  }
+
   public void forwardMusic() {
+    // check shuffle mode
+    if (modeShuffle) {
+      int newIndex = (int) (Math.random() * playlist.size());
+      changeMusic(newIndex);
+      return;
+    }
+
     if (index < playlist.size() - 1) {
       changeMusic(index + 1);
     }
   }
 
   public void backMusic() {
+    // check shuffle mode
+    if (modeShuffle) {
+      int newIndex = (int) (Math.random() * playlist.size());
+      changeMusic(newIndex);
+      return;
+    }
+
     if (index > 0) {
       changeMusic(index - 1);
     }
@@ -129,8 +195,50 @@ public class MusicManager {
   public void playMusic() {
     try {
       this.mediaPlayer.play();
+      System.out.println("Playing: " + playlist.get(index).getTitle());
+      System.out.println("Href: " + playlist.get(index).getHref());
     } catch (NullPointerException e) {
       System.out.println("No song to play");
     }
+  }
+
+  public void addEventOnChange(String key, Runnable runnable) {
+    this.eventOnChange.put(key, runnable);
+  }
+
+  private void runEventOnChange() {
+    for (String key : eventOnChange.keySet()) {
+      eventOnChange.get(key).run();
+      System.out.println("Run event onChange: " + key);
+    }
+  }
+
+  public void addEventOnPlay(String key, Runnable runnable) {
+    this.eventOnPlay.put(key, runnable);
+  }
+
+  public void runEventOnPlay() {
+    for (String key : eventOnPlay.keySet()) {
+      eventOnPlay.get(key).run();
+      System.out.println("Run event onPlay: " + key);
+    }
+  }
+
+  public void setRepeat(boolean modeRepeat) {
+    this.modeRepeat = modeRepeat;
+    setting();
+  }
+
+  public boolean isRepeat() {
+    return this.modeRepeat;
+  }
+
+  public void setShuffle(boolean modeShuffle) {
+    this.modeShuffle = modeShuffle;
+    setting();
+  }
+
+  public boolean isShuffle() {
+    return this.modeShuffle;
   }
 }

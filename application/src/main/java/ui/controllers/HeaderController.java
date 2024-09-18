@@ -40,14 +40,57 @@ public class HeaderController {
   @FXML
   public void initialize() {
     // avarta init
-    String avatarSrc = HeaderController.class.getResource("/images/avatar_default.jpg").toExternalForm();
+    String avatarSrc = HeaderController.class.getResource("/images/avatar_default.png").toExternalForm();
     if (AccountManager.getId() > -1) {
       // change avatar if has user
-
+      avatarSrc = AccountManager.getAvatar();
     }
 
     Image image = new Image(avatarSrc);
     avartaBox.setFill(new ImagePattern(image));
+
+    // create menu
+    avartaMenu = new ContextMenu();
+    // add menu item
+    MenuItem settingItem = new MenuItem("Setting");
+    MenuItem logoutItem = new MenuItem("Logout");
+
+    // add css
+    avartaMenu
+        .setStyle("-fx-background-color: #1E1E2E;-fx-padding: 10px;-fx-border-color: #fff;-fx-border-width: 2px;");
+    settingItem.setStyle(
+        "-fx-background-color: transparent;" +
+            "-fx-background-insets: 0;" +
+            "-fx-border-color: transparent;" +
+            "-fx-border-width: 0;" +
+            "-fx-effect: none;" +
+            "-fx-cursor: hand;" +
+            "-fx-text-fill: #fff;" +
+            "-fx-font-weight: bold;" +
+            "-fx-padding: 4px 12px;");
+    logoutItem.setStyle(
+        "-fx-background-color: transparent;" +
+            "-fx-background-insets: 0;" +
+            "-fx-border-color: transparent;" +
+            "-fx-border-width: 0;" +
+            "-fx-effect: none;" +
+            "-fx-cursor: hand;" +
+            "-fx-text-fill: #fff;" +
+            "-fx-font-weight: bold;" +
+            "-fx-padding: 4px 12px;");
+
+    settingItem.setOnAction(event -> {
+      // handle setting
+      System.out.println("Go to Setting");
+    });
+
+    logoutItem.setOnAction(event -> {
+      // handle logout
+      AccountManager.logout();
+      App.redirect(DefindUI.getNoLayout(), DefindUI.getLogin());
+    });
+
+    avartaMenu.getItems().addAll(settingItem, logoutItem);
 
     // avarta action
     avartaButton.setOnAction(e -> {
@@ -57,48 +100,12 @@ public class HeaderController {
         return;
       }
 
-      // handle visible box
-      avartaMenu = new ContextMenu();
-      // add menu item
-      MenuItem settingItem = new MenuItem("Setting");
-      MenuItem logoutItem = new MenuItem("Logout");
+      double screenX = avartaButton.localToScreen(avartaButton.getBoundsInLocal()).getMinX() + avartaButton.getWidth()
+          - 100;
+      double screenY = avartaButton.localToScreen(avartaButton.getBoundsInLocal()).getMinY() + avartaButton.getHeight();
 
-      // add css
-      avartaMenu.setStyle("-fx-background-color: #1E1E2E;");
-      settingItem.setStyle(
-          "-fx-background-color: transparent;" +
-              "-fx-background-insets: 0;" +
-              "-fx-border-color: transparent;" +
-              "-fx-border-width: 0;" +
-              "-fx-effect: none;" +
-              "-fx-cursor: hand;" +
-              "-fx-text-fill: #fff;" +
-              "-fx-font-weight: bold;" +
-              "-fx-padding: 8px 4px;");
-      logoutItem.setStyle(
-          "-fx-background-color: transparent;" +
-              "-fx-background-insets: 0;" +
-              "-fx-border-color: transparent;" +
-              "-fx-border-width: 0;" +
-              "-fx-effect: none;" +
-              "-fx-cursor: hand;" +
-              "-fx-text-fill: #fff;" +
-              "-fx-font-weight: bold;" +
-              "-fx-padding: 8px 4px;");
-
-      settingItem.setOnAction(event -> {
-        // handle setting
-        System.out.println("Go to Setting");
-      });
-
-      logoutItem.setOnAction(event -> {
-        // handle logout
-        AccountManager.logout();
-        App.redirect(DefindUI.getNoLayout(), DefindUI.getLogin());
-      });
-
-      avartaMenu.getItems().addAll(settingItem, logoutItem);
-      avartaMenu.show(avartaButton, avartaButton.getLayoutX(), avartaButton.getLayoutY());
+      // visible menu
+      avartaMenu.show(avartaButton, screenX, screenY);
     });
   }
 }

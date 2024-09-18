@@ -7,33 +7,31 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="140.0" styleClass="player-wrapper" stylesheets="@../css/player.css"
-   xmlns="http://javafx.com/javafx/22"
-   xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.PlayerController">
+<HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="140.0" styleClass="player-wrapper" stylesheets="@../css/player.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.PlayerController">
    <children>
       <HBox alignment="CENTER_LEFT" prefHeight="140.0" style="-fx-spacing: 16px;" HBox.hgrow="NEVER">
          <children>
-            <Pane prefHeight="100.0" prefWidth="100.0" styleClass="player-logo">
+            <StackPane alignment="CENTER_RIGHT" maxWidth="-Infinity" prefWidth="150.0">
                <children>
-                  <ImageView fx:id="musicImage" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="musicImage" fitHeight="80.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/demo_music.jpg" />
+                        <Image url="@../images/demo_music.png" />
                      </image>
                   </ImageView>
                </children>
-            </Pane>
-            <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="player-info">
+            </StackPane>
+            <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="224.0" styleClass="player-info">
                <children>
-                  <Label fx:id="musicTitle" text="Anh đếch cần gì nhiều ngoài em">
+                  <Label fx:id="musicTitle" maxWidth="1.7976931348623157E308" text="Loading...">
                      <styleClass>
                         <String fx:value="player-info--item" />
                         <String fx:value="player-info--item-title" />
                      </styleClass>
                   </Label>
-                  <Label fx:id="musicArtist" prefWidth="212.0" text="Đen Vâu">
+                  <Label fx:id="musicArtist" maxWidth="1.7976931348623157E308" prefWidth="212.0" text="Unkown">
                      <styleClass>
                         <String fx:value="player-info--item" />
                         <String fx:value="player-info--item-subtitle" />
@@ -43,7 +41,7 @@
                      <children>
                         <Button fx:id="likeButton" mnemonicParsing="false">
                            <graphic>
-                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="likeImage" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/heart-solid.png" />
                                  </image>
@@ -104,7 +102,7 @@
                   </Button>
                   <Button fx:id="playButton" mnemonicParsing="false" styleClass="player-control--item">
                      <graphic>
-                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="playImage" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/play-solid.png" />
                            </image>
@@ -135,9 +133,27 @@
       </VBox>
       <HBox prefHeight="80.0" styleClass="player-setting--box" HBox.hgrow="NEVER">
          <children>
+            <Button fx:id="repeatButton" mnemonicParsing="false" style="-fx-opacity: 0.5;" styleClass="player-setting--item">
+               <graphic>
+                  <ImageView fx:id="volumeImage11" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/repeat-solid.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="shuffButton" mnemonicParsing="false" style="-fx-opacity: 0.5;" styleClass="player-setting--item">
+               <graphic>
+                  <ImageView fx:id="volumeImage1" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/shuffle-solid.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
             <Button fx:id="volumeButton" mnemonicParsing="false" styleClass="player-setting--item">
                <graphic>
-                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="volumeImage" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/volume-high-solid.png" />
                      </image>
@@ -145,7 +161,7 @@
                </graphic>
             </Button>
             <Slider fx:id="volumeSlider" />
-            <Button fx:id="playlistButton" mnemonicParsing="false" styleClass="player-setting--item">
+            <Button fx:id="playlistButton" mnemonicParsing="false" style="-fx-padding: 12px; -fx-background-color: #1e2e2e;" styleClass="player-setting--item">
                <graphic>
                   <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>

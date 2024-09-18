@@ -3,76 +3,82 @@ package db;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.function.Consumer;
 
 public abstract class Model {
   protected abstract String getInsertString();
 
   protected abstract String getTableName();
 
+  protected abstract String getIdName();
+
   protected abstract int getId();
 
   protected abstract void setValueInsert(PreparedStatement pstmt);
 
-  public boolean insert() {
+  protected abstract boolean checkAccess();
+
+  public ResultSet query(String queryString, Consumer<PreparedStatement> setParams) {
     ConnectDB connectDB = new ConnectDB();
 
     try {
-      PreparedStatement pstmt = connectDB.getConnect().prepareStatement(getInsertString());
-      setValueInsert(pstmt);
-      pstmt.executeUpdate();
-      System.out.println("Inserted data successfully into table: " + getTableName());
+      PreparedStatement pstmt = connectDB.getConnect().prepareStatement(queryString);
 
-      return true;
-    } catch (SQLException e) {
-      System.out.println("Failed to insert data into table: " + getTableName());
-      e.printStackTrace();
-
-      return false;
-    } finally {
-      connectDB.closeConnect();
-    }
-  }
-
-  public ResultSet findById() {
-    ConnectDB connectDB = new ConnectDB();
-    String findString = "SELECT * FROM " + getTableName() + " WHERE id = ?";
-
-    try {
-      PreparedStatement pstmt = connectDB.getConnect().prepareStatement(findString);
-
-      // id search
-      pstmt.setInt(1, getId());
+      setParams.accept(pstmt);
 
       return pstmt.executeQuery();
     } catch (SQLException e) {
-      System.out.println("Failed to find data from table: " + getTableName());
+      System.out.println("Failed to query data from table: " + getTableName());
       e.printStackTrace();
+
       return null;
-    } finally {
-      connectDB.closeConnect();
     }
   }
 
-  public boolean delete() {
+  public boolean update(String updateString, Consumer<PreparedStatement> setParams) {
     ConnectDB connectDB = new ConnectDB();
-    String deleteSQL = "DELETE FROM " + getTableName() + " WHERE id = ?";
 
     try {
-      PreparedStatement pstmt = connectDB.getConnect().prepareStatement(deleteSQL);
+      PreparedStatement pstmt = connectDB.getConnect().prepareStatement(updateString);
 
-      pstmt.setInt(1, getId());
+      setParams.accept(pstmt);
+
       pstmt.executeUpdate();
-      System.out.println("Deleted data successfully from table: " + getTableName());
 
       return true;
     } catch (SQLException e) {
-      System.out.println("Failed to delete data from table: " + getTableName());
+      System.out.println("Failed to update data in table: " + getTableName());
       e.printStackTrace();
 
       return false;
-    } finally {
-      connectDB.closeConnect();
     }
+  }
+
+  public boolean insert() {
+    if (!checkAccess())
+      return false;
+
+    return update(getInsertString(), (pstmt) -> setValueInsert(pstmt));
+  }
+
+  public ResultSet findById() {
+    return query("SELECT * FROM " + getTableName() + " WHERE " + getIdName() + " = ?", (pstmt) -> {
+      try {
+        pstmt.setInt(1, getId());
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    });
+  }
+
+  public boolean delete() {
+    return update("DELETE FROM " + getTableName() + " WHERE " + getIdName() + " = ?", (pstmt) -> {
+      try {
+        pstmt.setInt(1, getId());
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    });
   }
 
 }
