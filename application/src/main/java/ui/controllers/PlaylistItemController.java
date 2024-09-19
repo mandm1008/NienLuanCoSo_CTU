@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import modules.ImageManager;
 import ui.App;
 
 public class PlaylistItemController {
@@ -26,6 +27,7 @@ public class PlaylistItemController {
 
   public void initialize() {
     playButton.setOnAction(e -> {
+      playImage.setImage(ImageManager.getImage(ImageManager.PAUSE));
       // change song
       if (App.getMusicManager().getIndex() != index)
         App.getMusicManager().changeMusic(index);
@@ -41,11 +43,9 @@ public class PlaylistItemController {
   private Runnable changePlayImage() {
     return () -> {
       if (App.getMusicManager().getIndex() == index) {
-        playImage
-            .setImage(new Image(PlaylistItemController.class.getResource("/images/pause-solid.png").toExternalForm()));
+        playImage.setImage(ImageManager.getImage(ImageManager.PAUSE));
       } else {
-        playImage
-            .setImage(new Image(PlaylistItemController.class.getResource("/images/play-solid.png").toExternalForm()));
+        playImage.setImage(ImageManager.getImage(ImageManager.PLAY));
       }
     };
   }

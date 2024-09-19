@@ -3,6 +3,8 @@ package ui;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -10,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import modules.ImageManager;
 import modules.MusicManager;
 
 /**
@@ -23,29 +26,52 @@ public class App extends Application {
     private static String currentLayout;
     private static String currentContent;
 
+    private StackPane loadingLayout;
+
     @Override
     public void start(Stage stage) throws IOException {
-        // init music media
-        musicManager = new MusicManager();
-        primaryStage = stage;
-
-        // load layout
-        BorderPane rootLayout = DefindUI.loadFXML(DefindUI.getLayout()).load();
-        currentLayout = DefindUI.getLayout();
-
-        // set main content
-        Parent content = DefindUI.loadFXML(DefindUI.getHome()).load();
-        currentContent = DefindUI.getHome();
-
-        rootLayout.setCenter(content);
+        // show loading screen
+        FXMLLoader loadingLoader = DefindUI.loadFXML(DefindUI.getLoading());
+        loadingLayout = loadingLoader.load();
 
         // set scene
-        scene = new Scene(rootLayout);
+        scene = new Scene(loadingLayout);
+        scene.getStylesheets().add(App.class.getResource("/css/scene.css").toExternalForm());
+
+        // set stage
         stage.setScene(scene);
         stage.setMaximized(true);
         stage.setTitle("Your Music");
         stage.getIcons().add(new Image(App.class.getResource("/images/banner-solid.png").toExternalForm()));
         stage.show();
+
+        new Thread(() -> {
+            // init music media
+            musicManager = new MusicManager();
+            primaryStage = stage;
+
+            // load images
+            ImageManager.loadImages();
+
+            try {
+                // load layout
+                BorderPane rootLayout = DefindUI.loadFXML(DefindUI.getLayout()).load();
+                currentLayout = DefindUI.getLayout();
+
+                // set main content
+                Parent content = DefindUI.loadFXML(DefindUI.getHome()).load();
+                currentContent = DefindUI.getHome();
+
+                rootLayout.setCenter(content);
+
+                // set scene
+                Platform.runLater(() -> {
+                    scene.setRoot(rootLayout);
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     public static Stage getPrimaryStage() {
@@ -61,20 +87,7 @@ public class App extends Application {
     }
 
     public static void redirect(String content) {
-        try {
-            // load new page
-            BorderPane rootLayout = DefindUI.loadFXML(DefindUI.getLayout()).load();
-            Parent main = DefindUI.loadFXML(content).load();
-            rootLayout.setCenter(main);
-
-            // set new page
-            scene.setRoot(rootLayout);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        currentLayout = DefindUI.getLayout();
-        currentContent = content;
+        redirect(DefindUI.getLayout(), content);
     }
 
     public static void redirect(String layout, String content) {

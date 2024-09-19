@@ -24,6 +24,7 @@ public class MusicManager {
   // for event
   private HashMap<String, Runnable> eventOnChange = new HashMap<>();
   private HashMap<String, Runnable> eventOnPlay = new HashMap<>();
+  private HashMap<String, Runnable> eventOnLoad = new HashMap<>();
 
   public MusicManager() {
     this.playlist = SongModel.getNewSongs(5);
@@ -62,6 +63,8 @@ public class MusicManager {
   }
 
   private void reLoadData() {
+    runEventOnLoad();
+
     if (this.mediaPlayer != null)
       this.mediaPlayer.stop();
     Media media = new Media(playlist.get(index).getHref());
@@ -221,6 +224,17 @@ public class MusicManager {
     for (String key : eventOnPlay.keySet()) {
       eventOnPlay.get(key).run();
       System.out.println("Run event onPlay: " + key);
+    }
+  }
+
+  public void addEventOnLoad(String key, Runnable runnable) {
+    this.eventOnLoad.put(key, runnable);
+  }
+
+  public void runEventOnLoad() {
+    for (String key : eventOnLoad.keySet()) {
+      eventOnLoad.get(key).run();
+      System.out.println("Run event onLoad: " + key);
     }
   }
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane style="-fx-background-color: #1e1e2e;"
+   xmlns="http://javafx.com/javafx/22"
+   xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ProgressIndicator maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" />
+      <Label fx:id="status" style="-fx-translate-y: 120px; -fx-font-size: 16px; -fx-text-fill: #fff;" text="Loading..." />
+   </children>
+</StackPane>

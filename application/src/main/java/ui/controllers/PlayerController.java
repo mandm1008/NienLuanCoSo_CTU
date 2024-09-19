@@ -21,20 +21,8 @@ import db.UserModel;
 import ui.App;
 import ui.DefindUI;
 import modules.AccountManager;
+import modules.ImageManager;
 import modules.ThreadCustom;
-
-/**
- * Work with player controller
- * 1. Artist info --> Go to Artist Model - Song Model ok
- * 2. Like Btn --> Go to User Model
- * 3. Share Btn
- * 4. Time set on click
- * 5. Tippy on hover
- * 6. remake design time
- * 7. sheffule btn
- * 8. volume btn
- * 9. list - playlist
- */
 
 public class PlayerController {
   @FXML
@@ -106,6 +94,7 @@ public class PlayerController {
     // control
     handleControl().run();
     App.getMusicManager().addEventOnPlay("play-control", handleControl());
+    App.getMusicManager().addEventOnLoad("play-button-load", handleLoadingState());
 
     // load repeat
     handleRepeat().run();
@@ -138,7 +127,7 @@ public class PlayerController {
   private Runnable handleLoadLiked() {
     // check login
     if (AccountManager.getId() < 0) {
-      likeImage.setImage(new Image(PlayerController.class.getResource("/images/heart-regular.png").toExternalForm()));
+      likeImage.setImage(ImageManager.getImage(ImageManager.LIKE));
     }
 
     // like button
@@ -151,10 +140,10 @@ public class PlayerController {
 
       if (user.checkLikedSong(song.getSongId())) {
         user.unlikeSong(song.getSongId());
-        likeImage.setImage(new Image(PlayerController.class.getResource("/images/heart-regular.png").toExternalForm()));
+        likeImage.setImage(ImageManager.getImage(ImageManager.LIKE));
       } else {
         user.likeSong(song.getSongId());
-        likeImage.setImage(new Image(PlayerController.class.getResource("/images/heart-solid.png").toExternalForm()));
+        likeImage.setImage(ImageManager.getImage(ImageManager.LIKED));
       }
     });
 
@@ -163,9 +152,9 @@ public class PlayerController {
       UserModel user = new UserModel(AccountManager.getId());
 
       if (user.checkLikedSong(song.getSongId())) {
-        likeImage.setImage(new Image(PlayerController.class.getResource("/images/heart-solid.png").toExternalForm()));
+        likeImage.setImage(ImageManager.getImage(ImageManager.LIKED));
       } else {
-        likeImage.setImage(new Image(PlayerController.class.getResource("/images/heart-regular.png").toExternalForm()));
+        likeImage.setImage(ImageManager.getImage(ImageManager.LIKE));
       }
     };
   }
@@ -243,10 +232,10 @@ public class PlayerController {
       // play or pause music
       if (App.getMusicManager().getMediaPlayer().getStatus() == MediaPlayer.Status.PLAYING) {
         App.getMusicManager().pauseMusic();
-        playImage.setImage(new Image(PlayerController.class.getResourceAsStream("/images/play-solid.png")));
+        playImage.setImage(ImageManager.getImage(ImageManager.PLAY));
       } else {
         App.getMusicManager().playMusic();
-        playImage.setImage(new Image(PlayerController.class.getResourceAsStream("/images/pause-solid.png")));
+        playImage.setImage(ImageManager.getImage(ImageManager.PAUSE));
       }
     });
 
@@ -277,10 +266,20 @@ public class PlayerController {
     return () -> {
       MediaPlayer mediaPlayer = App.getMusicManager().getMediaPlayer();
       if (mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
-        playImage.setImage(new Image(PlayerController.class.getResourceAsStream("/images/pause-solid.png")));
+        playImage.setImage(ImageManager.getImage(ImageManager.PAUSE));
       } else {
-        playImage.setImage(new Image(PlayerController.class.getResourceAsStream("/images/play-solid.png")));
+        playImage.setImage(ImageManager.getImage(ImageManager.PLAY));
       }
+
+      // active button
+      playButton.setDisable(false);
+    };
+  }
+
+  private Runnable handleLoadingState() {
+    return () -> {
+      playButton.setDisable(true);
+      playImage.setImage(ImageManager.getImage(ImageManager.LOADING));
     };
   }
 
@@ -331,12 +330,10 @@ public class PlayerController {
       // change icon
       if (volumeSlider.getValue() > 0) {
         volumeSlider.setValue(0);
-        volumeImage
-            .setImage(new Image(PlayerController.class.getResource("/images/volume-xmark-solid.png").toExternalForm()));
+        volumeImage.setImage(ImageManager.getImage(ImageManager.VOLUMEOFF));
       } else {
         volumeSlider.setValue(80);
-        volumeImage
-            .setImage(new Image(PlayerController.class.getResource("/images/volume-high-solid.png").toExternalForm()));
+        volumeImage.setImage(ImageManager.getImage(ImageManager.VOLUMEON));
       }
     });
 
@@ -348,13 +345,9 @@ public class PlayerController {
       volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
         mediaPlayer.setVolume(newVal.doubleValue() / 100);
         if (newVal.doubleValue() == 0) {
-          volumeImage
-              .setImage(
-                  new Image(PlayerController.class.getResource("/images/volume-xmark-solid.png").toExternalForm()));
+          volumeImage.setImage(ImageManager.getImage(ImageManager.VOLUMEOFF));
         } else {
-          volumeImage
-              .setImage(
-                  new Image(PlayerController.class.getResource("/images/volume-high-solid.png").toExternalForm()));
+          volumeImage.setImage(ImageManager.getImage(ImageManager.VOLUMEON));
         }
       });
     };

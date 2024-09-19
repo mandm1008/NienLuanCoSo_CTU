@@ -3,6 +3,13 @@
   -fx-padding: 12px 8px;
 }
 
+.playlist-title {
+  -fx-text-fill: #fff;
+  -fx-font-size: 14px;
+  -fx-text-alignment: left;
+  -fx-padding: 12px 4px;
+}
+
 .playlist-text {
   -fx-text-fill: #fff;
   -fx-font-size: 12px;
