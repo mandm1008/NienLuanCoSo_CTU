@@ -27,7 +27,7 @@ public class MusicManager {
   private HashMap<String, Runnable> eventOnLoad = new HashMap<>();
 
   public MusicManager() {
-    this.playlist = SongModel.getNewSongs(5);
+    this.playlist = SongModel.getNewSongs(9);
     Media media = new Media(playlist.get(index).getHref());
     this.mediaPlayer = new MediaPlayer(media);
     setting();

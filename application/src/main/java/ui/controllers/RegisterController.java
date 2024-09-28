@@ -14,13 +14,15 @@ import modules.VerifyData;
 import ui.App;
 import ui.DefindUI;
 
+// https://drive.google.com/uc?export=download&id=FILE_ID
+
 public class RegisterController {
 
   private final String[] avatarHref = {
-      RegisterController.class.getResource("/images/avatar_default_1.png").toExternalForm(),
-      RegisterController.class.getResource("/images/avatar_default_2.png").toExternalForm(),
-      RegisterController.class.getResource("/images/avatar_default_3.png").toExternalForm(),
-      RegisterController.class.getResource("/images/avatar_default_4.png").toExternalForm()
+      "https://drive.google.com/uc?export=download&id=1zESWNLrldqQdbxLXMrteSsDzyIU_T9WL",
+      "https://drive.google.com/uc?export=download&id=1AMezsCUuTEsxNPxlN2p3eLbh4_tunT4c",
+      "https://drive.google.com/uc?export=download&id=1nkoR7UdOpNPMCQNorWEgXPhsRUWV7Cn6",
+      "https://drive.google.com/uc?export=download&id=1ybOWcoDMz4K3MjI4c9Nt2PZZGOvSqEnZ"
   };
   private int avatar = 1;
 

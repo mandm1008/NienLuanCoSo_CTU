@@ -1,5 +1,6 @@
 package ui.controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
@@ -39,15 +40,10 @@ public class HeaderController {
 
   @FXML
   public void initialize() {
-    // avarta init
-    String avatarSrc = HeaderController.class.getResource("/images/avatar_default.png").toExternalForm();
-    if (AccountManager.getId() > -1) {
-      // change avatar if has user
-      avatarSrc = AccountManager.getAvatar();
-    }
-
-    Image image = new Image(avatarSrc);
-    avartaBox.setFill(new ImagePattern(image));
+    updateAvatar().run();
+    // add event
+    String key = "avatar-header";
+    AccountManager.addEventLogin(key, updateAvatar());
 
     // create menu
     avartaMenu = new ContextMenu();
@@ -107,5 +103,20 @@ public class HeaderController {
       // visible menu
       avartaMenu.show(avartaButton, screenX, screenY);
     });
+  }
+
+  private Runnable updateAvatar() {
+    return () -> {
+      String avatarSrc = HeaderController.class.getResource("/images/avatar_default.png").toExternalForm();
+      if (AccountManager.getId() > -1) {
+        // change avatar if has user
+        avatarSrc = AccountManager.getAvatar();
+      }
+
+      Image image = new Image(avatarSrc);
+      Platform.runLater(() -> {
+        avartaBox.setFill(new ImagePattern(image));
+      });
+    };
   }
 }

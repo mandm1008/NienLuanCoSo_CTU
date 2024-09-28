@@ -1,12 +1,20 @@
 package modules;
 
+import java.util.HashMap;
+
 import db.UserModel;
 
 public class AccountManager {
+  private static final String DEFAULT_AVATAR = AccountManager.class.getResource("/images/avatar_default.png")
+      .toExternalForm();
+
   private static int id = -1;
   private static String username = null;
   private static String email = null;
   private static String avatar = null;
+
+  private static HashMap<String, Runnable> eventLogin = new HashMap<String, Runnable>();
+  private static HashMap<String, Runnable> eventLogout = new HashMap<String, Runnable>();
 
   public static int getId() {
     return id;
@@ -21,7 +29,7 @@ public class AccountManager {
   }
 
   public static String getAvatar() {
-    return avatar;
+    return avatar == null ? DEFAULT_AVATAR : avatar;
   }
 
   public static boolean register(String username, String email, String password, String avatar) {
@@ -41,6 +49,15 @@ public class AccountManager {
     AccountManager.email = user.getEmail();
     AccountManager.avatar = user.getAvatar();
 
+    // log id and username email avatar
+    System.out.println("id: " + AccountManager.id);
+    System.out.println("username: " + AccountManager.username);
+    System.out.println("email: " + AccountManager.email);
+    System.out.println("avatar: " + AccountManager.avatar);
+
+    // run event login
+    runEventLogin();
+
     return true;
   }
 
@@ -49,5 +66,28 @@ public class AccountManager {
     AccountManager.username = null;
     AccountManager.email = null;
     AccountManager.avatar = null;
+
+    // run event logout
+    runEventLogout();
+  }
+
+  public static void addEventLogin(String key, Runnable handler) {
+    eventLogin.put(key, handler);
+  }
+
+  public static void addEventLogout(String key, Runnable handler) {
+    eventLogout.put(key, handler);
+  }
+
+  private static void runEventLogin() {
+    eventLogin.forEach((key, handler) -> {
+      handler.run();
+    });
+  }
+
+  private static void runEventLogout() {
+    eventLogout.forEach((key, handler) -> {
+      handler.run();
+    });
   }
 }

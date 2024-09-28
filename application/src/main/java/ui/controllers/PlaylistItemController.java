@@ -1,5 +1,7 @@
 package ui.controllers;
 
+import javafx.util.Callback;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import modules.ImageManager;
+import modules.LoadLater;
 import ui.App;
 
 public class PlaylistItemController {
@@ -58,7 +61,18 @@ public class PlaylistItemController {
   }
 
   public void setImage(String url) {
-    this.image.setImage(new Image(url));
+    // use load later
+    Callback<Image, Void> callback = new Callback<Image, Void>() {
+      @Override
+      public Void call(Image img) {
+        Platform.runLater(() -> {
+          image.setImage(img);
+        });
+        return null;
+      }
+    };
+
+    LoadLater.addLoader(url, callback);
   }
 
   public void setIndex(int index) {
