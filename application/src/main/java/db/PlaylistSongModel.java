@@ -87,7 +87,7 @@ public class PlaylistSongModel extends Model {
         } catch (SQLException e) {
           e.printStackTrace();
         }
-      }) == null)
+      }).next() == false)
         return true;
     } catch (Exception e) {
       e.printStackTrace();

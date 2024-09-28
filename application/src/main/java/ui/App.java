@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -23,19 +23,19 @@ public class App extends Application {
     private static Stage primaryStage;
     private static Scene scene;
     private static MusicManager musicManager;
+    private static LayoutCache layoutCache;
     private static String currentLayout;
     private static String currentContent;
-
-    private StackPane loadingLayout;
 
     @Override
     public void start(Stage stage) throws IOException {
         // show loading screen
-        FXMLLoader loadingLoader = DefindUI.loadFXML(DefindUI.getLoading());
-        loadingLayout = loadingLoader.load();
+        StackPane stackLayout = new StackPane();
+        ProgressIndicator progressIndicator = new ProgressIndicator(-1.0);
+        stackLayout.getChildren().add(progressIndicator);
 
         // set scene
-        scene = new Scene(loadingLayout);
+        scene = new Scene(stackLayout);
         scene.getStylesheets().add(App.class.getResource("/css/scene.css").toExternalForm());
 
         // set stage
@@ -53,10 +53,15 @@ public class App extends Application {
             // load images
             ImageManager.loadImages();
 
+            // load layout
+            layoutCache = new LayoutCache();
+            layoutCache.load();
+
             try {
                 // load layout
                 BorderPane rootLayout = DefindUI.loadFXML(DefindUI.getLayout()).load();
                 currentLayout = DefindUI.getLayout();
+                System.out.println("Load layout");
 
                 // set main content
                 Parent content = DefindUI.loadFXML(DefindUI.getHome()).load();
@@ -80,6 +85,10 @@ public class App extends Application {
 
     public static Scene getScene() {
         return scene;
+    }
+
+    public static LayoutCache getLayoutCache() {
+        return layoutCache;
     }
 
     public static void reload() {

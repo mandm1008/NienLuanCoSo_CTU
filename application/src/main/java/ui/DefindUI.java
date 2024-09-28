@@ -5,17 +5,18 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 
 public class DefindUI {
-  private static String layout = "layout";
-  private static String noLayout = "no_layout";
-  private static String home = "home";
-  private static String header = "header";
-  private static String player = "player";
-  private static String menu = "menu";
-  private static String login = "login";
-  private static String register = "register";
-  private static String playlist = "playlist";
-  private static String playlistItem = "playlist-item";
-  private static String loading = "loading";
+  private static final String layout = "layout";
+  private static final String noLayout = "no_layout";
+  private static final String home = "home";
+  private static final String header = "header";
+  private static final String player = "player";
+  private static final String menu = "menu";
+  private static final String login = "login";
+  private static final String register = "register";
+  private static final String playlist = "playlist";
+  private static final String playlistItem = "playlist-item";
+  private static final String loading = "loading";
+  private static final String musicItem = "music-item";
 
   public static String getLayout() {
     return layout;
@@ -59,6 +60,10 @@ public class DefindUI {
 
   public static String getLoading() {
     return loading;
+  }
+
+  public static String getMusicItem() {
+    return musicItem;
   }
 
   @SuppressWarnings("exports")

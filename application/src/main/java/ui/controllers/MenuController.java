@@ -7,23 +7,17 @@ public class MenuController {
 
   @FXML
   private Button exploreButton;
-
   @FXML
   private Button newMusicButton;
-
   @FXML
   private Button favoriteButton;
-
   @FXML
   private Button albumsButton;
-
   @FXML
   private Button playlistsButton;
-
   @FXML
   private Button createPlaylistButton;
 
-  @FXML
   public void initialize() {
     // Initialize logic or event handling for buttons here if needed
   }

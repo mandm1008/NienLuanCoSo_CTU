@@ -13,12 +13,13 @@ public class SongModel extends Model {
       "CREATE TABLE IF NOT EXISTS Songs (" +
       "song_id INT AUTO_INCREMENT PRIMARY KEY, " +
       "title VARCHAR(255) NOT NULL, " +
-      "album_id INT DEFAULT -1, " +
-      "artist_id INT DEFAULT -1, " +
+      "album_id INT NULL, " +
+      "artist_id INT DEFAULT 0, " +
       "href VARCHAR(2083) NOT NULL," +
       "image VARCHAR(2083) NOT NULL," +
+      "view INT DEFAULT 0," +
       "FOREIGN KEY (artist_id) REFERENCES Artists(artist_id)," +
-      "FOREIGN KEY (album_id) REFERENCES Albums(album_id))";
+      "FOREIGN KEY (album_id) REFERENCES Albums(album_id) ON DELETE SET NULL)";
   private final String tableName = "Songs";
   private final String idName = "song_id";
 
@@ -44,6 +45,7 @@ public class SongModel extends Model {
   private String artistName = "Unkown";
   private String href;
   private String image;
+  private int view;
 
   public SongModel() {
     this.songId = -1;
@@ -52,6 +54,7 @@ public class SongModel extends Model {
     this.artistId = -1;
     this.href = "";
     this.image = "";
+    this.view = 0;
   }
 
   public SongModel(int songId) {
@@ -78,6 +81,7 @@ public class SongModel extends Model {
     this.artistId = song.artistId;
     this.href = new String(song.href);
     this.image = new String(song.image);
+    this.view = song.view;
   }
 
   @Override
@@ -112,7 +116,7 @@ public class SongModel extends Model {
         } catch (SQLException e) {
           e.printStackTrace();
         }
-      }) == null)
+      }).next() == false)
         return true;
     } catch (Exception e) {
       e.printStackTrace();
@@ -146,6 +150,8 @@ public class SongModel extends Model {
         albumId = rs.getInt("album_id");
         artistId = rs.getInt("artist_id");
         href = rs.getString("href");
+        image = rs.getString("image");
+        view = rs.getInt("view");
 
         return true;
       }
@@ -219,6 +225,7 @@ public class SongModel extends Model {
       song.artistId = rs.getInt("artist_id");
       song.href = rs.getString("href");
       song.image = rs.getString("image");
+      song.view = rs.getInt("view");
 
       ArtistModel artist = song.getArtist();
       if (artist.getName() != null) {
@@ -233,7 +240,13 @@ public class SongModel extends Model {
     return song;
   }
 
+  private static LinkedList<SongModel> cacheNewSongs;
+
   public static LinkedList<SongModel> getNewSongs(int quantity) {
+    if (cacheNewSongs != null) {
+      return cacheNewSongs;
+    }
+
     LinkedList<SongModel> songs = new LinkedList<SongModel>();
     ConnectDB connectDB = new ConnectDB();
 
@@ -253,7 +266,61 @@ public class SongModel extends Model {
       connectDB.closeConnect();
     }
 
+    // save cache
+    cacheNewSongs = songs;
+
     return songs;
+  }
+
+  private static LinkedList<SongModel> cacheMostViewSongs;
+
+  public static LinkedList<SongModel> getMostViewSongs(int quantity) {
+    if (cacheMostViewSongs != null) {
+      return cacheMostViewSongs;
+    }
+
+    LinkedList<SongModel> songs = new LinkedList<SongModel>();
+    ConnectDB connectDB = new ConnectDB();
+
+    try {
+      String query = "SELECT * FROM Songs ORDER BY view DESC LIMIT ?";
+      PreparedStatement pstmt = connectDB.getConnect().prepareStatement(query);
+      pstmt.setInt(1, quantity);
+
+      ResultSet rs = pstmt.executeQuery();
+
+      while (rs.next()) {
+        songs.add(readResultSet(rs));
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      connectDB.closeConnect();
+    }
+
+    // save cache
+    cacheMostViewSongs = songs;
+
+    return songs;
+  }
+
+  public void increaseView() {
+    view++;
+    try {
+      super.update("UPDATE Songs SET view = view + 1 WHERE song_id = ?", (pstmt) -> {
+        try {
+          pstmt.setInt(1, songId);
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      });
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public int getView() {
+    return view;
   }
 
 }

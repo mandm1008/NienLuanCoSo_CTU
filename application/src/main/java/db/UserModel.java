@@ -138,7 +138,7 @@ public class UserModel extends Model {
         } catch (SQLException e) {
           e.printStackTrace();
         }
-      }) == null) {
+      }).next() == false) {
         try {
           if (super.query("SELECT * FROM " + getTableName() + " WHERE email = ?", (pstmt) -> {
             try {
@@ -146,7 +146,7 @@ public class UserModel extends Model {
             } catch (SQLException e) {
               e.printStackTrace();
             }
-          }) == null)
+          }).next() == false)
             return true;
         } catch (Exception e) {
           e.printStackTrace();

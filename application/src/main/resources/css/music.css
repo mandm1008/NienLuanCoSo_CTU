@@ -1,0 +1,37 @@
+.clear-button {
+  -fx-background-color: transparent;
+  -fx-background-insets: 0;
+  -fx-border-color: transparent;
+  -fx-border-width: 0;
+  -fx-effect: none;
+  -fx-cursor: hand;
+}
+
+.music-box {
+  -fx-background-color: #664E88;
+  -fx-border-radius: 5;
+  -fx-background-radius: 5;
+}
+
+.music-title {
+  -fx-font-size: 14;
+  -fx-text-fill: white;
+  -fx-font-weight: bold;
+}
+
+.music-artist {
+  -fx-font-size: 10;
+  -fx-text-fill: white;
+  -fx-padding: 4px 0 0 0;
+}
+
+.music-play-btn {
+  -fx-opacity: 0.6;
+  -fx-cursor: hand;
+}
+
+.music-view {
+  -fx-opacity: 0.6;
+  -fx-text-fill: #fff;
+  -fx-font-size: 10px;
+}

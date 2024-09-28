@@ -11,7 +11,6 @@ import modules.ImageManager;
 import ui.App;
 
 public class PlaylistItemController {
-
   @FXML
   private Label title;
   @FXML

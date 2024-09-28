@@ -1,0 +1,17 @@
+.home-box {
+  -fx-padding: 24px;
+  -fx-background-color: #1e1e2e;
+  -fx-spacing: 24px;
+}
+
+.home-item-title {
+  -fx-font-size: 16px;
+  -fx-text-fill: #7c77c4;
+  -fx-text-alignment: left;
+  -fx-font-weight: bold;
+}
+
+.home-item-box {
+  -fx-padding: 8px 0;
+  -fx-spacing: 8px;
+}

@@ -81,7 +81,7 @@ public class ArtistModel extends Model {
         } catch (SQLException e) {
           e.printStackTrace();
         }
-      }) == null)
+      }).next() == false)
         return true;
     } catch (Exception e) {
       e.printStackTrace();
@@ -123,7 +123,7 @@ public class ArtistModel extends Model {
       });
 
       if (rs.next()) {
-        this.artistId = rs.getInt("id");
+        this.artistId = rs.getInt(getIdName());
         this.name = rs.getString("name");
         this.genre = rs.getString("genre");
       }

@@ -3,7 +3,6 @@ package ui.controllers;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,9 +17,7 @@ public class PlaylistController {
   private VBox playlistBox;
 
   public void initialize() {
-    Platform.runLater(() -> {
-      loadPlaylistItem();
-    });
+    loadPlaylistItem();
   }
 
   private void loadPlaylistItem() {

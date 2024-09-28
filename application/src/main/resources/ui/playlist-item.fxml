@@ -9,10 +9,17 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox alignment="CENTER_LEFT" spacing="12.0" stylesheets="@../css/playlist.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.PlaylistItemController">
+<HBox alignment="CENTER_LEFT" spacing="12.0" stylesheets="@../css/playlist.css"
+   xmlns="http://javafx.com/javafx/22"
+   xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.PlaylistItemController">
    <children>
-      <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="32.0" prefWidth="32.0">
+      <StackPane maxHeight="1.7976931348623157E308">
          <children>
+            <ImageView fx:id="image" fitHeight="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/demo_music.png" />
+               </image>
+            </ImageView>
             <Button fx:id="playButton" mnemonicParsing="false" styleClass="clear-button">
                <graphic>
                   <ImageView fx:id="playImage" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
@@ -22,15 +29,6 @@
                   </ImageView>
                </graphic>
             </Button>
-         </children>
-      </StackPane>
-      <StackPane maxHeight="1.7976931348623157E308">
-         <children>
-            <ImageView fx:id="image" fitHeight="32.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/demo_music.png" />
-               </image>
-            </ImageView>
          </children>
       </StackPane>
       <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="48.0" prefWidth="100.0" HBox.hgrow="ALWAYS">

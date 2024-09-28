@@ -401,5 +401,4 @@ public class PlayerController {
     volumeButton.setTooltip(new Tooltip("Âm lượng"));
     playlistButton.setTooltip(new Tooltip("Danh sách phát"));
   }
-
 }

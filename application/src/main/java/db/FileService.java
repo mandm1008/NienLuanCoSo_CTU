@@ -16,7 +16,7 @@
 // import java.security.GeneralSecurityException;
 // import java.util.Collections;
 
-// public class FileDBService {
+// public class FileService {
 // private static final String APPLICATION_NAME = "Your Music API Drive";
 // private static final GsonFactory JSON_FACTORY =
 // GsonFactory.getDefaultInstance();

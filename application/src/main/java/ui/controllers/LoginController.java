@@ -13,19 +13,14 @@ public class LoginController {
 
   @FXML
   private TextField txtUsername;
-
   @FXML
   private PasswordField txtPassword;
-
   @FXML
   private Button forgotPassword;
-
   @FXML
   private Button createNew;
-
   @FXML
   private Text actionMessage;
-
   @FXML
   private Button backToHomeButton;
 

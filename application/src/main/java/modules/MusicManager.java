@@ -63,13 +63,22 @@ public class MusicManager {
   }
 
   private void reLoadData() {
+    // run event onLoad
     runEventOnLoad();
 
+    // clear media player
     if (this.mediaPlayer != null)
       this.mediaPlayer.stop();
+
+    // load new media
     Media media = new Media(playlist.get(index).getHref());
     this.mediaPlayer = new MediaPlayer(media);
+
+    // reload setting
     setting();
+
+    // increase view
+    playlist.get(index).increaseView();
 
     // update ui
     runEventOnChange();
@@ -82,6 +91,7 @@ public class MusicManager {
   }
 
   public void setPlaylist(LinkedList<SongModel> playlist) {
+    this.playlist.clear();
     this.playlist = playlist;
     this.index = 0;
     reLoadData();

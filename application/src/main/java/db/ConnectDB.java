@@ -34,8 +34,8 @@ public class ConnectDB {
   private boolean createTable() {
     try {
       conn.createStatement().execute(UserModel.getCreateTable());
-      conn.createStatement().execute(AlbumModel.getCreateTable());
       conn.createStatement().execute(ArtistModel.getCreateTable());
+      conn.createStatement().execute(AlbumModel.getCreateTable());
       conn.createStatement().execute(PlaylistModel.getCreateTable());
       conn.createStatement().execute(SongModel.getCreateTable());
       conn.createStatement().execute(UserLikes.getCreateTable());
