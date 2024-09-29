@@ -1,7 +1,7 @@
 package ui.controllers;
 
 import javafx.util.Callback;
-
+import db.SongModel;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -55,5 +55,13 @@ public class MusicItemController {
     };
 
     LoadLater.addLoader(src, callback);
+  }
+
+  @SuppressWarnings("exports")
+  public void setSong(SongModel song) {
+    setTitle(song.getTitle());
+    setArtist(song.getArtist().getName());
+    setView(song.getView());
+    setImage(song.getImage());
   }
 }

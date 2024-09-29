@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ import ui.App;
 import ui.DefindUI;
 import modules.AccountManager;
 import modules.ImageManager;
+import modules.LoadLater;
 import modules.ThreadCustom;
 
 public class PlayerController {
@@ -118,7 +120,16 @@ public class PlayerController {
       SongModel song = App.getMusicManager().getCurrentSong();
 
       // set ui
-      musicImage.setImage(new Image(song.getImage()));
+      Callback<Image, Void> callback = new Callback<Image, Void>() {
+        @Override
+        public Void call(Image img) {
+          Platform.runLater(() -> {
+            musicImage.setImage(img);
+          });
+          return null;
+        }
+      };
+      LoadLater.addLoader(song.getImage(), callback);
       musicTitle.setText(song.getTitle());
       musicArtist.setText(song.getArtistName());
     };

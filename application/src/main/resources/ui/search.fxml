@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane style="-fx-padding: 0;" styleClass="home-box" stylesheets="@../css/home.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.SearchController">
+  <children>
+    <ScrollPane hbarPolicy="NEVER" style="-fx-background-color: #1e1e2e;" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <content>
+        <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="1284.0" styleClass="home-box">
+          <children>
+            <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="996.0" prefWidth="996.0" styleClass="home-box">
+              <children>
+                <VBox minHeight="-Infinity" minWidth="-Infinity">
+                  <children>
+                    <Label fx:id="title" contentDisplay="CENTER" prefHeight="53.0" prefWidth="616.0" styleClass="home-item-title" text="Kết quả tìm kiếm của &quot;&quot;" textFill="WHITE" />
+                    <GridPane fx:id="resultGridPane" alignment="CENTER" hgap="12.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" vgap="12.0" VBox.vgrow="ALWAYS">
+                      <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="360.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="360.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="360.0" />
+                      </columnConstraints>
+                      <rowConstraints>
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="64.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="1.7976931348623157E308" minHeight="64.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="1.7976931348623157E308" minHeight="64.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="1.7976931348623157E308" minHeight="64.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="1.7976931348623157E308" minHeight="64.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="1.7976931348623157E308" minHeight="64.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="64.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="64.0" vgrow="SOMETIMES" />
+                      </rowConstraints>
+                    </GridPane>
+                  </children>
+                </VBox>
+              </children>
+            </VBox>
+          </children>
+        </StackPane>
+      </content>
+    </ScrollPane>
+  </children>
+</AnchorPane>

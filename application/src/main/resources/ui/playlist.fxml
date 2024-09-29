@@ -7,7 +7,5 @@
 <VBox fx:id="playlistBox" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="playlist-box" stylesheets="@../css/playlist.css"
    xmlns="http://javafx.com/javafx/22"
    xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.PlaylistController">
-   <children>
-      <Label maxWidth="1.7976931348623157E308" styleClass="playlist-title" style="-fx-text-fill: #fff; -fx-font-weight: bold; -fx-font-size: 14px;" text="Danh sách phát" />
-   </children>
+
 </VBox>

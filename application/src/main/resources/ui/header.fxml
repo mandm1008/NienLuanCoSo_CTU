@@ -11,15 +11,22 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Circle?>
 
-<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" styleClass="header-box" stylesheets="@../css/header.css"
-   xmlns="http://javafx.com/javafx/22"
-   xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.HeaderController">
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" styleClass="header-box" stylesheets="@../css/header.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.HeaderController">
    <children>
       <Button fx:id="backBtn" mnemonicParsing="false" styleClass="clear-button" HBox.hgrow="NEVER">
          <graphic>
             <ImageView fitHeight="23.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/arrow-left-solid.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="homeBtn" mnemonicParsing="false" styleClass="clear-button">
+         <graphic>
+            <ImageView fitHeight="23.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/house-chimney-solid.png" />
                </image>
             </ImageView>
          </graphic>
@@ -35,7 +42,7 @@
       </Button>
       <HBox fx:id="searchBox" alignment="CENTER_LEFT" maxHeight="40.0" prefHeight="40.0" styleClass="header-search--box" HBox.hgrow="ALWAYS">
          <children>
-            <Button mnemonicParsing="false" styleClass="clear-button">
+            <Button fx:id="searchBtn" mnemonicParsing="false" styleClass="clear-button">
                <graphic>
                   <ImageView fitHeight="23.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>

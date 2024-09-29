@@ -8,12 +8,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 
 import modules.ImageManager;
 import modules.LoadLater;
 import ui.App;
 
 public class PlaylistItemController {
+  @FXML
+  private HBox box;
   @FXML
   private Label title;
   @FXML
@@ -24,6 +27,8 @@ public class PlaylistItemController {
   private Button playButton;
   @FXML
   private ImageView playImage;
+  @FXML
+  private Button removeButton;
 
   private int index;
 
@@ -40,14 +45,19 @@ public class PlaylistItemController {
     Platform.runLater(() -> {
       App.getMusicManager().addEventOnChange("playlist-item-" + index, changePlayImage());
     });
+
+    // remove button
+    removeBtn();
   }
 
   private Runnable changePlayImage() {
     return () -> {
       if (App.getMusicManager().getIndex() == index) {
         playImage.setImage(ImageManager.getImage(ImageManager.PAUSE));
+        box.getStyleClass().add("playlist-onplay");
       } else {
         playImage.setImage(ImageManager.getImage(ImageManager.PLAY));
+        box.getStyleClass().remove("playlist-onplay");
       }
     };
   }
@@ -81,5 +91,11 @@ public class PlaylistItemController {
 
   public void setPlayImage(String url) {
     this.playImage.setImage(new Image(url));
+  }
+
+  public void removeBtn() {
+    removeButton.setOnAction(e -> {
+      App.getMusicManager().removeMusic(index);
+    });
   }
 }

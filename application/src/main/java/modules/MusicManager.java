@@ -25,6 +25,7 @@ public class MusicManager {
   private HashMap<String, Runnable> eventOnChange = new HashMap<>();
   private HashMap<String, Runnable> eventOnPlay = new HashMap<>();
   private HashMap<String, Runnable> eventOnLoad = new HashMap<>();
+  private HashMap<String, Runnable> eventOnChangePlaylist = new HashMap<>();
 
   public MusicManager() {
     this.playlist = SongModel.getNewSongs(9);
@@ -99,6 +100,9 @@ public class MusicManager {
 
   public void addToPlaylist(SongModel song) {
     this.playlist.add(song);
+
+    // run event onChangePlaylist
+    runEventOnChangePlaylist();
   }
 
   public PlaylistModel getPlaylistInfo() {
@@ -155,6 +159,27 @@ public class MusicManager {
     return this.playlist.indexOf(song);
   }
 
+  public void removeMusic(int index) {
+    if (index < 0 || index >= playlist.size()) {
+      System.out.println("Index out of range");
+      return;
+    }
+
+    this.playlist.remove(index);
+    if (this.index == index) {
+      if (index >= playlist.size()) {
+        this.index = playlist.size() - 1;
+      }
+      reLoadData();
+      playMusic();
+    } else if (this.index > index) {
+      this.index--;
+    }
+
+    // run event onChangePlaylist
+    runEventOnChangePlaylist();
+  }
+
   public void forwardMusic() {
     // check shuffle mode
     if (modeShuffle) {
@@ -184,7 +209,7 @@ public class MusicManager {
   public void pauseMusic() {
     try {
       this.mediaPlayer.pause();
-    } catch (NullPointerException e) {
+    } catch (Exception e) {
       System.out.println("No song to pause");
     }
   }
@@ -192,7 +217,7 @@ public class MusicManager {
   public void prev10sMusic() {
     try {
       this.mediaPlayer.seek(this.mediaPlayer.getCurrentTime().subtract(Duration.seconds(10)));
-    } catch (NullPointerException e) {
+    } catch (Exception e) {
       System.out.println("No song to seek");
     }
   }
@@ -200,7 +225,7 @@ public class MusicManager {
   public void next10sMusic() {
     try {
       this.mediaPlayer.seek(this.mediaPlayer.getCurrentTime().add(Duration.seconds(10)));
-    } catch (NullPointerException e) {
+    } catch (Exception e) {
       System.out.println("No song to seek");
     }
   }
@@ -210,7 +235,7 @@ public class MusicManager {
       this.mediaPlayer.play();
       System.out.println("Playing: " + playlist.get(index).getTitle());
       System.out.println("Href: " + playlist.get(index).getHref());
-    } catch (NullPointerException e) {
+    } catch (Exception e) {
       System.out.println("No song to play");
     }
   }
@@ -245,6 +270,17 @@ public class MusicManager {
     for (String key : eventOnLoad.keySet()) {
       eventOnLoad.get(key).run();
       System.out.println("Run event onLoad: " + key);
+    }
+  }
+
+  public void addEventOnChangePlaylist(String key, Runnable runnable) {
+    this.eventOnChangePlaylist.put(key, runnable);
+  }
+
+  public void runEventOnChangePlaylist() {
+    for (String key : eventOnChangePlaylist.keySet()) {
+      eventOnChangePlaylist.get(key).run();
+      System.out.println("Run event onChangePlaylist: " + key);
     }
   }
 

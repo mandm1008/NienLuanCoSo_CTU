@@ -323,4 +323,29 @@ public class SongModel extends Model {
     return view;
   }
 
+  public static LinkedList<SongModel> searchSongs(String key) {
+    LinkedList<SongModel> songs = new LinkedList<SongModel>();
+    ConnectDB connectDB = new ConnectDB();
+
+    try {
+      String query = "SELECT * FROM Songs WHERE title LIKE ? OR artist_id IN (SELECT artist_id FROM Artists WHERE name LIKE ?)";
+      PreparedStatement pstmt = connectDB.getConnect().prepareStatement(query);
+      pstmt.setString(1, "%" + key + "%");
+      pstmt.setString(2, "%" + key + "%");
+
+      ResultSet rs = pstmt.executeQuery();
+
+      while (rs.next()) {
+        songs.add(readResultSet(rs));
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return songs;
+    } finally {
+      connectDB.closeConnect();
+    }
+
+    return songs;
+  }
+
 }

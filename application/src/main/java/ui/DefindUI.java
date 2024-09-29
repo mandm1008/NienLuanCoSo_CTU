@@ -17,6 +17,7 @@ public class DefindUI {
   private static final String playlistItem = "playlist-item";
   private static final String loading = "loading";
   private static final String musicItem = "music-item";
+  private static final String search = "search";
 
   public static String getLayout() {
     return layout;
@@ -64,6 +65,10 @@ public class DefindUI {
 
   public static String getMusicItem() {
     return musicItem;
+  }
+
+  public static String getSearch() {
+    return search;
   }
 
   @SuppressWarnings("exports")

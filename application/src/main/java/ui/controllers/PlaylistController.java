@@ -3,9 +3,11 @@ package ui.controllers;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 import ui.App;
@@ -18,11 +20,26 @@ public class PlaylistController {
 
   public void initialize() {
     loadPlaylistItem();
+
+    // add event on change playlist
+    String key = "playlist-ui";
+    App.getMusicManager().addEventOnChangePlaylist(key, () -> {
+      Platform.runLater(() -> {
+        playlistBox.getChildren().clear();
+        loadPlaylistItem();
+      });
+    });
   }
 
   private void loadPlaylistItem() {
     LinkedList<SongModel> playlist = App.getMusicManager().getPlaylist();
 
+    // add title
+    Label title = new Label("Danh sách phát (" + playlist.size() + ")");
+    title.getStyleClass().add("playlist-title");
+    playlistBox.getChildren().add(title);
+
+    // add playlist item
     for (SongModel song : playlist) {
       // load fxml
       try {

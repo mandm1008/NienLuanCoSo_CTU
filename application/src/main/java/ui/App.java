@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import modules.ImageManager;
 import modules.MusicManager;
+import modules.SearchManager;
 
 /**
  * JavaFX App
@@ -22,10 +23,12 @@ public class App extends Application {
 
     private static Stage primaryStage;
     private static Scene scene;
-    private static MusicManager musicManager;
     private static LayoutCache layoutCache;
     private static String currentLayout;
     private static String currentContent;
+
+    private static MusicManager musicManager;
+    private static SearchManager searchManager;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -56,6 +59,9 @@ public class App extends Application {
             // load layout
             layoutCache = new LayoutCache();
             layoutCache.load();
+
+            // load search manager
+            searchManager = new SearchManager();
 
             try {
                 // load layout
@@ -138,6 +144,11 @@ public class App extends Application {
     @SuppressWarnings("exports")
     public static MusicManager getMusicManager() {
         return musicManager;
+    }
+
+    @SuppressWarnings("exports")
+    public static SearchManager getSearchManager() {
+        return searchManager;
     }
 
     public static void main(String[] args) {

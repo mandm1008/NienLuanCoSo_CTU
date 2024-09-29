@@ -12,39 +12,99 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 
 import modules.AccountManager;
+import modules.SearchManager;
 import ui.App;
 import ui.DefindUI;
 
 public class HeaderController {
-
   @FXML
   private Button backBtn;
-
+  @FXML
+  private Button homeBtn;
   @FXML
   private Button nextBtn;
-
   @FXML
   private HBox searchBox;
-
+  @FXML
+  private Button searchBtn;
   @FXML
   private TextField searchField;
-
   @FXML
   private Button avartaButton;
-
   @FXML
   private Circle avartaBox;
-
   @FXML
   private ContextMenu avartaMenu;
 
-  @FXML
   public void initialize() {
+    // setup search
+    setupSearch();
+
+    // home Btn
+    toHome();
+
+    // update avatar
     updateAvatar().run();
-    // add event
     String key = "avatar-header";
     AccountManager.addEventLogin(key, updateAvatar());
+    AccountManager.addEventLogout(key, updateAvatar());
 
+    // setup menu
+    setupMenu();
+  }
+
+  private void toHome() {
+    homeBtn.setOnAction(e -> {
+      Platform.runLater(() -> {
+        App.redirect(DefindUI.getHome());
+      });
+    });
+  }
+
+  private void setupSearch() {
+    // search button
+    searchBtn.setOnAction(e -> {
+      // check empty
+      if (searchField.getText().isEmpty()) {
+        return;
+      }
+
+      // handle search
+      SearchManager searchManager = App.getSearchManager();
+      searchManager.search(searchField.getText());
+    });
+
+    // search enter
+    searchField.setOnKeyPressed(e -> {
+      if (e.getCode() == SearchManager.KEY_CODE) {
+        // check empty
+        if (searchField.getText().isEmpty()) {
+          return;
+        }
+
+        // handle search
+        SearchManager searchManager = App.getSearchManager();
+        searchManager.search(searchField.getText());
+      }
+    });
+  }
+
+  private Runnable updateAvatar() {
+    return () -> {
+      String avatarSrc = HeaderController.class.getResource("/images/avatar_default.png").toExternalForm();
+      if (AccountManager.getId() > -1) {
+        // change avatar if has user
+        avatarSrc = AccountManager.getAvatar();
+      }
+
+      Image image = new Image(avatarSrc);
+      Platform.runLater(() -> {
+        avartaBox.setFill(new ImagePattern(image));
+      });
+    };
+  }
+
+  private void setupMenu() {
     // create menu
     avartaMenu = new ContextMenu();
     // add menu item
@@ -103,20 +163,5 @@ public class HeaderController {
       // visible menu
       avartaMenu.show(avartaButton, screenX, screenY);
     });
-  }
-
-  private Runnable updateAvatar() {
-    return () -> {
-      String avatarSrc = HeaderController.class.getResource("/images/avatar_default.png").toExternalForm();
-      if (AccountManager.getId() > -1) {
-        // change avatar if has user
-        avatarSrc = AccountManager.getAvatar();
-      }
-
-      Image image = new Image(avatarSrc);
-      Platform.runLater(() -> {
-        avartaBox.setFill(new ImagePattern(image));
-      });
-    };
   }
 }

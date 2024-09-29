@@ -9,9 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox alignment="CENTER_LEFT" spacing="12.0" stylesheets="@../css/playlist.css"
-   xmlns="http://javafx.com/javafx/22"
-   xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.PlaylistItemController">
+<HBox fx:id="box" alignment="CENTER_LEFT" spacing="12.0" stylesheets="@../css/playlist.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.PlaylistItemController">
    <children>
       <StackPane maxHeight="1.7976931348623157E308">
          <children>
@@ -39,11 +37,11 @@
       </VBox>
       <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="32.0" prefWidth="32.0">
          <children>
-            <Button mnemonicParsing="false" styleClass="clear-button">
+            <Button fx:id="removeButton" mnemonicParsing="false" styleClass="clear-button">
                <graphic>
                   <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/ellipsis-vertical-solid.png" />
+                        <Image url="@../images/square-minus-regular.png" />
                      </image>
                   </ImageView>
                </graphic>
