@@ -9,7 +9,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane style="-fx-padding: 0;" styleClass="home-box" stylesheets="@../css/home.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.HomeController">
+<AnchorPane style="-fx-padding: 0;" styleClass="home-box" stylesheets="@../css/home.css"
+   xmlns="http://javafx.com/javafx/22"
+   xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.HomeController">
    <children>
       <ScrollPane hbarPolicy="NEVER" style="-fx-background-color: #1e1e2e;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
@@ -36,7 +38,7 @@
                         </VBox>
                         <VBox minHeight="-Infinity" minWidth="-Infinity">
                            <children>
-                              <Label contentDisplay="CENTER" prefHeight="53.0" prefWidth="616.0" styleClass="home-item-title" text="Nhiều Lượt Xem Nhất" textFill="WHITE" />
+                              <Label contentDisplay="CENTER" prefHeight="53.0" prefWidth="616.0" styleClass="home-item-title" text="Nhiều Lượt Nghe Nhất" textFill="WHITE" />
                               <GridPane fx:id="mostViewGridPane" alignment="CENTER" hgap="12.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" vgap="12.0">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="360.0" />

@@ -2,12 +2,14 @@ package ui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import ui.App;
+import ui.DefindUI;
 
 public class MenuController {
   @FXML
   private Button exploreButton;
   @FXML
-  private Button newMusicButton;
+  private Button searchButton;
   @FXML
   private Button favoriteButton;
   @FXML
@@ -18,15 +20,46 @@ public class MenuController {
   private Button createPlaylistButton;
 
   public void initialize() {
-    // Initialize logic or event handling for buttons here if needed
+    // explore button
+    String exploreKey = "explore-menu";
+    handleExploreButton().run();
+    App.addEventChangePage(exploreKey, handleExploreButton());
+
+    // search button
+    String searchKey = "search-menu";
+    handleSearchButton().run();
+    App.addEventChangePage(searchKey, handleSearchButton());
   }
 
-  // Add methods to handle button actions
-  public void onExploreClicked() {
-    System.out.println("Explore clicked");
+  private Runnable handleExploreButton() {
+    exploreButton.setOnAction(e -> {
+      if (App.getCurrentContent() != DefindUI.getHome()) {
+        App.redirect(DefindUI.getHome());
+      }
+    });
+
+    return () -> {
+      if (App.getCurrentContent() == DefindUI.getHome()) {
+        exploreButton.getStyleClass().add("selected");
+      } else {
+        exploreButton.getStyleClass().remove("selected");
+      }
+    };
   }
 
-  public void onSuggestClicked() {
-    System.out.println("Suggest clicked");
+  private Runnable handleSearchButton() {
+    searchButton.setOnAction(e -> {
+      if (App.getCurrentContent() != DefindUI.getSearch()) {
+        App.redirect(DefindUI.getSearch());
+      }
+    });
+
+    return () -> {
+      if (App.getCurrentContent() == DefindUI.getSearch()) {
+        searchButton.getStyleClass().add("selected");
+      } else {
+        searchButton.getStyleClass().remove("selected");
+      }
+    };
   }
 }

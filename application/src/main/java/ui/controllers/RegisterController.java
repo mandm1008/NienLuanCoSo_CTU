@@ -10,6 +10,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 import modules.AccountManager;
+import modules.NotificationManager;
 import modules.VerifyData;
 import ui.App;
 import ui.DefindUI;
@@ -149,6 +150,8 @@ public class RegisterController {
     System.out.println("Password: " + password);
     if (AccountManager.register(username, email, password, href)) {
       actionMessage.setText("Đăng ký thành công!");
+      App.getNotificationManager().notify("Đăng ký thành công!", NotificationManager.SUCESS);
+
       App.redirect(DefindUI.getNoLayout(), DefindUI.getLogin());
     } else {
       actionMessage.setText("Tài khoản đã tồn tại! Vui lòng thử lại với email hoặc username khác.");

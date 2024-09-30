@@ -28,10 +28,9 @@ public class MusicManager {
   private HashMap<String, Runnable> eventOnChangePlaylist = new HashMap<>();
 
   public MusicManager() {
-    this.playlist = SongModel.getNewSongs(9);
-    Media media = new Media(playlist.get(index).getHref());
-    this.mediaPlayer = new MediaPlayer(media);
-    setting();
+    this.playlist = new LinkedList<SongModel>(SongModel.getNewSongs(9));
+    this.index = 0;
+    reLoadData();
   }
 
   public MusicManager(SongModel song) {
@@ -39,7 +38,7 @@ public class MusicManager {
   }
 
   public MusicManager(LinkedList<SongModel> playlist) {
-    this.playlist = playlist;
+    this.playlist = new LinkedList<SongModel>(playlist);
     this.index = 0;
     reLoadData();
   }
@@ -99,6 +98,10 @@ public class MusicManager {
   }
 
   public void addToPlaylist(SongModel song) {
+    if (includeMusic(song)) {
+      return;
+    }
+
     this.playlist.add(song);
 
     // run event onChangePlaylist
@@ -152,11 +155,23 @@ public class MusicManager {
   }
 
   public boolean includeMusic(SongModel song) {
-    return this.playlist.contains(song);
+    for (SongModel s : playlist) {
+      if (s.getSongId() == song.getSongId()) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public int findIndexOfSong(SongModel song) {
-    return this.playlist.indexOf(song);
+    for (int i = 0; i < playlist.size(); i++) {
+      if (playlist.get(i).getSongId() == song.getSongId()) {
+        return i;
+      }
+    }
+
+    return -1;
   }
 
   public void removeMusic(int index) {

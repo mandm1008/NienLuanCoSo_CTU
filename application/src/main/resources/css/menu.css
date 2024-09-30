@@ -13,6 +13,8 @@
 
 .menu-item {
   -fx-background-color: transparent;
+  -fx-background-radius: 5;
+  -fx-border-radius: 5;
   -fx-text-fill: #FFFFFF;
   -fx-font-size: 14px;
   -fx-padding: 16px 12px;
@@ -23,6 +25,16 @@
 
 .menu-item:hover {
   -fx-background-color: #33334A;
+  -fx-text-fill: #FFFFFF;
+}
+
+.menu-item.selected {
+  -fx-background-color: #664E88;
+  -fx-text-fill: #FFFFFF;
+}
+
+.menu-item.selected:hover {
+  -fx-background-color: #664E88;
   -fx-text-fill: #FFFFFF;
 }
 

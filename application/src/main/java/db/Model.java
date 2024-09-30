@@ -51,6 +51,8 @@ public abstract class Model {
       e.printStackTrace();
 
       return false;
+    } finally {
+      connectDB.closeConnect();
     }
   }
 
@@ -77,6 +79,8 @@ public abstract class Model {
         pstmt.setInt(1, getId());
       } catch (SQLException e) {
         e.printStackTrace();
+      } finally {
+        new ConnectDB().closeConnect();
       }
     });
   }

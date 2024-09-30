@@ -71,6 +71,33 @@ public class AccountManager {
     runEventLogout();
   }
 
+  public static void likeSong(int songId) {
+    if (AccountManager.id < 0) {
+      return;
+    }
+
+    UserModel user = new UserModel(AccountManager.id);
+    user.likeSong(songId);
+  }
+
+  public static void unlikeSong(int songId) {
+    if (AccountManager.id < 0) {
+      return;
+    }
+
+    UserModel user = new UserModel(AccountManager.id);
+    user.unlikeSong(songId);
+  }
+
+  public static boolean checkLikedSong(int songId) {
+    if (AccountManager.id < 0) {
+      return false;
+    }
+
+    UserModel user = new UserModel(AccountManager.id);
+    return user.checkLikedSong(songId);
+  }
+
   public static void addEventLogin(String key, Runnable handler) {
     eventLogin.put(key, handler);
   }

@@ -1,23 +1,25 @@
 package ui.controllers;
 
 import javafx.util.Callback;
+
+import java.io.IOException;
+
 import db.SongModel;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Popup;
 
 import modules.LoadLater;
+import ui.DefindUI;
 
 public class MusicItemController {
   @FXML
   private ImageView image;
-  @FXML
-  private Button playButton;
-  @FXML
-  private ImageView playImage;
   @FXML
   private Label title;
   @FXML
@@ -27,8 +29,37 @@ public class MusicItemController {
   @FXML
   private Button menuButton;
 
-  public void initialize() {
+  private SongModel songData;
+  private Popup menuPopup;
 
+  public void initialize() {
+  }
+
+  private void handleMenuButton() {
+    menuPopup = new Popup();
+    menuPopup.setAutoHide(true);
+
+    // load menu
+    try {
+      FXMLLoader loader = DefindUI.loadFXML(DefindUI.getMusicMenu());
+      menuPopup.getContent().add(loader.load());
+
+      MusicMenuController controller = loader.getController();
+      controller.setSong(songData);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    menuButton.setOnAction(e -> {
+      if (menuPopup.isShowing()) {
+        menuPopup.hide();
+      } else {
+        double x = menuButton.localToScreen(menuButton.getBoundsInLocal()).getMaxX();
+        double y = menuButton.localToScreen(menuButton.getBoundsInLocal()).getMinY();
+
+        menuPopup.show(menuButton.getScene().getWindow(), x, y);
+      }
+    });
   }
 
   public void setTitle(String title) {
@@ -59,9 +90,13 @@ public class MusicItemController {
 
   @SuppressWarnings("exports")
   public void setSong(SongModel song) {
+    songData = song;
     setTitle(song.getTitle());
     setArtist(song.getArtist().getName());
     setView(song.getView());
     setImage(song.getImage());
+
+    // handle menu button
+    handleMenuButton();
   }
 }

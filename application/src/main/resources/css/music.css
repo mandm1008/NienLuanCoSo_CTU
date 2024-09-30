@@ -35,3 +35,29 @@
   -fx-text-fill: #fff;
   -fx-font-size: 10px;
 }
+
+.music-menu-title {
+  -fx-text-fill: #fff;
+  -fx-font-size: 14px;
+  -fx-font-weight: bold;
+  -fx-alignment: CENTER;
+}
+
+.music-menu-text {
+  -fx-text-fill: #fff;
+  -fx-font-size: 12px;
+  -fx-font-weight: bold;
+  -fx-alignment: CENTER-LEFT;
+  -fx-cursor: hand;
+}
+
+.music-menu-image {
+  -fx-min-width: 16px;
+  -fx-max-width: 16px;
+}
+
+.music-menu-text:hover {
+  -fx-background-color: #1e1e2e;
+  -fx-background-radius: 5;
+  -fx-border-radius: 5;
+}

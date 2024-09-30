@@ -1,6 +1,7 @@
 package ui;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -14,6 +15,7 @@ import javafx.stage.Stage;
 
 import modules.ImageManager;
 import modules.MusicManager;
+import modules.NotificationManager;
 import modules.SearchManager;
 
 /**
@@ -29,6 +31,9 @@ public class App extends Application {
 
     private static MusicManager musicManager;
     private static SearchManager searchManager;
+    private static NotificationManager notificationManager;
+
+    private static HashMap<String, Runnable> eventChangePage = new HashMap<>();
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -63,6 +68,9 @@ public class App extends Application {
             // load search manager
             searchManager = new SearchManager();
 
+            // load notification manager
+            notificationManager = new NotificationManager(primaryStage);
+
             try {
                 // load layout
                 BorderPane rootLayout = DefindUI.loadFXML(DefindUI.getLayout()).load();
@@ -78,6 +86,7 @@ public class App extends Application {
                 // set scene
                 Platform.runLater(() -> {
                     scene.setRoot(rootLayout);
+                    runEventChangePage();
                 });
             } catch (IOException e) {
                 e.printStackTrace();
@@ -131,6 +140,7 @@ public class App extends Application {
 
         currentLayout = layout;
         currentContent = content;
+        runEventChangePage();
     }
 
     public static String getCurrentLayout() {
@@ -149,6 +159,22 @@ public class App extends Application {
     @SuppressWarnings("exports")
     public static SearchManager getSearchManager() {
         return searchManager;
+    }
+
+    @SuppressWarnings("exports")
+    public static NotificationManager getNotificationManager() {
+        return notificationManager;
+    }
+
+    public static void addEventChangePage(String key, Runnable event) {
+        eventChangePage.put(key, event);
+    }
+
+    public static void runEventChangePage() {
+        eventChangePage.forEach((key, event) -> {
+            System.out.println("Run change page event: " + key);
+            event.run();
+        });
     }
 
     public static void main(String[] args) {

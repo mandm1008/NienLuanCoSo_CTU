@@ -6,6 +6,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import modules.AccountManager;
+import modules.NotificationManager;
 import ui.App;
 import ui.DefindUI;
 
@@ -56,6 +57,8 @@ public class LoginController {
     // Start login
     if (AccountManager.login(username, password)) {
       actionMessage.setText("");
+      App.getNotificationManager().notify("Đăng nhập thành công! Tài khoản: " + username, NotificationManager.SUCESS);
+
       App.redirect(DefindUI.getLayout(), DefindUI.getHome());
     } else {
       actionMessage.setText("Username hoặc Password không đúng! Vui lòng thử lại.");

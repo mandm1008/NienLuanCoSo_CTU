@@ -9,14 +9,12 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane alignment="BOTTOM_CENTER" stylesheets="@../css/menu.css"
-   xmlns="http://javafx.com/javafx/22"
-   xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.MenuController">
+<StackPane alignment="BOTTOM_CENTER" stylesheets="@../css/menu.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.MenuController">
    <children>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="menu-panel">
 
          <Label styleClass="section-title" text="App" />
-         <Button prefHeight="32.0" styleClass="menu-item" text="   Khám phá">
+         <Button fx:id="exploreButton" prefHeight="32.0" styleClass="menu-item" text="   Khám phá">
             <graphic>
                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" styleClass="icon">
                   <image>
@@ -28,11 +26,11 @@
                </ImageView>
             </graphic>
          </Button>
-         <Button layoutX="30.0" layoutY="108.0" prefHeight="32.0" styleClass="menu-item" text="   Nhạc mới">
+         <Button fx:id="searchButton" layoutX="30.0" layoutY="108.0" prefHeight="32.0" styleClass="menu-item" text="   Tìm kiếm">
             <graphic>
                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" styleClass="icon">
                   <image>
-                     <Image url="@../images/compact-disc-solid.png" />
+                     <Image url="@../images/magnifying-glass-solid.png" />
                   </image>
                   <viewport>
                      <Rectangle2D />
@@ -42,7 +40,7 @@
          </Button>
 
          <Label styleClass="section-title" text="Cá nhân" />
-         <Button layoutX="30.0" layoutY="160.0" prefHeight="32.0" styleClass="menu-item" text="   Yêu thích">
+         <Button fx:id="favoriteButton" layoutX="30.0" layoutY="160.0" prefHeight="32.0" styleClass="menu-item" text="   Yêu thích">
             <graphic>
                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" styleClass="icon">
                   <image>
@@ -54,7 +52,7 @@
                </ImageView>
             </graphic>
          </Button>
-         <Button layoutX="30.0" layoutY="289.0" prefHeight="32.0" styleClass="menu-item" text="   Albums">
+         <Button fx:id="albumsButton" layoutX="30.0" layoutY="289.0" prefHeight="32.0" styleClass="menu-item" text="   Albums">
             <graphic>
                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" styleClass="icon">
                   <image>
@@ -66,7 +64,7 @@
                </ImageView>
             </graphic>
          </Button>
-         <Button layoutX="30.0" layoutY="340.0" prefHeight="32.0" styleClass="menu-item" text="   Danh sách phát" VBox.vgrow="ALWAYS">
+         <Button fx:id="playlistsButton" layoutX="30.0" layoutY="340.0" prefHeight="32.0" styleClass="menu-item" text="   Danh sách phát" VBox.vgrow="ALWAYS">
             <graphic>
                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" styleClass="icon">
                   <image>
@@ -83,7 +81,7 @@
          </Button>
 
       </VBox>
-      <Button prefHeight="32.0" prefWidth="183.0" style="-fx-translate-y: -10px;" styleClass="create-playlist" text="   Tạo mới">
+      <Button fx:id="createPlaylistButton" prefHeight="32.0" prefWidth="183.0" style="-fx-translate-y: -10px;" styleClass="create-playlist" text="   Tạo mới">
          <graphic>
             <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" styleClass="icon">
                <image>

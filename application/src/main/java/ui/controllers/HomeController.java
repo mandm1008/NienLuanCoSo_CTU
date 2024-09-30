@@ -39,10 +39,7 @@ public class HomeController {
 
           // set data
           MusicItemController musicItemController = fxmlLoader.getController();
-          musicItemController.setTitle(songs.get(i).getTitle());
-          musicItemController.setArtist(songs.get(i).getArtist().getName());
-          musicItemController.setView(songs.get(i).getView());
-          musicItemController.setImage(songs.get(i).getImage());
+          musicItemController.setSong(songs.get(i));
         } catch (IOException e) {
           e.printStackTrace();
         }

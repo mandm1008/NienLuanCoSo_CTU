@@ -27,6 +27,10 @@
   -fx-background-radius: 5;
 }
 
+.playlist-onplay .playlist-subtext {
+  -fx-text-fill: #fff;
+}
+
 .clear-button {
   -fx-background-color: transparent;
   -fx-background-insets: 0;

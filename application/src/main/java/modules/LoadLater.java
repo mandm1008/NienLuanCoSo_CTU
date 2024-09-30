@@ -17,6 +17,11 @@ public class LoadLater {
 
       Image image = new Image(src);
 
+      if (image.isError()) {
+        addLoader(src, callback);
+        return;
+      }
+
       images.put(src, image);
 
       callback.call(image);

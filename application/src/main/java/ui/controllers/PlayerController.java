@@ -90,7 +90,7 @@ public class PlayerController {
     handleLoadTime().run();
     String keyLoadTime = "load-time-player";
     ThreadCustom.stop(keyLoadTime);
-    ThreadCustom threadTime = new ThreadCustom(1, 800, 0);
+    ThreadCustom threadTime = new ThreadCustom(1, 400, 0);
     threadTime.runner(keyLoadTime, handleLoadTime());
 
     // control
@@ -382,7 +382,7 @@ public class PlayerController {
           double windowWidth = primaryStage.getWidth();
 
           double anchorY = 60 + 60;
-          double anchorX = windowWidth - playlist.getWidth();
+          double anchorX = windowWidth - playlist.getWidth() - 20;
 
           double popupHeight = windowHeight - 60 - 60 - 160;
           playlist.setPrefHeight(popupHeight);
