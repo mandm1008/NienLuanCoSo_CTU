@@ -2,10 +2,10 @@ package testing;
 
 import db.UserModel;
 
-public class InitAdmin {
+public class InitUser {
   private UserModel userModel;
 
-  public InitAdmin(String username, String password, String email) {
+  public InitUser(String username, String password, String email) {
     userModel = new UserModel(username, password, email);
   }
 
@@ -14,6 +14,7 @@ public class InitAdmin {
   }
 
   public static void main(String[] args) {
-    new InitAdmin("admin", "private", "admin@private.com").save();
+    new InitUser("unknow", "unknow", "unknow@private.com").save();
+    new InitUser("admin", "private", "admin@private.com").save();
   }
 }

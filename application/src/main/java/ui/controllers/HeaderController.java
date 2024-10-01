@@ -107,37 +107,47 @@ public class HeaderController {
   private void setupMenu() {
     // create menu
     avartaMenu = new ContextMenu();
+
     // add menu item
-    MenuItem settingItem = new MenuItem("Setting");
-    MenuItem logoutItem = new MenuItem("Logout");
+    MenuItem settingItem = new MenuItem("Cài đặt");
+    MenuItem upLoadSong = new MenuItem("Tải lên bài hát");
+    MenuItem logoutItem = new MenuItem("Đăng xuất");
 
     // add css
-    avartaMenu
-        .setStyle("-fx-background-color: #1E1E2E;-fx-padding: 10px;-fx-border-color: #fff;-fx-border-width: 2px;");
-    settingItem.setStyle(
-        "-fx-background-color: transparent;" +
-            "-fx-background-insets: 0;" +
-            "-fx-border-color: transparent;" +
-            "-fx-border-width: 0;" +
-            "-fx-effect: none;" +
-            "-fx-cursor: hand;" +
-            "-fx-text-fill: #fff;" +
-            "-fx-font-weight: bold;" +
-            "-fx-padding: 4px 12px;");
-    logoutItem.setStyle(
-        "-fx-background-color: transparent;" +
-            "-fx-background-insets: 0;" +
-            "-fx-border-color: transparent;" +
-            "-fx-border-width: 0;" +
-            "-fx-effect: none;" +
-            "-fx-cursor: hand;" +
-            "-fx-text-fill: #fff;" +
-            "-fx-font-weight: bold;" +
-            "-fx-padding: 4px 12px;");
+    String itemStyle = "-fx-background-color: transparent;" +
+        "-fx-background-insets: 0;" +
+        "-fx-border-color: transparent;" +
+        "-fx-border-width: 0;" +
+        "-fx-effect: none;" +
+        "-fx-cursor: hand;" +
+        "-fx-text-fill: #fff;" +
+        "-fx-font-weight: bold;" +
+        "-fx-padding: 4px 12px;";
+    avartaMenu.setStyle(
+        "-fx-background-color: #1E1E2E;" +
+            " -fx-padding: 10px;" +
+            "-fx-border-color: #fff;" +
+            " -fx-border-width: 1px;" +
+            "-fx-border-radius: 5px;" +
+            " -fx-background-radius: 5px;");
+    settingItem.setStyle(itemStyle);
+    upLoadSong.setStyle(itemStyle);
+    logoutItem.setStyle(itemStyle);
 
     settingItem.setOnAction(event -> {
       // handle setting
       System.out.println("Go to Setting");
+    });
+
+    upLoadSong.setOnAction(event -> {
+      // check user login
+      if (AccountManager.getId() <= -1) {
+        App.redirect(DefindUI.getNoLayout(), DefindUI.getLogin());
+        return;
+      }
+
+      // handle upload song
+      App.redirect(DefindUI.getUpload());
     });
 
     logoutItem.setOnAction(event -> {
@@ -146,7 +156,8 @@ public class HeaderController {
       App.redirect(DefindUI.getNoLayout(), DefindUI.getLogin());
     });
 
-    avartaMenu.getItems().addAll(settingItem, logoutItem);
+    // add item to menu
+    avartaMenu.getItems().addAll(settingItem, upLoadSong, logoutItem);
 
     // avarta action
     avartaButton.setOnAction(e -> {

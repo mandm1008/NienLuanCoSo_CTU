@@ -7,9 +7,14 @@ module ui {
   requires java.sql;
 
   requires google.api.client;
+  requires com.google.api.client;
+  requires com.google.api.services.drive;
+  requires com.google.auth;
   requires com.google.api.client.json.gson;
   requires com.google.auth.oauth2;
-  requires com.google.api.services.drive;
+
+  requires java.logging;
+  requires java.net.http;
 
   opens ui to javafx.fxml;
   opens ui.controllers to javafx.fxml;

@@ -14,6 +14,7 @@ public class ImageManager {
   public static String LOADING = "loading";
   public static String VOLUMEON = "volumeon";
   public static String VOLUMEOFF = "volumeoff";
+  public static String DEMO_MUSIC = "demo_music";
 
   public static void loadImages() {
     images.put(BANNER, new Image(ImageManager.class.getResource("/images/banner-solid.png").toExternalForm()));
@@ -24,6 +25,7 @@ public class ImageManager {
     images.put(LOADING, new Image(ImageManager.class.getResource("/images/loading.gif").toExternalForm()));
     images.put(VOLUMEON, new Image(ImageManager.class.getResource("/images/volume-high-solid.png").toExternalForm()));
     images.put(VOLUMEOFF, new Image(ImageManager.class.getResource("/images/volume-xmark-solid.png").toExternalForm()));
+    images.put(DEMO_MUSIC, new Image(ImageManager.class.getResource("/images/demo_music.png").toExternalForm()));
   }
 
   public static Image getImage(String key) {

@@ -10,9 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<GridPane prefWidth="240.0" style="-fx-padding: 12px;" styleClass="music-box" stylesheets="@../css/music.css" vgap="8.0"
-  xmlns="http://javafx.com/javafx/22"
-  xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.MusicMenuController">
+<GridPane prefWidth="240.0" style="-fx-padding: 12px;" stylesheets="@../css/music.css" vgap="8.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.MusicMenuController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -112,4 +110,8 @@
       </styleClass>
     </Button>
   </children>
+   <styleClass>
+      <String fx:value="music-box" />
+      <String fx:value="music-menu-box" />
+   </styleClass>
 </GridPane>

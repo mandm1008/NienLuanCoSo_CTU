@@ -6,6 +6,27 @@
   "configurations": [
     {
       "type": "java",
+      "name": "InitUser",
+      "request": "launch",
+      "mainClass": "ui/testing.InitUser",
+      "projectName": "application"
+    },
+    {
+      "type": "java",
+      "name": "FileService",
+      "request": "launch",
+      "mainClass": "ui/db.FileService",
+      "projectName": "application"
+    },
+    {
+      "type": "java",
+      "name": "App",
+      "request": "launch",
+      "mainClass": "ui.App",
+      "projectName": "application"
+    },
+    {
+      "type": "java",
       "name": "InitAdmin",
       "request": "launch",
       "mainClass": "ui/testing.InitAdmin",

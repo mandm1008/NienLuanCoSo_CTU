@@ -14,7 +14,7 @@ import javafx.scene.control.Label;
 import javafx.util.Duration;
 
 public class NotificationManager {
-  public static final String SUCESS = "success";
+  public static final String SUCCESS = "success";
   public static final String ERROR = "error";
   public static final String WARNING = "warning";
 
@@ -59,7 +59,7 @@ public class NotificationManager {
     // check type
     String backgroundColor = "#2C3E50";
     switch (type) {
-      case SUCESS:
+      case SUCCESS:
         message = "✔ " + message;
         backgroundColor = "#2ECC71";
         break;

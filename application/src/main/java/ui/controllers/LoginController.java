@@ -57,7 +57,7 @@ public class LoginController {
     // Start login
     if (AccountManager.login(username, password)) {
       actionMessage.setText("");
-      App.getNotificationManager().notify("Đăng nhập thành công! Tài khoản: " + username, NotificationManager.SUCESS);
+      App.getNotificationManager().notify("Đăng nhập thành công! Tài khoản: " + username, NotificationManager.SUCCESS);
 
       App.redirect(DefindUI.getLayout(), DefindUI.getHome());
     } else {

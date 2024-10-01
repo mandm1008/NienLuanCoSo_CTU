@@ -25,3 +25,8 @@ replay_pid*
 
 #build files
 application/target/
+
+
+# api keys
+application/src/main/resources/access/*.json
+

@@ -150,7 +150,7 @@ public class RegisterController {
     System.out.println("Password: " + password);
     if (AccountManager.register(username, email, password, href)) {
       actionMessage.setText("Đăng ký thành công!");
-      App.getNotificationManager().notify("Đăng ký thành công!", NotificationManager.SUCESS);
+      App.getNotificationManager().notify("Đăng ký thành công!", NotificationManager.SUCCESS);
 
       App.redirect(DefindUI.getNoLayout(), DefindUI.getLogin());
     } else {

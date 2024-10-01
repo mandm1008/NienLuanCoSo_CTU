@@ -30,7 +30,7 @@ public class ArtistModel extends Model {
   }
 
   // for model
-  private int artistId;
+  private int artistId = -1;
   private String name;
   private String genre;
 

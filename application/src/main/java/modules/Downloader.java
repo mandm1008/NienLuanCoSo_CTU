@@ -37,7 +37,7 @@ public class Downloader {
 
       // notify
       Platform.runLater(() -> {
-        App.getNotificationManager().notify("Tải nhạc thành công: " + fileName, NotificationManager.SUCESS);
+        App.getNotificationManager().notify("Tải nhạc thành công: " + fileName, NotificationManager.SUCCESS);
       });
     } catch (MalformedURLException e) {
       e.printStackTrace();

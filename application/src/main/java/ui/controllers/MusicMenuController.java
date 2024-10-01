@@ -93,7 +93,7 @@ public class MusicMenuController {
   private void handleShareButton() {
     shareButton.setOnAction(e -> {
       System.out.println("Share: " + songData.getHref());
-      App.getNotificationManager().notify("Share: " + songData.getTitle(), NotificationManager.SUCESS);
+      App.getNotificationManager().notify("Share: " + songData.getTitle(), NotificationManager.SUCCESS);
     });
   }
 

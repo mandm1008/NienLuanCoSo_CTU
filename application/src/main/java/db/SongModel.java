@@ -14,12 +14,14 @@ public class SongModel extends Model {
       "song_id INT AUTO_INCREMENT PRIMARY KEY, " +
       "title VARCHAR(255) NOT NULL, " +
       "album_id INT NULL, " +
-      "artist_id INT DEFAULT 0, " +
+      "artist_id INT NULL, " +
+      "user_id INT NULL, " +
       "href VARCHAR(2083) NOT NULL," +
       "image VARCHAR(2083) NOT NULL," +
       "view INT DEFAULT 0," +
-      "FOREIGN KEY (artist_id) REFERENCES Artists(artist_id)," +
-      "FOREIGN KEY (album_id) REFERENCES Albums(album_id) ON DELETE SET NULL)";
+      "FOREIGN KEY (artist_id) REFERENCES Artists(artist_id) ON DELETE SET NULL," +
+      "FOREIGN KEY (album_id) REFERENCES Albums(album_id) ON DELETE SET NULL," +
+      "FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE SET NULL)";
   private final String tableName = "Songs";
   private final String idName = "song_id";
 
@@ -38,10 +40,11 @@ public class SongModel extends Model {
   }
 
   // for model
-  private int songId;
+  private int songId = -1;
   private String title;
   private int albumId;
   private int artistId;
+  private int userId = 0;
   private String artistName = "Unkown";
   private String href;
   private String image;
@@ -52,6 +55,7 @@ public class SongModel extends Model {
     this.title = "";
     this.albumId = -1;
     this.artistId = -1;
+    this.userId = -1;
     this.href = "";
     this.image = "";
     this.view = 0;
@@ -67,9 +71,16 @@ public class SongModel extends Model {
     this.image = new String(image);
   }
 
-  public SongModel(String title, int albumId, int artistId, String href, String image) {
+  public SongModel(String title, int artistId, String href, String image) {
     this.title = new String(title);
-    this.albumId = albumId;
+    this.artistId = artistId;
+    this.href = new String(href);
+    this.image = new String(image);
+  }
+
+  public SongModel(String title, int userId, int artistId, String href, String image) {
+    this.title = new String(title);
+    this.userId = userId;
     this.artistId = artistId;
     this.href = new String(href);
     this.image = new String(image);
@@ -79,6 +90,7 @@ public class SongModel extends Model {
     this.title = new String(song.title);
     this.albumId = song.albumId;
     this.artistId = song.artistId;
+    this.userId = song.userId;
     this.href = new String(song.href);
     this.image = new String(song.image);
     this.view = song.view;
@@ -86,7 +98,7 @@ public class SongModel extends Model {
 
   @Override
   protected String getInsertString() {
-    return "INSERT INTO " + getTableName() + " (title, artist_id, href, image) VALUES (?, ?, ?, ?)";
+    return "INSERT INTO " + getTableName() + " (title, artist_id, user_id, href, image) VALUES (?, ?, ?, ?, ?)";
   }
 
   @Override
@@ -99,8 +111,9 @@ public class SongModel extends Model {
     try {
       pstmt.setString(1, title);
       pstmt.setInt(2, artistId);
-      pstmt.setString(3, href);
-      pstmt.setString(4, image);
+      pstmt.setInt(3, userId);
+      pstmt.setString(4, href);
+      pstmt.setString(5, image);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -137,6 +150,25 @@ public class SongModel extends Model {
     return false;
   }
 
+  public void findByTitleAndHref() {
+    try {
+      ResultSet rs = super.query("SELECT * FROM Songs WHERE title = ? AND href = ?", (pstmt) -> {
+        try {
+          pstmt.setString(1, title);
+          pstmt.setString(2, href);
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      });
+
+      if (rs.next()) {
+        songId = rs.getInt("song_id");
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
   public boolean findData() {
     if (songId == -1) {
       return false;
@@ -149,6 +181,7 @@ public class SongModel extends Model {
         title = rs.getString("title");
         albumId = rs.getInt("album_id");
         artistId = rs.getInt("artist_id");
+        userId = rs.getInt("user_id");
         href = rs.getString("href");
         image = rs.getString("image");
         view = rs.getInt("view");
@@ -182,6 +215,10 @@ public class SongModel extends Model {
 
   public int getSongId() {
     return songId;
+  }
+
+  public int getUserId() {
+    return userId;
   }
 
   public String getTitle() {

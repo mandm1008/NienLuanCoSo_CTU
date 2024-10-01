@@ -36,6 +36,11 @@
   -fx-font-size: 10px;
 }
 
+.music-menu-box {
+  -fx-border-color: #ffffff48;
+  -fx-border-width: 2px;
+}
+
 .music-menu-title {
   -fx-text-fill: #fff;
   -fx-font-size: 14px;
