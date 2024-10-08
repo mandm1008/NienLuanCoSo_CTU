@@ -6,6 +6,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "YoutubeData",
+      "request": "launch",
+      "mainClass": "ui/modules.YoutubeData",
+      "projectName": "application"
+    },
+    {
+      "type": "java",
+      "name": "YoutubeDownloader",
+      "request": "launch",
+      "mainClass": "ui/modules.YoutubeDownloader",
+      "projectName": "application"
+    },
+    {
+      "type": "java",
       "name": "InitUser",
       "request": "launch",
       "mainClass": "ui/testing.InitUser",
