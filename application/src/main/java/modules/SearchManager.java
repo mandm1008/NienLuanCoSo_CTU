@@ -68,4 +68,14 @@ public class SearchManager {
       });
     }).start();
   }
+
+  public void search(String keyS, boolean noApp) {
+    // handle search
+    new Thread(() -> {
+      setKeySearch(keyS);
+      setSongs(SongModel.searchSongs(getKeySearch()));
+
+      runEventOnSearch();
+    }).start();
+  }
 }

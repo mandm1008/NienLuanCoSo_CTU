@@ -91,14 +91,14 @@ public class NotificationManager {
 
     // fade-in
     Timeline showTimeline = new Timeline(
-        new KeyFrame(Duration.ZERO, new KeyValue(label.opacityProperty(), 0)),
-        new KeyFrame(Duration.seconds(0.5), new KeyValue(label.opacityProperty(), 1)));
+        new KeyFrame(Duration.ZERO, new KeyValue(label.opacityProperty(), 0.0)),
+        new KeyFrame(Duration.seconds(0.5), new KeyValue(label.opacityProperty(), 1.0)));
 
     showTimeline.setOnFinished(event -> {
       // fade-out
       Timeline hideTimeline = new Timeline(
-          new KeyFrame(Duration.seconds(2), new KeyValue(label.opacityProperty(), 1)),
-          new KeyFrame(Duration.seconds(3), new KeyValue(label.opacityProperty(), 0)));
+          new KeyFrame(Duration.seconds(2), new KeyValue(label.opacityProperty(), 1.0)),
+          new KeyFrame(Duration.seconds(3), new KeyValue(label.opacityProperty(), 0.0)));
       hideTimeline.setOnFinished(e -> {
         // delete notificationLabel after hide
         container.getChildren().remove(label);

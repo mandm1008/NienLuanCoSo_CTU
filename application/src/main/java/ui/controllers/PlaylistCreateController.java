@@ -1,13 +1,25 @@
 package ui.controllers;
 
+import java.io.IOException;
+import java.util.LinkedList;
+
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 
 import modules.AccountManager;
 import modules.CustomDialog;
+import modules.ImageManager;
 import modules.NotificationManager;
-import ui.App;
+import modules.SearchManager;
+import ui.DefindUI;
+import db.PlaylistModel;
+import db.PlaylistSongModel;
+import db.SongModel;
 
 public class PlaylistCreateController {
   @FXML
@@ -16,10 +28,38 @@ public class PlaylistCreateController {
   private Button createButton;
   @FXML
   private Button cancelButton;
+  @FXML
+  private ChoiceBox<String> choiceBox;
+  @FXML
+  private Button deleteButton;
+  @FXML
+  private GridPane currentPlaylistGridPane;
+  @FXML
+  private TextField searchTextField;
+  @FXML
+  private GridPane searchGridPane;
+  @FXML
+  private GridPane userListGridPane;
 
   private CustomDialog dialog;
+  private PlaylistModel choicePlaylistModel;
+  private SearchManager searchManager;
 
   public void initialize() {
+    // init search manager
+    searchManager = new SearchManager();
+    searchManager.addEventOnSearch("playlist-create-search", () -> {
+      Platform.runLater(handleSearch());
+    });
+    handleSearchField();
+
+    // choice box
+    Platform.runLater(handleChoiceBox());
+    AccountManager.addEventLogin("playlist-create-current", handleChoiceBox());
+    AccountManager.addEventLogout("playlist-create-current", handleChoiceBox());
+    AccountManager.addEventChangePlaylist("playlist-create-current", handleChoiceBox());
+
+    // create button
     createButton.setOnAction(e -> {
       String name = nameField.getText();
       if (name.isEmpty()) {
@@ -30,22 +70,217 @@ public class PlaylistCreateController {
       if (AccountManager.createPlaylist(name)) {
         nameField.clear();
         // notify
-        App.getNotificationManager().notify("Tạo danh sách thành công!", NotificationManager.SUCCESS);
-        // close dialog
-        dialog.close();
+        dialog.getNotificationManager().notify("Tạo danh sách thành công!", NotificationManager.SUCCESS);
       } else {
         dialog.getNotificationManager().notify("Bạn đã có danh sách tên này! Thử lại với tên khác!",
             NotificationManager.ERROR);
       }
     });
 
+    // cancel button
     cancelButton.setOnAction(e -> {
-      dialog.close();
+      nameField.clear();
     });
+
+    // delete button
+    deleteButton.setOnAction(e -> {
+      if (choicePlaylistModel == null) {
+        return;
+      }
+
+      if (AccountManager.removePlaylist(choicePlaylistModel)) {
+        dialog.getNotificationManager().notify("Xóa danh sách thành công!", NotificationManager.SUCCESS);
+      } else {
+        dialog.getNotificationManager().notify("Xóa danh sách thất bại!", NotificationManager.ERROR);
+      }
+    });
+
+    // user
+    AccountManager.addEventLogin("playlist-create-user", () -> {
+      Platform.runLater(handleUser());
+    });
+    handleUser().run();
   }
 
   @SuppressWarnings("exports")
   public void setDialog(CustomDialog dialog) {
     this.dialog = dialog;
+  }
+
+  private boolean isOnPlaylist(LinkedList<PlaylistModel> playlists, String name) {
+    return playlists.stream().anyMatch(playlist -> playlist.getName().equals(name));
+  }
+
+  private Runnable handleChoiceBox() {
+    return () -> {
+      LinkedList<PlaylistModel> playlists = AccountManager.getPlaylists();
+      String oldValue = null;
+
+      // check choice box
+      if (choiceBox.getValue() != null && isOnPlaylist(playlists, choiceBox.getValue())) {
+        // load current music
+        handleLoadCurrentMusic(playlists);
+        oldValue = choiceBox.getValue();
+      } else {
+        currentPlaylistGridPane.getChildren().clear();
+      }
+
+      // load data
+      choiceBox.getItems().clear();
+      // check playlists null
+      if (playlists == null) {
+        return;
+      }
+
+      playlists.forEach(playlist -> {
+        choiceBox.getItems().add(playlist.getName());
+      });
+
+      // set value
+      if (oldValue != null) {
+        choiceBox.setValue(oldValue);
+      }
+
+      // event
+      choiceBox.setOnAction(e -> {
+        handleLoadCurrentMusic(playlists);
+      });
+    };
+  }
+
+  private void handleLoadCurrentMusic(LinkedList<PlaylistModel> playlists) {
+    String name = choiceBox.getValue();
+    if (name == null) {
+      return;
+    }
+
+    // get playlist
+    choicePlaylistModel = playlists.stream().filter(playlist -> playlist.getName().equals(name)).findFirst().get();
+    PlaylistSongModel psm = new PlaylistSongModel(choicePlaylistModel.getPlaylistId());
+
+    // show playlist
+    currentPlaylistGridPane.getChildren().clear();
+    LinkedList<SongModel> songs = psm.getSongsByPlaylistId(choicePlaylistModel.getPlaylistId());
+
+    for (int index = 0; index < songs.size(); index++) {
+      SongModel song = songs.get(index);
+
+      Platform.runLater(() -> {
+        FXMLLoader loader;
+        try {
+          loader = DefindUI.loadFXML(DefindUI.getPlaylistItem());
+          currentPlaylistGridPane.add(loader.load(), 0, currentPlaylistGridPane.getChildren().size());
+
+          // controller
+          PlaylistItemController controller = loader.getController();
+          controller.setTitle(song.getTitle());
+          controller.setArtist(song.getArtist().getName());
+          controller.setImage(song.getImage());
+          controller.setStyleBox("-fx-background-color: #664E88; -fx-background-radius: 5px; -fx-padding: 10px;");
+          controller.setIndex(999999);
+          controller.removePlayBtn();
+
+          controller.setActionRemoveBtn(() -> {
+            // remove song
+            PlaylistSongModel psm2 = new PlaylistSongModel(choicePlaylistModel.getPlaylistId(), song.getSongId());
+            psm2.getDataBySongIdAndPlaylistId();
+            if (psm2.delete()) {
+              dialog.getNotificationManager().notify("Xóa " + song.getTitle() + " thành công!",
+                  NotificationManager.SUCCESS);
+            } else {
+              dialog.getNotificationManager().notify("Xóa " + song.getTitle() + " thất bại!",
+                  NotificationManager.ERROR);
+            }
+
+            // reload
+            Platform.runLater(handleChoiceBox());
+          });
+        } catch (IOException err) {
+          err.printStackTrace();
+        }
+
+      });
+    }
+  }
+
+  private void handleSearchField() {
+    searchTextField.setOnKeyPressed(e -> {
+      if (e.getCode() == SearchManager.KEY_CODE) {
+        System.out.println("Search: " + searchTextField.getText());
+        searchManager.search(searchTextField.getText(), true);
+      }
+    });
+  }
+
+  private Runnable handleSearch() {
+    LinkedList<SongModel> songs = searchManager.getSongs();
+
+    if (songs == null) {
+      return () -> {
+        searchGridPane.getChildren().clear();
+      };
+    }
+
+    return handleLoadMusic(songs, searchGridPane);
+  }
+
+  private Runnable handleUser() {
+    LinkedList<SongModel> songs = AccountManager.getSongs();
+
+    if (songs == null) {
+      return () -> {
+        userListGridPane.getChildren().clear();
+      };
+    }
+
+    return handleLoadMusic(songs, userListGridPane);
+  }
+
+  private Runnable handleLoadMusic(LinkedList<SongModel> songs, GridPane gridPane) {
+    return () -> {
+      // show search
+      gridPane.getChildren().clear();
+      for (int index = 0; index < songs.size(); index++) {
+        SongModel song = songs.get(index);
+
+        Platform.runLater(() -> {
+          FXMLLoader loader;
+          int i = gridPane.getChildren().size();
+          int column = i % 2;
+          int row = (int) (i / 2);
+
+          try {
+            loader = DefindUI.loadFXML(DefindUI.getPlaylistItem());
+            gridPane.add(loader.load(), column, row);
+
+            // controller
+            PlaylistItemController controller = loader.getController();
+            controller.setTitle(song.getTitle());
+            controller.setArtist(song.getArtist().getName());
+            controller.setImage(song.getImage());
+            controller.setStyleBox("-fx-background-color: #664E88; -fx-background-radius: 5px; -fx-padding: 10px;");
+            controller.setIndex(song.getSongId());
+            controller.setImageRemoveButton(ImageManager.getImage(ImageManager.PLAY_ADD));
+            controller.setActionRemoveBtn(() -> {
+              // add song
+              PlaylistSongModel psm = new PlaylistSongModel(choicePlaylistModel.getPlaylistId(), song.getSongId());
+              if (psm.insert()) {
+                dialog.getNotificationManager().notify("Thêm " + song.getTitle() + " thành công!",
+                    NotificationManager.SUCCESS);
+              } else {
+                dialog.getNotificationManager().notify("Thêm " + song.getTitle() + " thất bại!",
+                    NotificationManager.ERROR);
+              }
+
+              // reload
+              Platform.runLater(handleChoiceBox());
+            });
+          } catch (IOException err) {
+            err.printStackTrace();
+          }
+
+        });
+      }
+    };
   }
 }

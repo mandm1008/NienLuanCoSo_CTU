@@ -51,9 +51,7 @@ public class MenuController {
     App.addEventChangePage(favoriteKey, handleFavoriteButton());
 
     // playlists button
-    String playlistsKey = "playlists-menu";
-    handlePlaylistsButton().run();
-    App.addEventChangePage(playlistsKey, handlePlaylistsButton());
+    handlePlaylistsButton();
 
     // playlist box
     handlePlaylistBox().run();
@@ -121,28 +119,14 @@ public class MenuController {
     };
   }
 
-  private Runnable handlePlaylistsButton() {
+  private void handlePlaylistsButton() {
     playlistsButton.setOnAction(e -> {
       // check user login
       if (AccountManager.getId() < 0) {
         App.redirect(DefindUI.getLogin());
         return;
       }
-
-      // check current page
-      if (App.getCurrentContent() != DefindUI.getPlaylistPage()) {
-        App.redirect(DefindUI.getPlaylistPage());
-        return;
-      }
     });
-
-    return () -> {
-      if (App.getCurrentContent() == DefindUI.getPlaylistPage()) {
-        playlistsButton.getStyleClass().add("selected");
-      } else {
-        playlistsButton.getStyleClass().remove("selected");
-      }
-    };
   }
 
   private Runnable handlePlaylistBox() {

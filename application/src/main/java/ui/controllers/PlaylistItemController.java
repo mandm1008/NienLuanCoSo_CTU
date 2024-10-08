@@ -29,6 +29,8 @@ public class PlaylistItemController {
   private ImageView playImage;
   @FXML
   private Button removeButton;
+  @FXML
+  private ImageView removeImage;
 
   private int index;
 
@@ -97,5 +99,25 @@ public class PlaylistItemController {
     removeButton.setOnAction(e -> {
       App.getMusicManager().removeMusic(index);
     });
+  }
+
+  public void setActionRemoveBtn(Runnable runnable) {
+    removeButton.setOnAction(e -> {
+      runnable.run();
+    });
+  }
+
+  public void removePlayBtn() {
+    playButton.setOpacity(0);
+    playButton.setDisable(true);
+    App.getMusicManager().removeEventOnChange("playlist-item-" + index);
+  }
+
+  public void setStyleBox(String style) {
+    box.setStyle(style);
+  }
+
+  public void setImageRemoveButton(Image img) {
+    removeImage.setImage(img);
   }
 }

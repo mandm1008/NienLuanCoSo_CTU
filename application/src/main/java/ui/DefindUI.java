@@ -15,7 +15,6 @@ public class DefindUI {
   private static final String register = "register";
   private static final String playlist = "playlist";
   private static final String playlistItem = "playlist-item";
-  private static final String playlistPage = "playlist-page";
   private static final String playlistCreate = "playlist-create";
   private static final String playlistMenu = "playlist-menu";
   private static final String loading = "loading";
@@ -63,10 +62,6 @@ public class DefindUI {
 
   public static String getPlaylistItem() {
     return playlistItem;
-  }
-
-  public static String getPlaylistPage() {
-    return playlistPage;
   }
 
   public static String getPlaylistCreate() {

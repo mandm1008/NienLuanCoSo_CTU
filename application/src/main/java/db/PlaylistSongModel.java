@@ -117,6 +117,29 @@ public class PlaylistSongModel extends Model {
     return false;
   }
 
+  public boolean getDataBySongIdAndPlaylistId() {
+    try {
+      ResultSet rs = super.query("SELECT * FROM " + getTableName() + " WHERE playlist_id = ? AND song_id = ?",
+          (pstmt) -> {
+            try {
+              pstmt.setInt(1, playlistId);
+              pstmt.setInt(2, songId);
+            } catch (SQLException e) {
+              e.printStackTrace();
+            }
+          });
+
+      if (rs.next()) {
+        this.playlistSongId = rs.getInt("playlist_song_id");
+        return true;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    return false;
+  }
+
   public int getPlaylistId() {
     return playlistId;
   }
@@ -151,5 +174,20 @@ public class PlaylistSongModel extends Model {
     }
 
     return songs;
+  }
+
+  public boolean deletePlaylist(int playlistId) {
+    try {
+      return super.update("DELETE FROM " + getTableName() + " WHERE playlist_id = ?", (pstmt) -> {
+        try {
+          pstmt.setInt(1, playlistId);
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      });
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
   }
 }

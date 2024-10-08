@@ -386,4 +386,26 @@ public class SongModel extends Model {
     return songs;
   }
 
+  public LinkedList<SongModel> getSongsByUserId(int userId) {
+    LinkedList<SongModel> songs = new LinkedList<SongModel>();
+
+    ResultSet rs = super.query("SELECT * FROM Songs WHERE user_id = ?", (pstmt) -> {
+      try {
+        pstmt.setInt(1, userId);
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    });
+
+    try {
+      while (rs.next()) {
+        songs.add(readResultSet(rs));
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return songs;
+  }
+
 }

@@ -97,6 +97,19 @@ public class PlaylistModel extends Model {
     return false;
   }
 
+  @Override
+  public boolean delete() {
+    if (playlistId == -1) {
+      return false;
+    }
+
+    if (new PlaylistSongModel().deletePlaylist(playlistId)) {
+      return super.delete();
+    } else {
+      return false;
+    }
+  }
+
   public boolean findData() {
     if (playlistId == -1) {
       return false;

@@ -122,18 +122,21 @@ public class AccountManager {
   private static void runEventLogin() {
     eventLogin.forEach((key, handler) -> {
       handler.run();
+      System.out.println("Run login event: " + key);
     });
   }
 
   private static void runEventLogout() {
     eventLogout.forEach((key, handler) -> {
       handler.run();
+      System.out.println("Run logout event: " + key);
     });
   }
 
   public static void runEventChangePlaylist() {
     eventChangePlaylist.forEach((key, handler) -> {
       handler.run();
+      System.out.println("Run change playlist event: " + key);
     });
   }
 
@@ -232,5 +235,27 @@ public class AccountManager {
     } else {
       return false;
     }
+  }
+
+  public static boolean removePlaylist(PlaylistModel playlist) {
+    if (AccountManager.id < 0) {
+      return false;
+    }
+
+    if (playlist.delete()) {
+      runEventChangePlaylist();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public static LinkedList<SongModel> getSongs() {
+    if (AccountManager.id < 0) {
+      return null;
+    }
+
+    SongModel song = new SongModel();
+    return song.getSongsByUserId(id);
   }
 }

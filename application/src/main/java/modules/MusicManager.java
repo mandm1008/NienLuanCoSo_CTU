@@ -282,6 +282,10 @@ public class MusicManager {
     this.eventOnChange.put(key, runnable);
   }
 
+  public void removeEventOnChange(String key) {
+    this.eventOnChange.remove(key);
+  }
+
   private void runEventOnChange() {
     for (String key : eventOnChange.keySet()) {
       eventOnChange.get(key).run();
