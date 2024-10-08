@@ -5,6 +5,7 @@ import javafx.util.Callback;
 import java.io.IOException;
 
 import db.SongModel;
+import db.UserModel;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -95,6 +96,15 @@ public class MusicItemController {
     setArtist(song.getArtist().getName());
     setView(song.getView());
     setImage(song.getImage());
+
+    new Thread(() -> {
+      UserModel user = new UserModel(song.getUserId());
+      user.findData();
+
+      Platform.runLater(() -> {
+        setArtist(song.getArtist().getName() + " (" + user.getUsername() + ")"); // + "(" + user.getUsername() + ")"
+      });
+    }).start();
 
     // handle menu button
     handleMenuButton();

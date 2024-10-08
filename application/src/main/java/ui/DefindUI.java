@@ -15,11 +15,15 @@ public class DefindUI {
   private static final String register = "register";
   private static final String playlist = "playlist";
   private static final String playlistItem = "playlist-item";
+  private static final String playlistPage = "playlist-page";
+  private static final String playlistCreate = "playlist-create";
+  private static final String playlistMenu = "playlist-menu";
   private static final String loading = "loading";
   private static final String musicItem = "music-item";
   private static final String search = "search";
   private static final String musicMenu = "music-menu";
   private static final String upload = "upload";
+  private static final String favorite = "favorite";
 
   public static String getLayout() {
     return layout;
@@ -61,6 +65,18 @@ public class DefindUI {
     return playlistItem;
   }
 
+  public static String getPlaylistPage() {
+    return playlistPage;
+  }
+
+  public static String getPlaylistCreate() {
+    return playlistCreate;
+  }
+
+  public static String getPlaylistMenu() {
+    return playlistMenu;
+  }
+
   public static String getLoading() {
     return loading;
   }
@@ -79,6 +95,10 @@ public class DefindUI {
 
   public static String getUpload() {
     return upload;
+  }
+
+  public static String getFavorite() {
+    return favorite;
   }
 
   @SuppressWarnings("exports")

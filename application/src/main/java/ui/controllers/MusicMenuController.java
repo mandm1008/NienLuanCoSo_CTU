@@ -86,7 +86,9 @@ public class MusicMenuController {
 
   private void handleAddPlaylistButton() {
     addPlaylistButton.setOnAction(e -> {
-      App.getMusicManager().addToPlaylist(songData);
+      double x = addPlaylistButton.localToScreen(addPlaylistButton.getBoundsInLocal()).getMaxX();
+      double y = addPlaylistButton.localToScreen(addPlaylistButton.getBoundsInLocal()).getMinY();
+      AccountManager.addToPlaylist(songData, x, y);
     });
   }
 

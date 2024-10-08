@@ -3,6 +3,7 @@ package db;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 
 public class PlaylistModel extends Model {
 
@@ -132,6 +133,33 @@ public class PlaylistModel extends Model {
     user.findData();
 
     return user;
+  }
+
+  public LinkedList<PlaylistModel> findByUserId(int userId) {
+    LinkedList<PlaylistModel> playlists = new LinkedList<PlaylistModel>();
+
+    try {
+      ResultSet rs = super.query("SELECT * FROM " + getTableName() + " WHERE user_id = ?", (pstmt) -> {
+        try {
+          pstmt.setInt(1, userId);
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      });
+
+      while (rs.next()) {
+        PlaylistModel playlist = new PlaylistModel();
+        playlist.playlistId = rs.getInt("playlist_id");
+        playlist.name = rs.getString("name");
+        playlist.userId = rs.getInt("user_id");
+
+        playlists.add(playlist);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    return playlists;
   }
 
 }

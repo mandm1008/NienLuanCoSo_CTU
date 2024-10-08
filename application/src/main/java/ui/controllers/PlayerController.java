@@ -130,8 +130,10 @@ public class PlayerController {
         }
       };
       LoadLater.addLoader(song.getImage(), callback);
-      musicTitle.setText(song.getTitle());
-      musicArtist.setText(song.getArtistName());
+      Platform.runLater(() -> {
+        musicTitle.setText(song.getTitle());
+        musicArtist.setText(song.getArtistName());
+      });
     };
   }
 

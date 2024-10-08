@@ -263,6 +263,7 @@ public class SongModel extends Model {
       song.href = rs.getString("href");
       song.image = rs.getString("image");
       song.view = rs.getInt("view");
+      song.userId = rs.getInt("user_id");
 
       ArtistModel artist = song.getArtist();
       if (artist.getName() != null) {
@@ -277,12 +278,12 @@ public class SongModel extends Model {
     return song;
   }
 
-  private static LinkedList<SongModel> cacheNewSongs;
+  // private static LinkedList<SongModel> cacheNewSongs;
 
   public static LinkedList<SongModel> getNewSongs(int quantity) {
-    if (cacheNewSongs != null) {
-      return cacheNewSongs;
-    }
+    // if (cacheNewSongs != null) {
+    // return cacheNewSongs;
+    // }
 
     LinkedList<SongModel> songs = new LinkedList<SongModel>();
     ConnectDB connectDB = new ConnectDB();
@@ -303,18 +304,18 @@ public class SongModel extends Model {
       connectDB.closeConnect();
     }
 
-    // save cache
-    cacheNewSongs = songs;
+    // // save cache
+    // cacheNewSongs = songs;
 
     return songs;
   }
 
-  private static LinkedList<SongModel> cacheMostViewSongs;
+  // private static LinkedList<SongModel> cacheMostViewSongs;
 
   public static LinkedList<SongModel> getMostViewSongs(int quantity) {
-    if (cacheMostViewSongs != null) {
-      return cacheMostViewSongs;
-    }
+    // if (cacheMostViewSongs != null) {
+    // return cacheMostViewSongs;
+    // }
 
     LinkedList<SongModel> songs = new LinkedList<SongModel>();
     ConnectDB connectDB = new ConnectDB();
@@ -335,8 +336,8 @@ public class SongModel extends Model {
       connectDB.closeConnect();
     }
 
-    // save cache
-    cacheMostViewSongs = songs;
+    // // save cache
+    // cacheMostViewSongs = songs;
 
     return songs;
   }

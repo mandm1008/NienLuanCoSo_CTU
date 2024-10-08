@@ -1,3 +1,25 @@
 .root {
   -fx-background-color: #1E1E2E;
 }
+
+.scroll-bar {
+  -fx-background-color: #2e2e3a;
+}
+
+.scroll-bar .thumb {
+  -fx-background-color: #3b82f6;
+}
+
+.scroll-bar .track {
+  -fx-background-color: #2e2e3a;
+}
+
+.clear-button {
+  -fx-background-color: transparent;
+  -fx-background-insets: 0;
+  -fx-border-color: transparent;
+  -fx-border-width: 0;
+  -fx-effect: none;
+
+  -fx-cursor: hand;
+}

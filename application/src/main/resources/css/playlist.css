@@ -27,6 +27,10 @@
   -fx-background-radius: 5;
 }
 
+.playlist-hover:hover {
+  -fx-background-color: #664e88;
+}
+
 .playlist-onplay .playlist-subtext {
   -fx-text-fill: #fff;
 }

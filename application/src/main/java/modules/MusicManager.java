@@ -3,11 +3,13 @@ package modules;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import ui.App;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
 import db.PlaylistModel;
+import db.PlaylistSongModel;
 import db.SongModel;
 
 public class MusicManager {
@@ -90,11 +92,32 @@ public class MusicManager {
     reLoadData();
   }
 
+  public void setPlaylistInfo(PlaylistModel playlistInfo) {
+    // load Playlist
+    new Thread(() -> {
+      PlaylistSongModel psm = new PlaylistSongModel();
+      LinkedList<SongModel> songs = psm.getSongsByPlaylistId(playlistInfo.getPlaylistId());
+
+      if (songs.size() == 0) {
+        App.getNotificationManager().notify("Danh sách phát trống", NotificationManager.ERROR);
+        return;
+      }
+
+      // set playlist
+      this.playlistInfo = playlistInfo;
+      setPlaylist(songs);
+    }).start();
+  }
+
   public void setPlaylist(LinkedList<SongModel> playlist) {
     this.playlist.clear();
     this.playlist = playlist;
     this.index = 0;
+
+    // events
+    runEventOnChangePlaylist();
     reLoadData();
+    playMusic();
   }
 
   public void addToPlaylist(SongModel song) {

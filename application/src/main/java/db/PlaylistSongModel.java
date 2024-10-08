@@ -3,6 +3,7 @@ package db;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 
 public class PlaylistSongModel extends Model {
 
@@ -128,17 +129,27 @@ public class PlaylistSongModel extends Model {
     return playlistSongId;
   }
 
-  public PlaylistModel getPlaylist() {
-    PlaylistModel playlist = new PlaylistModel(playlistId);
-    playlist.findData();
+  public LinkedList<SongModel> getSongsByPlaylistId(int playlistId) {
+    LinkedList<SongModel> songs = new LinkedList<>();
 
-    return playlist;
-  }
+    try {
+      ResultSet rs = super.query("SELECT * FROM " + getTableName() + " WHERE playlist_id = ?", (pstmt) -> {
+        try {
+          pstmt.setInt(1, playlistId);
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      });
 
-  public SongModel getSong() {
-    SongModel song = new SongModel(songId);
-    song.findData();
+      while (rs.next()) {
+        SongModel song = new SongModel(rs.getInt("song_id"));
+        song.findData();
+        songs.add(song);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
-    return song;
+    return songs;
   }
 }
