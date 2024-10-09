@@ -99,6 +99,9 @@ public class PlaylistCreateController {
     AccountManager.addEventLogin("playlist-create-user", () -> {
       Platform.runLater(handleUser());
     });
+    AccountManager.addEventUpload("playlist-create-user", () -> {
+      Platform.runLater(handleUser());
+    });
     handleUser().run();
   }
 

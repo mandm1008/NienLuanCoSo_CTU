@@ -71,6 +71,11 @@
             <artifactId>google-api-services-drive</artifactId>
             <version>v3-rev20220815-2.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.twelvemonkeys.imageio</groupId>
+            <artifactId>imageio-webp</artifactId>
+            <version>3.7.0</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

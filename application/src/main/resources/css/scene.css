@@ -23,3 +23,27 @@
 
   -fx-cursor: hand;
 }
+
+.tab-pane .tab-header-background {
+  -fx-background-color: #1e1e2e;
+}
+
+.tab-pane {
+  -fx-background-color: #664E88;
+}
+
+.tab-pane .tab:selected {
+  -fx-background-color: #4caf50;
+  -fx-border-color: #fff;
+  -fx-border-width: 0 0 2 0;
+  -fx-border-radius: 0;
+}
+
+.tab {
+  -fx-background-color: #664E88;
+}
+
+.tab-label {
+  -fx-text-fill: #fff;
+  -fx-font-weight: bold;
+}

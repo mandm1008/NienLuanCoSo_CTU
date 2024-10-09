@@ -12,6 +12,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -68,11 +71,32 @@ public class YoutubeDownloader {
     return tempFile;
   }
 
+  public static void convertWebpToJpg(String inputFilePath, String outputFilePath) {
+    try {
+      File webpFile = new File(inputFilePath);
+
+      String mimeType = Files.probeContentType(webpFile.toPath());
+
+      if (mimeType != null && mimeType.equals("image/webp")) {
+        BufferedImage webpImage = ImageIO.read(webpFile);
+
+        File jpgFile = new File(outputFilePath);
+        ImageIO.write(webpImage, "jpg", jpgFile);
+
+        System.out.println("Chuyển đổi thành công từ WebP sang JPG!");
+      } else {
+        System.out.println("Tệp không phải là định dạng WebP.");
+      }
+    } catch (IOException e) {
+      System.err.println("Đã xảy ra lỗi: " + e.getMessage());
+    }
+  }
+
   public static String sanitizeFileName(String fileName) {
     return fileName.replaceAll("[\\\\/:*?\"<>|]", "_");
   }
 
-  public static boolean downloadVideo(String videoUrl, String title) {
+  public static String downloadVideo(String videoUrl, String title) {
     try {
       String userHome = System.getProperty("user.home");
 
@@ -82,12 +106,13 @@ public class YoutubeDownloader {
       if (!downloadDirectory.exists()) {
         downloadDirectory.mkdirs();
       }
+      String pathToFile = outputDir.resolve(sanitizeFileName(title) + ".mp4").toAbsolutePath().toString();
 
       File ytDownloader = extractYTDownloader();
       ProcessBuilder processBuilder = new ProcessBuilder(
           ytDownloader.getAbsolutePath(),
           "-o",
-          outputDir.resolve(sanitizeFileName(title) + ".mp4").toAbsolutePath().toString(),
+          pathToFile,
           videoUrl);
 
       Process process = processBuilder.start();
@@ -105,14 +130,14 @@ public class YoutubeDownloader {
       }
 
       System.out.println("Video downloaded!");
-      return true;
+      return pathToFile;
     } catch (Exception e) {
       e.printStackTrace();
-      return false;
+      return null;
     }
   }
 
-  public static boolean downloadThumbnail(String thumbnailUrl, String title) {
+  public static String downloadThumbnail(String thumbnailUrl, String title) {
     try {
       String userHome = System.getProperty("user.home");
 
@@ -123,10 +148,12 @@ public class YoutubeDownloader {
         downloadDirectory.mkdirs();
       }
 
+      String pathToFileWebp = outputDir.resolve(sanitizeFileName(title) + ".webp").toAbsolutePath().toString();
+      String pathToFile = outputDir.resolve(sanitizeFileName(title) + ".jpg").toAbsolutePath().toString();
       ProcessBuilder processBuilder = new ProcessBuilder(
           "curl",
           "-o",
-          outputDir.resolve(sanitizeFileName(title) + ".jpg").toAbsolutePath().toString(),
+          pathToFileWebp,
           thumbnailUrl);
 
       Process process = processBuilder.start();
@@ -136,21 +163,23 @@ public class YoutubeDownloader {
         throw new RuntimeException("Thumbnail download failed!");
       }
 
+      convertWebpToJpg(pathToFileWebp, pathToFile);
+
       System.out.println("Thumbnail downloaded!");
-      return true;
+      return pathToFile;
     } catch (Exception e) {
       e.printStackTrace();
-      return false;
+      return null;
     }
   }
 
-  public static void cleanVideo(String title) {
+  public static void cleanVideo(YoutubeData data) {
     try {
       String userHome = System.getProperty("user.home");
 
       Path outputDir = Paths.get(userHome, "Downloads");
 
-      File videoFile = outputDir.resolve(sanitizeFileName(title) + ".mp4").toFile();
+      File videoFile = outputDir.resolve(sanitizeFileName(data.getTitle()) + ".mp4").toFile();
       if (videoFile.exists()) {
         videoFile.delete();
       }
@@ -159,15 +188,19 @@ public class YoutubeDownloader {
     }
   }
 
-  public static void cleanThumbnail(String title) {
+  public static void cleanThumbnail(YoutubeData data) {
     try {
       String userHome = System.getProperty("user.home");
 
       Path outputDir = Paths.get(userHome, "Downloads");
 
-      File thumbnailFile = outputDir.resolve(sanitizeFileName(title) + ".jpg").toFile();
+      File thumbnailFile = outputDir.resolve(sanitizeFileName(data.getTitle()) + ".jpg").toFile();
       if (thumbnailFile.exists()) {
         thumbnailFile.delete();
+      }
+      File thumbnailWebpFile = outputDir.resolve(sanitizeFileName(data.getTitle()) + ".webp").toFile();
+      if (thumbnailWebpFile.exists()) {
+        thumbnailWebpFile.delete();
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -198,16 +231,18 @@ public class YoutubeDownloader {
       System.out.println("Channel: " + channel);
 
       JsonArray thumbnails = jsonResponse.getAsJsonArray("thumbnails");
+
       String mediumThumbnailUrl = null;
       for (int i = 0; i < thumbnails.size(); i++) {
         JsonObject thumbnail = thumbnails.get(i).getAsJsonObject();
         JsonElement jsonWidth = thumbnail.get("width");
-        if (jsonWidth != null && jsonWidth.getAsInt() > 300 && jsonWidth.getAsInt() <= 360) {
+        if (jsonWidth != null && jsonWidth.getAsInt() >= 360 && jsonWidth.getAsInt() <= 1080) {
           mediumThumbnailUrl = thumbnail.get("url").getAsString();
-          break;
+          if (!mediumThumbnailUrl.contains(".webp") && mediumThumbnailUrl.contains("?"))
+            break;
         }
       }
-      System.out.println("Thumbnail (medium): " + (mediumThumbnailUrl != null ? mediumThumbnailUrl : "Not found!"));
+      System.out.println("Thumbnail: " + (mediumThumbnailUrl != null ? mediumThumbnailUrl : "Not found!"));
 
       YoutubeData data = new YoutubeData(title, channel, mediumThumbnailUrl);
       return data;
@@ -219,9 +254,10 @@ public class YoutubeDownloader {
   }
 
   public static void main(String[] args) {
-    String videoUrl = "https://www.youtube.com/watch?v=qZ9DaB7xRZs";
+    String videoUrl = "https://www.youtube.com/watch?v=qzrv-g06yhU";
 
-    getYouTubeInfo(videoUrl);
+    YoutubeData d = getYouTubeInfo(videoUrl);
     // downloadVideo(videoUrl);
+    downloadThumbnail(d.getThumbnail(), d.getTitle());
   }
 }

@@ -15,6 +15,8 @@ module ui {
 
   requires java.logging;
   requires java.net.http;
+  requires java.desktop;
+  requires java.xml;
   requires com.google.gson;
 
   opens ui to javafx.fxml;

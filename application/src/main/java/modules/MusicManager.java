@@ -62,6 +62,11 @@ public class MusicManager {
     this.mediaPlayer.setOnPlaying(() -> {
       runEventOnPlay();
     });
+
+    this.mediaPlayer.setOnError(() -> {
+      System.out.println("Error occurred: " + mediaPlayer.getError().getMessage());
+      reLoadData();
+    });
   }
 
   private void reLoadData() {

@@ -18,6 +18,8 @@ public class LoadLater {
       Image image = new Image(src);
 
       if (image.isError()) {
+        System.out.println(image.getException().toString());
+        System.out.println("Error loading image: " + src);
         addLoader(src, callback);
         return;
       }

@@ -86,6 +86,11 @@ public class FileService {
         .execute();
   }
 
+  public static void delete(String fileId) throws Exception {
+    Drive service = getDriveService();
+    service.files().delete(fileId).execute();
+  }
+
   public static void main(String[] args) {
     try {
       System.out.println(

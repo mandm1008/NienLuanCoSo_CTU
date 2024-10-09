@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 
+<ScrollPane hbarPolicy="NEVER" maxHeight="600.0" minHeight="600.0" prefWidth="300.0" vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.PlaylistController">
+   <content>
+      <VBox fx:id="playlistBox" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="600.0" minWidth="-Infinity" prefWidth="300.0" styleClass="playlist-box" stylesheets="@../css/playlist.css">
 
-<VBox fx:id="playlistBox" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" styleClass="playlist-box" stylesheets="@../css/playlist.css"
-   xmlns="http://javafx.com/javafx/22"
-   xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.PlaylistController">
-
-</VBox>
+      </VBox>
+   </content>
+</ScrollPane>

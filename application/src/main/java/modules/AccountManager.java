@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import ui.App;
+import db.ArtistModel;
 import db.PlaylistModel;
 import db.PlaylistSongModel;
 import db.SongModel;
@@ -24,6 +25,7 @@ public class AccountManager {
   private static HashMap<String, Runnable> eventLogin = new HashMap<String, Runnable>();
   private static HashMap<String, Runnable> eventLogout = new HashMap<String, Runnable>();
   private static HashMap<String, Runnable> eventChangePlaylist = new HashMap<String, Runnable>();
+  private static HashMap<String, Runnable> eventUpload = new HashMap<String, Runnable>();
 
   public static int getId() {
     return id;
@@ -119,6 +121,10 @@ public class AccountManager {
     eventChangePlaylist.put(key, handler);
   }
 
+  public static void addEventUpload(String key, Runnable handler) {
+    eventUpload.put(key, handler);
+  }
+
   private static void runEventLogin() {
     eventLogin.forEach((key, handler) -> {
       handler.run();
@@ -137,6 +143,13 @@ public class AccountManager {
     eventChangePlaylist.forEach((key, handler) -> {
       handler.run();
       System.out.println("Run change playlist event: " + key);
+    });
+  }
+
+  public static void runEventUpload() {
+    eventUpload.forEach((key, handler) -> {
+      handler.run();
+      System.out.println("Run upload event: " + key);
     });
   }
 
@@ -257,5 +270,35 @@ public class AccountManager {
 
     SongModel song = new SongModel();
     return song.getSongsByUserId(id);
+  }
+
+  public static boolean uploadSong(String songName, String artistName, String audioHref, String imageHref) {
+    // save artist
+    ArtistModel artist = new ArtistModel(artistName);
+    // check if artist exists
+    artist.findByName();
+    if (artist.getArtistId() <= 0) {
+      artist.insert();
+      artist.findByName();
+    }
+
+    // get user id
+    int userId = AccountManager.getId();
+    if (userId <= 0) {
+      userId = 0; // unknown user
+    }
+
+    // save song
+    SongModel song = new SongModel(songName, userId, artist.getArtistId(), audioHref, imageHref);
+    song.insert();
+    song.findByTitleAndHref();
+
+    if (song.getSongId() >= 0) {
+      System.out.println("Upload success!");
+      runEventUpload();
+      return true;
+    } else {
+      return false;
+    }
   }
 }

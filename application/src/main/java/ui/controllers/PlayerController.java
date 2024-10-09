@@ -4,11 +4,11 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -369,7 +369,15 @@ public class PlayerController {
   private void handlePlaylist() {
     // load playlist
     try {
-      VBox playlist = DefindUI.loadFXML(DefindUI.getPlaylist()).load();
+      ScrollPane playlist = DefindUI.loadFXML(DefindUI.getPlaylist()).load();
+
+      // Ẩn thanh cuộn dọc
+      playlist.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+      playlist.setOnScroll(event -> {
+        double deltaY = event.getDeltaY() * 0.005;
+        playlist.setVvalue(playlist.getVvalue() - deltaY);
+      });
 
       Popup popup = new Popup();
       popup.setAutoHide(true);
