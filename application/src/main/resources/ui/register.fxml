@@ -49,12 +49,10 @@
 
          <Label styleClass="login-label" text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
          <PasswordField fx:id="txtPassword" prefHeight="48.0" prefWidth="299.0" styleClass="login-field" GridPane.columnSpan="2" GridPane.rowIndex="6" />
-
-         <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#handleRegister" prefHeight="41.0" prefWidth="360.0" styleClass="login-button" text="Đăng ký ngay" GridPane.columnSpan="2" GridPane.rowIndex="9" />
-         <Text fx:id="actionMessage" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="297.3368034362793" GridPane.columnSpan="2" />
-         <Button fx:id="toLogin" mnemonicParsing="false" onAction="#handleToLogin" prefHeight="26.0" prefWidth="224.0" styleClass="forgot-password" text="Bạn đã có tài khoản?" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-         <Label styleClass="login-label" text="Chọn Avatar:" GridPane.rowIndex="7" />
-         <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0" spacing="20.0" GridPane.columnSpan="2" GridPane.rowIndex="8">
+         <Label styleClass="login-label" text="Confirm Password:" GridPane.rowIndex="7" />
+         <PasswordField fx:id="txtConfirmPassword" prefHeight="48.0" prefWidth="299.0" styleClass="login-field" GridPane.columnSpan="2" GridPane.rowIndex="8" />
+         <Label styleClass="login-label" text="Chọn Avatar:" GridPane.rowIndex="9" />
+         <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0" spacing="20.0" GridPane.columnSpan="2" GridPane.rowIndex="10">
             <children>
                <StackPane>
                   <children>
@@ -95,7 +93,12 @@
             </children>
          </HBox>
 
+         <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" onAction="#handleRegister" prefHeight="41.0" prefWidth="360.0" styleClass="login-button" text="Đăng ký ngay" GridPane.columnSpan="2" GridPane.rowIndex="11" />
+         <Text fx:id="actionMessage" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="297.3368034362793" GridPane.columnSpan="2" />
+         <Button fx:id="toLogin" mnemonicParsing="false" onAction="#handleToLogin" prefHeight="26.0" prefWidth="224.0" styleClass="forgot-password" text="Bạn đã có tài khoản?" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+
          <columnConstraints>
+            <ColumnConstraints />
             <ColumnConstraints />
             <ColumnConstraints />
          </columnConstraints>
@@ -107,7 +110,9 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" />
             <RowConstraints />
             <RowConstraints minHeight="10.0" prefHeight="30.0" />
-            <RowConstraints maxHeight="24.79999389648438" minHeight="10.0" prefHeight="20.800006103515614" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
             <RowConstraints maxHeight="80.0" minHeight="10.0" />
             <RowConstraints maxHeight="41.600012207031256" minHeight="32.00000610351563" prefHeight="36.79999389648438" />
             <RowConstraints maxHeight="41.600012207031256" minHeight="16.799963378906227" prefHeight="24.799963378906227" />

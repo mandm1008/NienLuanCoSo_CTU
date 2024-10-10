@@ -123,14 +123,19 @@ public class SongModel extends Model {
   protected boolean checkAccess() {
     // check with title
     try {
-      if (super.query("SELECT * FROM " + getTableName() + " WHERE title = ?", (pstmt) -> {
+      QueryResult qr = super.query("SELECT * FROM " + getTableName() + " WHERE title = ?", (pstmt) -> {
         try {
           pstmt.setString(1, title);
         } catch (SQLException e) {
           e.printStackTrace();
         }
-      }).next() == false)
+      });
+      if (qr.getResultSet().next() == false) {
+        qr.close();
         return true;
+      }
+
+      qr.close();
     } catch (Exception e) {
       e.printStackTrace();
       return false;
@@ -152,7 +157,7 @@ public class SongModel extends Model {
 
   public void findByTitleAndHref() {
     try {
-      ResultSet rs = super.query("SELECT * FROM Songs WHERE title = ? AND href = ?", (pstmt) -> {
+      QueryResult qr = super.query("SELECT * FROM Songs WHERE title = ? AND href = ?", (pstmt) -> {
         try {
           pstmt.setString(1, title);
           pstmt.setString(2, href);
@@ -160,10 +165,13 @@ public class SongModel extends Model {
           e.printStackTrace();
         }
       });
+      ResultSet rs = qr.getResultSet();
 
       if (rs.next()) {
         songId = rs.getInt("song_id");
       }
+
+      qr.close();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -175,7 +183,8 @@ public class SongModel extends Model {
     }
 
     try {
-      ResultSet rs = super.findById();
+      QueryResult qr = super.findById();
+      ResultSet rs = qr.getResultSet();
 
       if (rs.next()) {
         title = rs.getString("title");
@@ -186,8 +195,11 @@ public class SongModel extends Model {
         image = rs.getString("image");
         view = rs.getInt("view");
 
+        qr.close();
         return true;
       }
+
+      qr.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -389,13 +401,14 @@ public class SongModel extends Model {
   public LinkedList<SongModel> getSongsByUserId(int userId) {
     LinkedList<SongModel> songs = new LinkedList<SongModel>();
 
-    ResultSet rs = super.query("SELECT * FROM Songs WHERE user_id = ?", (pstmt) -> {
+    QueryResult qr = super.query("SELECT * FROM Songs WHERE user_id = ?", (pstmt) -> {
       try {
         pstmt.setInt(1, userId);
       } catch (SQLException e) {
         e.printStackTrace();
       }
     });
+    ResultSet rs = qr.getResultSet();
 
     try {
       while (rs.next()) {
@@ -405,6 +418,7 @@ public class SongModel extends Model {
       e.printStackTrace();
     }
 
+    qr.close();
     return songs;
   }
 

@@ -42,24 +42,21 @@ public class PlaylistItemController {
         App.getMusicManager().changeMusic(index);
     });
 
-    // change play image
-    Platform.runLater(changePlayImage());
-    Platform.runLater(() -> {
-      App.getMusicManager().addEventOnChange("playlist-item-" + index, changePlayImage());
-    });
-
     // remove button
     removeBtn();
   }
 
   private Runnable changePlayImage() {
     return () -> {
+      System.out.println("Platlist-item: " + index + " change play image - " + App.getMusicManager().getIndex());
       if (App.getMusicManager().getIndex() == index) {
         playImage.setImage(ImageManager.getImage(ImageManager.PAUSE));
         box.getStyleClass().add("playlist-onplay");
+        System.out.println("add class");
       } else {
         playImage.setImage(ImageManager.getImage(ImageManager.PLAY));
         box.getStyleClass().remove("playlist-onplay");
+        System.out.println("remove class");
       }
     };
   }
@@ -89,6 +86,10 @@ public class PlaylistItemController {
 
   public void setIndex(int index) {
     this.index = index;
+
+    // add event on change
+    Platform.runLater(changePlayImage());
+    App.getMusicManager().addEventOnChange("playlist-item-" + this.index, () -> Platform.runLater(changePlayImage()));
   }
 
   public void setPlayImage(String url) {

@@ -80,15 +80,20 @@ public class PlaylistModel extends Model {
   protected boolean checkAccess() {
     // check with title
     try {
-      if (super.query("SELECT * FROM " + getTableName() + " WHERE (user_id, name) = (?, ?)", (pstmt) -> {
+      QueryResult qr = super.query("SELECT * FROM " + getTableName() + " WHERE (user_id, name) = (?, ?)", (pstmt) -> {
         try {
           pstmt.setInt(1, userId);
           pstmt.setString(2, name);
         } catch (SQLException e) {
           e.printStackTrace();
         }
-      }).next() == false)
+      });
+      if (qr.getResultSet().next() == false) {
+        qr.close();
         return true;
+      }
+
+      qr.close();
     } catch (Exception e) {
       e.printStackTrace();
       return false;
@@ -116,12 +121,17 @@ public class PlaylistModel extends Model {
     }
 
     try {
-      ResultSet rs = super.findById();
+      QueryResult qr = super.findById();
+      ResultSet rs = qr.getResultSet();
       if (rs.next()) {
         this.name = rs.getString("name");
         this.userId = rs.getInt("user_id");
+
+        qr.close();
         return true;
       }
+
+      qr.close();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -152,13 +162,14 @@ public class PlaylistModel extends Model {
     LinkedList<PlaylistModel> playlists = new LinkedList<PlaylistModel>();
 
     try {
-      ResultSet rs = super.query("SELECT * FROM " + getTableName() + " WHERE user_id = ?", (pstmt) -> {
+      QueryResult qr = super.query("SELECT * FROM " + getTableName() + " WHERE user_id = ?", (pstmt) -> {
         try {
           pstmt.setInt(1, userId);
         } catch (SQLException e) {
           e.printStackTrace();
         }
       });
+      ResultSet rs = qr.getResultSet();
 
       while (rs.next()) {
         PlaylistModel playlist = new PlaylistModel();
@@ -168,6 +179,8 @@ public class PlaylistModel extends Model {
 
         playlists.add(playlist);
       }
+
+      qr.close();
     } catch (Exception e) {
       e.printStackTrace();
     }

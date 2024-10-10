@@ -75,14 +75,20 @@ public class ArtistModel extends Model {
   protected boolean checkAccess() {
     // check with title
     try {
-      if (super.query("SELECT * FROM " + getTableName() + " WHERE name = ?", (pstmt) -> {
+      QueryResult qr = super.query("SELECT * FROM " + getTableName() + " WHERE name = ?", (pstmt) -> {
         try {
           pstmt.setString(1, name);
         } catch (SQLException e) {
           e.printStackTrace();
         }
-      }).next() == false)
+      });
+
+      if (qr.getResultSet().next() == false) {
+        qr.close();
         return true;
+      }
+
+      qr.close();
     } catch (Exception e) {
       e.printStackTrace();
       return false;
@@ -97,12 +103,17 @@ public class ArtistModel extends Model {
     }
 
     try {
-      ResultSet rs = super.findById();
+      QueryResult queryResult = super.findById();
+      ResultSet rs = queryResult.getResultSet();
       if (rs.next()) {
         this.name = rs.getString("name");
         this.genre = rs.getString("genre");
+
+        queryResult.close();
         return true;
       }
+
+      queryResult.close();
     } catch (Exception e) {
       artistId = -1;
       name = "Unkown";
@@ -114,19 +125,22 @@ public class ArtistModel extends Model {
 
   public void findByName() {
     try {
-      ResultSet rs = query("SELECT * FROM Artists WHERE name = ?", (pstmt) -> {
+      QueryResult queryResult = query("SELECT * FROM Artists WHERE name = ?", (pstmt) -> {
         try {
           pstmt.setString(1, name);
         } catch (Exception e) {
           e.printStackTrace();
         }
       });
+      ResultSet rs = queryResult.getResultSet();
 
       if (rs.next()) {
         this.artistId = rs.getInt(getIdName());
         this.name = rs.getString("name");
         this.genre = rs.getString("genre");
       }
+
+      queryResult.close();
     } catch (Exception e) {
       e.printStackTrace();
     }

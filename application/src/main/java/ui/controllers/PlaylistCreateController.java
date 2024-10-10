@@ -116,24 +116,30 @@ public class PlaylistCreateController {
 
   private Runnable handleChoiceBox() {
     return () -> {
+      // clear action
+      choiceBox.setOnAction(null);
+
       LinkedList<PlaylistModel> playlists = AccountManager.getPlaylists();
       String oldValue = null;
 
+      if (playlists == null) {
+        choiceBox.getItems().clear();
+        return;
+      }
+
+      System.out.println("Playlist: " + playlists.size());
+
       // check choice box
+      currentPlaylistGridPane.getChildren().clear();
       if (choiceBox.getValue() != null && isOnPlaylist(playlists, choiceBox.getValue())) {
         // load current music
         handleLoadCurrentMusic(playlists);
+        System.out.println("Load current music");
         oldValue = choiceBox.getValue();
-      } else {
-        currentPlaylistGridPane.getChildren().clear();
       }
 
       // load data
       choiceBox.getItems().clear();
-      // check playlists null
-      if (playlists == null) {
-        return;
-      }
 
       playlists.forEach(playlist -> {
         choiceBox.getItems().add(playlist.getName());
@@ -146,14 +152,21 @@ public class PlaylistCreateController {
 
       // event
       choiceBox.setOnAction(e -> {
+        System.out.println("Run set on action choice box");
         handleLoadCurrentMusic(playlists);
       });
     };
   }
 
+  private void handleLoadCurrentMusic() {
+    LinkedList<PlaylistModel> playlists = AccountManager.getPlaylists();
+    handleLoadCurrentMusic(playlists);
+  }
+
   private void handleLoadCurrentMusic(LinkedList<PlaylistModel> playlists) {
     String name = choiceBox.getValue();
     if (name == null) {
+      currentPlaylistGridPane.getChildren().clear();
       return;
     }
 
@@ -180,7 +193,6 @@ public class PlaylistCreateController {
           controller.setArtist(song.getArtist().getName());
           controller.setImage(song.getImage());
           controller.setStyleBox("-fx-background-color: #664E88; -fx-background-radius: 5px; -fx-padding: 10px;");
-          controller.setIndex(999999);
           controller.removePlayBtn();
 
           controller.setActionRemoveBtn(() -> {
@@ -196,7 +208,9 @@ public class PlaylistCreateController {
             }
 
             // reload
-            Platform.runLater(handleChoiceBox());
+            Platform.runLater(() -> {
+              handleLoadCurrentMusic();
+            });
           });
         } catch (IOException err) {
           err.printStackTrace();
@@ -262,7 +276,6 @@ public class PlaylistCreateController {
             controller.setArtist(song.getArtist().getName());
             controller.setImage(song.getImage());
             controller.setStyleBox("-fx-background-color: #664E88; -fx-background-radius: 5px; -fx-padding: 10px;");
-            controller.setIndex(song.getSongId());
             controller.setImageRemoveButton(ImageManager.getImage(ImageManager.PLAY_ADD));
             controller.setActionRemoveBtn(() -> {
               // add song
@@ -275,8 +288,9 @@ public class PlaylistCreateController {
                     NotificationManager.ERROR);
               }
 
-              // reload
-              Platform.runLater(handleChoiceBox());
+              Platform.runLater(() -> {
+                handleLoadCurrentMusic();
+              });
             });
           } catch (IOException err) {
             err.printStackTrace();

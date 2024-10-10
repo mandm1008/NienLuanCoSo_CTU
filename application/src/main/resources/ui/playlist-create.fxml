@@ -22,7 +22,7 @@
          <children>
             <VBox alignment="TOP_CENTER" prefWidth="320.0" spacing="12.0" style="-fx-background-color: #1e1e2e;">
                <children>
-                <GridPane hgap="8.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="140.0" prefWidth="240.0" styleClass="playlist-box" vgap="12.0">
+                <GridPane hgap="8.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="140.0" prefWidth="240.0" styleClass="playlist-box" vgap="12.0">
                   <columnConstraints>
                     <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

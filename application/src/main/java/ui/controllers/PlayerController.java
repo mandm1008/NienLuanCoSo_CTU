@@ -97,6 +97,7 @@ public class PlayerController {
     handleControl().run();
     App.getMusicManager().addEventOnPlay("play-control", handleControl());
     App.getMusicManager().addEventOnLoad("play-button-load", handleLoadingState());
+    App.getMusicManager().addEventOnReady("play-button-ready", handleControl());
 
     // load repeat
     handleRepeat().run();
@@ -132,7 +133,7 @@ public class PlayerController {
       LoadLater.addLoader(song.getImage(), callback);
       Platform.runLater(() -> {
         musicTitle.setText(song.getTitle());
-        musicArtist.setText(song.getArtistName());
+        musicArtist.setText(song.getArtist().getName());
       });
     };
   }

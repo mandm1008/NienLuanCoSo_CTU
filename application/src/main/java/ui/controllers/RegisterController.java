@@ -8,8 +8,9 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-
+import javafx.util.Callback;
 import modules.AccountManager;
+import modules.LoadLater;
 import modules.NotificationManager;
 import modules.VerifyData;
 import ui.App;
@@ -33,6 +34,8 @@ public class RegisterController {
   private TextField txtEmail;
   @FXML
   private PasswordField txtPassword;
+  @FXML
+  private PasswordField txtConfirmPassword;
   @FXML
   private Text actionMessage;
   @FXML
@@ -64,11 +67,42 @@ public class RegisterController {
       App.redirect(DefindUI.getHome());
     });
 
-    // set Avatar Image
-    chooseAvarta1.setFill(new ImagePattern(new Image(avatarHref[0])));
-    chooseAvarta2.setFill(new ImagePattern(new Image(avatarHref[1])));
-    chooseAvarta3.setFill(new ImagePattern(new Image(avatarHref[2])));
-    chooseAvarta4.setFill(new ImagePattern(new Image(avatarHref[3])));
+    // set avatar image load later
+    Callback<Image, Void> loader1 = new Callback<Image, Void>() {
+      @Override
+      public Void call(Image arg0) {
+        chooseAvarta1.setFill(new ImagePattern(arg0));
+        return null;
+      }
+    };
+    LoadLater.addLoader(avatarHref[0], loader1);
+
+    Callback<Image, Void> loader2 = new Callback<Image, Void>() {
+      @Override
+      public Void call(Image arg0) {
+        chooseAvarta2.setFill(new ImagePattern(arg0));
+        return null;
+      }
+    };
+    LoadLater.addLoader(avatarHref[1], loader2);
+
+    Callback<Image, Void> loader3 = new Callback<Image, Void>() {
+      @Override
+      public Void call(Image arg0) {
+        chooseAvarta3.setFill(new ImagePattern(arg0));
+        return null;
+      }
+    };
+    LoadLater.addLoader(avatarHref[2], loader3);
+
+    Callback<Image, Void> loader4 = new Callback<Image, Void>() {
+      @Override
+      public Void call(Image arg0) {
+        chooseAvarta4.setFill(new ImagePattern(arg0));
+        return null;
+      }
+    };
+    LoadLater.addLoader(avatarHref[3], loader4);
 
     // set default avatar
     handleSetAvatar1();
@@ -92,6 +126,12 @@ public class RegisterController {
     chooseAvatarButton4.setOnAction(e -> {
       handleSetAvatar4();
     });
+
+    // clear errors
+    txtUsername.setOnKeyTyped(e -> clearErrors());
+    txtEmail.setOnKeyTyped(e -> clearErrors());
+    txtPassword.setOnKeyTyped(e -> clearErrors());
+    txtConfirmPassword.setOnKeyTyped(e -> clearErrors());
   }
 
   // Submit handler
@@ -139,6 +179,14 @@ public class RegisterController {
       actionMessage.setText(
           "Password phải có ít nhất 8 ký tự, 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt!");
       txtPassword.requestFocus();
+      return;
+    }
+
+    // confirm password
+    String confirmPassword = txtConfirmPassword.getText();
+    if (!password.equals(confirmPassword)) {
+      actionMessage.setText("Password không khớp!");
+      txtConfirmPassword.requestFocus();
       return;
     }
 
@@ -195,5 +243,9 @@ public class RegisterController {
   @FXML
   protected void handleToLogin() {
     App.redirect(DefindUI.getNoLayout(), DefindUI.getLogin());
+  }
+
+  private void clearErrors() {
+    actionMessage.setText("");
   }
 }

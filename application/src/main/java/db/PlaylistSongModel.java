@@ -81,15 +81,22 @@ public class PlaylistSongModel extends Model {
   protected boolean checkAccess() {
     // check with title
     try {
-      if (super.query("SELECT * FROM " + getTableName() + " WHERE (playlist_id, song_id) = (?, ?)", (pstmt) -> {
-        try {
-          pstmt.setInt(1, playlistId);
-          pstmt.setInt(2, songId);
-        } catch (SQLException e) {
-          e.printStackTrace();
-        }
-      }).next() == false)
+      QueryResult qr = super.query("SELECT * FROM " + getTableName() + " WHERE (playlist_id, song_id) = (?, ?)",
+          (pstmt) -> {
+            try {
+              pstmt.setInt(1, playlistId);
+              pstmt.setInt(2, songId);
+            } catch (SQLException e) {
+              e.printStackTrace();
+            }
+          });
+
+      if (qr.getResultSet().next() == false) {
+        qr.close();
         return true;
+      }
+
+      qr.close();
     } catch (Exception e) {
       e.printStackTrace();
       return false;
@@ -104,12 +111,17 @@ public class PlaylistSongModel extends Model {
     }
 
     try {
-      ResultSet rs = super.findById();
+      QueryResult qr = super.findById();
+      ResultSet rs = qr.getResultSet();
       if (rs.next()) {
         this.playlistId = rs.getInt("playlist_id");
         this.songId = rs.getInt("song_id");
+
+        qr.close();
         return true;
       }
+
+      qr.close();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -119,7 +131,7 @@ public class PlaylistSongModel extends Model {
 
   public boolean getDataBySongIdAndPlaylistId() {
     try {
-      ResultSet rs = super.query("SELECT * FROM " + getTableName() + " WHERE playlist_id = ? AND song_id = ?",
+      QueryResult qr = super.query("SELECT * FROM " + getTableName() + " WHERE playlist_id = ? AND song_id = ?",
           (pstmt) -> {
             try {
               pstmt.setInt(1, playlistId);
@@ -128,11 +140,16 @@ public class PlaylistSongModel extends Model {
               e.printStackTrace();
             }
           });
+      ResultSet rs = qr.getResultSet();
 
       if (rs.next()) {
         this.playlistSongId = rs.getInt("playlist_song_id");
+
+        qr.close();
         return true;
       }
+
+      qr.close();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -156,19 +173,22 @@ public class PlaylistSongModel extends Model {
     LinkedList<SongModel> songs = new LinkedList<>();
 
     try {
-      ResultSet rs = super.query("SELECT * FROM " + getTableName() + " WHERE playlist_id = ?", (pstmt) -> {
+      QueryResult qr = super.query("SELECT * FROM " + getTableName() + " WHERE playlist_id = ?", (pstmt) -> {
         try {
           pstmt.setInt(1, playlistId);
         } catch (SQLException e) {
           e.printStackTrace();
         }
       });
+      ResultSet rs = qr.getResultSet();
 
       while (rs.next()) {
         SongModel song = new SongModel(rs.getInt("song_id"));
         song.findData();
         songs.add(song);
       }
+
+      qr.close();
     } catch (Exception e) {
       e.printStackTrace();
     }

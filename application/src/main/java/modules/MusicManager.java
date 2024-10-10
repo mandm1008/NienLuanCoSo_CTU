@@ -28,6 +28,10 @@ public class MusicManager {
   private HashMap<String, Runnable> eventOnPlay = new HashMap<>();
   private HashMap<String, Runnable> eventOnLoad = new HashMap<>();
   private HashMap<String, Runnable> eventOnChangePlaylist = new HashMap<>();
+  private HashMap<String, Runnable> eventOnReady = new HashMap<>();
+
+  // for state
+  private boolean isPlaying = false;
 
   public MusicManager() {
     this.playlist = new LinkedList<SongModel>(SongModel.getNewSongs(9));
@@ -61,6 +65,14 @@ public class MusicManager {
 
     this.mediaPlayer.setOnPlaying(() -> {
       runEventOnPlay();
+    });
+
+    this.mediaPlayer.setOnReady(() -> {
+      runEventOnReady();
+
+      if (isPlaying) {
+        playMusic();
+      }
     });
 
     this.mediaPlayer.setOnError(() -> {
@@ -161,11 +173,9 @@ public class MusicManager {
       return;
     }
 
-    if (this.index == index)
-      return;
-
     this.index = index;
     reLoadData();
+    System.out.println("Change music to: " + playlist.get(index).getTitle() + "and play");
     playMusic();
   }
 
@@ -252,6 +262,7 @@ public class MusicManager {
   public void pauseMusic() {
     try {
       this.mediaPlayer.pause();
+      this.isPlaying = false;
     } catch (Exception e) {
       System.out.println("No song to pause");
     }
@@ -276,6 +287,7 @@ public class MusicManager {
   public void playMusic() {
     try {
       this.mediaPlayer.play();
+      this.isPlaying = true;
       System.out.println("Playing: " + playlist.get(index).getTitle());
       System.out.println("Href: " + playlist.get(index).getHref());
     } catch (Exception e) {
@@ -328,6 +340,17 @@ public class MusicManager {
     for (String key : eventOnChangePlaylist.keySet()) {
       eventOnChangePlaylist.get(key).run();
       System.out.println("Run event onChangePlaylist: " + key);
+    }
+  }
+
+  public void addEventOnReady(String key, Runnable runnable) {
+    this.eventOnReady.put(key, runnable);
+  }
+
+  public void runEventOnReady() {
+    for (String key : eventOnReady.keySet()) {
+      eventOnReady.get(key).run();
+      System.out.println("Run event onReady: " + key);
     }
   }
 

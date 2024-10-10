@@ -34,6 +34,8 @@ public class MenuController {
   @FXML
   private ScrollPane scrollPlaylist;
 
+  CustomDialog createPlaylistDialog = null;
+
   public void initialize() {
     // explore button
     String exploreKey = "explore-menu";
@@ -126,6 +128,9 @@ public class MenuController {
         App.redirect(DefindUI.getLogin());
         return;
       }
+
+      // create playlist
+      showCreatePlaylistDialog();
     });
   }
 
@@ -162,6 +167,7 @@ public class MenuController {
   private void handleCreatePlaylistButton() {
     // handle create playlist
     CustomDialog createPlaylistDialog = new CustomDialog("Tạo danh sách phát");
+    this.createPlaylistDialog = createPlaylistDialog;
 
     // load content
     try {
@@ -179,14 +185,19 @@ public class MenuController {
 
     // create playlist button
     createPlaylistButton.setOnAction(e -> {
-      // check user login
-      if (AccountManager.getId() < 0) {
-        App.redirect(DefindUI.getNoLayout(), DefindUI.getLogin());
-        return;
-      }
-
-      // show dialog
-      createPlaylistDialog.show();
+      showCreatePlaylistDialog();
     });
+  }
+
+  private void showCreatePlaylistDialog() {
+    // check user login
+    if (AccountManager.getId() < 0) {
+      App.redirect(DefindUI.getNoLayout(), DefindUI.getLogin());
+      return;
+    }
+
+    if (this.createPlaylistDialog != null) {
+      this.createPlaylistDialog.show();
+    }
   }
 }

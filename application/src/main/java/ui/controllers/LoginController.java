@@ -33,6 +33,10 @@ public class LoginController {
       System.out.println("Back to Home");
       App.redirect(DefindUI.getHome());
     });
+
+    // clear errors
+    txtUsername.setOnKeyTyped(e -> clearErrors());
+    txtPassword.setOnKeyTyped(e -> clearErrors());
   }
 
   // Submit handler
@@ -74,5 +78,9 @@ public class LoginController {
   @FXML
   protected void handleCreateNew() {
     App.redirect(DefindUI.getNoLayout(), DefindUI.getRegister());
+  }
+
+  private void clearErrors() {
+    actionMessage.setText("");
   }
 }
