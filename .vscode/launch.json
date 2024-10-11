@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "ConnectDB",
+      "request": "launch",
+      "mainClass": "ui/db.ConnectDB",
+      "projectName": "application"
+    },
+    {
+      "type": "java",
       "name": "YoutubeData",
       "request": "launch",
       "mainClass": "ui/modules.YoutubeData",

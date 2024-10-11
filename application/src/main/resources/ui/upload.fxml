@@ -15,13 +15,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane style="-fx-padding: 0;" styleClass="home-box"
-   xmlns="http://javafx.com/javafx/22"
-   xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.UploadController">
+<AnchorPane style="-fx-padding: 0;" styleClass="home-box" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.UploadController">
    <children>
       <ScrollPane hbarPolicy="NEVER" style="-fx-background-color: #1e1e2e;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
-            <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1284.0" styleClass="home-box">
+            <StackPane fx:id="wrapperSP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1284.0" styleClass="home-box">
                <children>
                   <TabPane style="-fx-background-color: #1e1e2e;" tabClosingPolicy="UNAVAILABLE">
                      <tabs>
@@ -102,6 +100,15 @@
                                           <Label styleClass="upload-item--text" text="Link youtube: " />
                                           <TextField fx:id="srcFieldYT" styleClass="upload-item--field" />
                                           <Button fx:id="checkLinkButtonYT" mnemonicParsing="false" styleClass="upload-item--button" text="Kiểm tra link!" />
+                                          <Label fx:id="loadingStateYT" opacity="0.0" styleClass="upload-item--text" text="Loading...">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../images/loading.gif" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Label>
                                        </children>
                                     </HBox>
                                     <HBox styleClass="upload-item--box">
@@ -113,7 +120,7 @@
                                     <HBox styleClass="upload-item--box">
                                        <children>
                                           <Label styleClass="upload-item--text" text="Kênh sở hữu:" />
-                                          <TextField fx:id="artistFieldYT" styleClass="upload-item--field" />
+                                          <TextField fx:id="artistFieldYT" editable="false" styleClass="upload-item--field" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER" style="-fx-alignment: center;" styleClass="upload-item--box">

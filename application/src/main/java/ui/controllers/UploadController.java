@@ -2,15 +2,19 @@ package ui.controllers;
 
 import java.io.File;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.util.Callback;
-
+import javafx.util.Duration;
 import modules.AccountManager;
 import modules.ImageManager;
 import modules.LoadLater;
@@ -20,6 +24,8 @@ import ui.App;
 import db.FileService;
 
 public class UploadController {
+  @FXML
+  private StackPane wrapperSP;
   @FXML
   private TextField srcField;
   @FXML
@@ -49,6 +55,8 @@ public class UploadController {
   @FXML
   private Button checkLinkButtonYT;
   @FXML
+  private Label loadingStateYT;
+  @FXML
   private TextField nameFieldYT;
   @FXML
   private TextField artistFieldYT;
@@ -73,6 +81,8 @@ public class UploadController {
     uploadBtnYT.setDisable(true);
     handleCheckLinkYT();
     handleUploadYT();
+    loadingStateYT.setOpacity(0);
+    loadingStateYT.setText("Đang tải...");
   }
 
   private void handleChooseSrc() {
@@ -170,7 +180,11 @@ public class UploadController {
   // for Youtube
   private void handleCheckLinkYT() {
     checkLinkButtonYT.setOnAction(e -> {
+      checkLinkButtonYT.setDisable(true);
       uploadBtnYT.setDisable(true);
+      loadingStateYT.setOpacity(1);
+      loadingStateYT.setText("Đang lấy dữ liệu...");
+
       if (isUploaded == false && youtubeData != null) {
         youtubeData.deleteUploadFile();
       }
@@ -188,6 +202,14 @@ public class UploadController {
         }
         if (!data.upload()) {
           App.getNotificationManager().notify("Upload thất bại!", NotificationManager.ERROR);
+          loadingStateYT.setText("Không tìm thấy!");
+          PauseTransition pause = new PauseTransition(Duration.millis(500));
+          pause.setOnFinished(event -> {
+            FadeTransition fadeOut = new FadeTransition(Duration.millis(500), loadingStateYT);
+            fadeOut.setFromValue(1.0);
+            fadeOut.setToValue(0.0);
+            fadeOut.play();
+          });
           return;
         }
         youtubeData = data;
@@ -211,6 +233,18 @@ public class UploadController {
         };
 
         LoadLater.addLoader(data.getThumbnail(), callback);
+        Platform.runLater(() -> {
+          loadingStateYT.setText("Thành công!");
+          checkLinkButtonYT.setDisable(false);
+        });
+        PauseTransition pause = new PauseTransition(Duration.millis(500));
+        pause.setOnFinished(event -> {
+          FadeTransition fadeOut = new FadeTransition(Duration.millis(500), loadingStateYT);
+          fadeOut.setFromValue(1.0);
+          fadeOut.setToValue(0.0);
+          fadeOut.play();
+        });
+        pause.play();
       }).start();
     });
   }
@@ -221,6 +255,9 @@ public class UploadController {
         App.getNotificationManager().notify("Chưa kiểm tra link!", NotificationManager.ERROR);
         return;
       }
+
+      loadingStateYT.setOpacity(1);
+      loadingStateYT.setText("Chuẩn bị dữ liệu...");
 
       String title;
       String channelTitle = youtubeData.getChannelTitle();
@@ -233,6 +270,7 @@ public class UploadController {
         title = nameFieldYT.getText();
       }
 
+      loadingStateYT.setText("Đang tải lên...");
       if (AccountManager.uploadSong(title, channelTitle, href, thumbnail)) {
         clearFieldsYT();
         App.getNotificationManager().notify("Upload thành công!", NotificationManager.SUCCESS);
@@ -241,6 +279,15 @@ public class UploadController {
         App.getNotificationManager().notify("Upload thất bại!", NotificationManager.ERROR);
       }
 
+      loadingStateYT.setText("Đã xong!");
+      PauseTransition pause = new PauseTransition(Duration.millis(500));
+      pause.setOnFinished(event -> {
+        FadeTransition fadeOut = new FadeTransition(Duration.millis(500), loadingStateYT);
+        fadeOut.setFromValue(1.0);
+        fadeOut.setToValue(0.0);
+        fadeOut.play();
+      });
+      pause.play();
     });
   }
 

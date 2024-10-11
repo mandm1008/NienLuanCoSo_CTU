@@ -20,8 +20,7 @@ public class SongModel extends Model {
       "image VARCHAR(2083) NOT NULL," +
       "view INT DEFAULT 0," +
       "FOREIGN KEY (artist_id) REFERENCES Artists(artist_id) ON DELETE SET NULL," +
-      "FOREIGN KEY (album_id) REFERENCES Albums(album_id) ON DELETE SET NULL," +
-      "FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE SET NULL)";
+      "FOREIGN KEY (album_id) REFERENCES Albums(album_id) ON DELETE SET NULL)";
   private final String tableName = "Songs";
   private final String idName = "song_id";
 
@@ -45,7 +44,7 @@ public class SongModel extends Model {
   private int albumId;
   private int artistId;
   private int userId = 0;
-  private String artistName = "Unkown";
+  private String artistName = "system";
   private String href;
   private String image;
   private int view;
