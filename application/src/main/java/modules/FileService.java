@@ -1,4 +1,4 @@
-package db;
+package modules;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
@@ -91,15 +91,4 @@ public class FileService {
     service.files().delete(fileId).execute();
   }
 
-  public static void main(String[] args) {
-    try {
-      System.out.println(
-          uploadFile(
-              "D:\\Downloads\\Áng Mây Vô Tình Lương Gia Hùng LYRIC VIDEO AMVT.mp3",
-              "audio/mpeg",
-              "Áng Mây Vô Tình Lương Gia Hùng LYRIC VIDEO AMVT"));
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
 }

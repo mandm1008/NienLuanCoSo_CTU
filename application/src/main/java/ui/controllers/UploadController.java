@@ -15,13 +15,14 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.util.Callback;
 import javafx.util.Duration;
+
 import modules.AccountManager;
+import modules.FileService;
 import modules.ImageManager;
 import modules.LoadLater;
 import modules.NotificationManager;
 import modules.YoutubeData;
 import ui.App;
-import db.FileService;
 
 public class UploadController {
   @FXML
