@@ -1,5 +1,6 @@
 package ui.controllers;
 
+import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,6 +9,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 
@@ -18,11 +20,9 @@ import ui.DefindUI;
 
 public class HeaderController {
   @FXML
-  private Button backBtn;
-  @FXML
   private Button homeBtn;
   @FXML
-  private Button nextBtn;
+  private Button reloadBtn;
   @FXML
   private HBox searchBox;
   @FXML
@@ -36,12 +36,18 @@ public class HeaderController {
   @FXML
   private ContextMenu avartaMenu;
 
+  private RotateTransition rotateTransition = null;
+  private boolean isStopRotate = false;
+
   public void initialize() {
     // setup search
     setupSearch();
 
     // home Btn
     toHome();
+
+    // reload Btn
+    App.addEventReloadAll("header-reload-button", reloadAll());
 
     // update avatar
     updateAvatar().run();
@@ -59,6 +65,34 @@ public class HeaderController {
         App.redirect(DefindUI.getHome());
       });
     });
+  }
+
+  private Runnable reloadAll() {
+    // create rotate reload button
+    if (rotateTransition == null) {
+      rotateTransition = new RotateTransition(Duration.millis(2000), reloadBtn);
+      rotateTransition.setByAngle(360);
+      rotateTransition.setCycleCount(1);
+      rotateTransition.setOnFinished(e -> {
+        if (isStopRotate) {
+          rotateTransition.stop();
+          isStopRotate = false;
+        } else {
+          rotateTransition.play();
+        }
+      });
+    }
+
+    reloadBtn.setOnAction(e -> {
+      // start rotate
+      rotateTransition.play();
+      App.reload();
+    });
+
+    return () -> {
+      // stop rotate
+      isStopRotate = true;
+    };
   }
 
   private void setupSearch() {

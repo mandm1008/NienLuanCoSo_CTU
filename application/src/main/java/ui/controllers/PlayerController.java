@@ -133,6 +133,7 @@ public class PlayerController {
       LoadLater.addLoader(song.getImage(), callback);
       Platform.runLater(() -> {
         musicTitle.setText(song.getTitle());
+        Tooltip.install(musicTitle, new Tooltip(song.getTitle()));
         musicArtist.setText(song.getArtist().getName());
       });
     };

@@ -34,6 +34,7 @@ public class App extends Application {
     private static NotificationManager notificationManager;
 
     private static HashMap<String, Runnable> eventChangePage = new HashMap<>();
+    private static HashMap<String, Runnable> eventReloadAll = new HashMap<>();
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -107,7 +108,15 @@ public class App extends Application {
     }
 
     public static void reload() {
-        redirect(currentLayout, currentContent);
+        new Thread(() -> {
+            layoutCache.reload();
+
+            Platform.runLater(() -> {
+                redirect(currentLayout, currentContent);
+
+                runEventReloadAll();
+            });
+        }).start();
     }
 
     public static void redirect(String content) {
@@ -173,6 +182,17 @@ public class App extends Application {
     public static void runEventChangePage() {
         eventChangePage.forEach((key, event) -> {
             System.out.println("Run change page event: " + key);
+            event.run();
+        });
+    }
+
+    public static void addEventReloadAll(String key, Runnable event) {
+        eventReloadAll.put(key, event);
+    }
+
+    public static void runEventReloadAll() {
+        eventReloadAll.forEach((key, event) -> {
+            System.out.println("Run reload all event: " + key);
             event.run();
         });
     }

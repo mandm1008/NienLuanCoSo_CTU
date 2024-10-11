@@ -1,20 +1,20 @@
 package ui.controllers;
 
-import javafx.util.Callback;
-
 import java.io.IOException;
 
-import db.SongModel;
-import db.UserModel;
+import javafx.util.Callback;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Popup;
 
+import db.SongModel;
+import db.UserModel;
 import modules.LoadLater;
 import ui.DefindUI;
 
@@ -65,6 +65,7 @@ public class MusicItemController {
 
   public void setTitle(String title) {
     this.title.setText(title);
+    Tooltip.install(this.title, new Tooltip(title));
   }
 
   public void setArtist(String artist) {
@@ -102,7 +103,7 @@ public class MusicItemController {
       user.findData();
 
       Platform.runLater(() -> {
-        setArtist(song.getArtist().getName() + " (" + user.getUsername() + ")"); // + "(" + user.getUsername() + ")"
+        setArtist(song.getArtist().getName() + " (@" + user.getUsername() + ")");
       });
     }).start();
 

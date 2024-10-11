@@ -13,15 +13,6 @@
 
 <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" styleClass="header-box" stylesheets="@../css/header.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.HeaderController">
    <children>
-      <Button fx:id="backBtn" mnemonicParsing="false" styleClass="clear-button" HBox.hgrow="NEVER">
-         <graphic>
-            <ImageView fitHeight="23.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/arrow-left-solid.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
       <Button fx:id="homeBtn" mnemonicParsing="false" styleClass="clear-button">
          <graphic>
             <ImageView fitHeight="23.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
@@ -31,11 +22,11 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="nextBtn" mnemonicParsing="false" styleClass="clear-button" HBox.hgrow="NEVER">
+      <Button fx:id="reloadBtn" mnemonicParsing="false" styleClass="clear-button" HBox.hgrow="NEVER">
          <graphic>
             <ImageView fitHeight="23.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/arrow-right-solid.png" />
+                  <Image url="@../images/rotate-solid.png" />
                </image>
             </ImageView>
          </graphic>
