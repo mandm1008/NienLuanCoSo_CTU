@@ -138,6 +138,22 @@ public class ConnectDB {
 
     System.out.println("Init data for Songs");
 
+    // default playlist
+    PlaylistModel playlist1 = new PlaylistModel("Mới nhất", 0);
+    playlist1.insert();
+    // set id 0 for playlist 1
+    playlist1.update("UPDATE Playlists SET playlist_id = 0 WHERE playlist_id = 1", (pstm) -> {
+
+    });
+    PlaylistModel playlist2 = new PlaylistModel("Nhiều lượt nghe", 0);
+    playlist2.insert();
+    // set id 1 for playlist 2
+    playlist2.update("UPDATE Playlists SET playlist_id = 1 WHERE playlist_id = 2", (pstm) -> {
+
+    });
+
+    System.out.println("Init data for Playlists");
+
     db.closeConnect();
   }
 

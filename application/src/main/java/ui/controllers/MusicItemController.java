@@ -32,6 +32,7 @@ public class MusicItemController {
 
   private SongModel songData;
   private Popup menuPopup;
+  private String srcMenu = null;
 
   public void initialize() {
   }
@@ -42,10 +43,10 @@ public class MusicItemController {
 
     // load menu
     try {
-      FXMLLoader loader = DefindUI.loadFXML(DefindUI.getMusicMenu());
+      FXMLLoader loader = DefindUI.loadFXML(srcMenu == null ? DefindUI.getMusicMenu() : srcMenu);
       menuPopup.getContent().add(loader.load());
 
-      MusicMenuController controller = loader.getController();
+      MenuMusic controller = loader.getController();
       controller.setSong(songData);
     } catch (IOException e) {
       e.printStackTrace();
@@ -61,6 +62,10 @@ public class MusicItemController {
         menuPopup.show(menuButton.getScene().getWindow(), x, y);
       }
     });
+  }
+
+  public void setSrcMenu(String src) {
+    srcMenu = src;
   }
 
   public void setTitle(String title) {
@@ -109,5 +114,11 @@ public class MusicItemController {
 
     // handle menu button
     handleMenuButton();
+  }
+
+  @SuppressWarnings("exports")
+  public void setSong(SongModel song, String srcMenu) {
+    setSrcMenu(srcMenu);
+    setSong(song);
   }
 }

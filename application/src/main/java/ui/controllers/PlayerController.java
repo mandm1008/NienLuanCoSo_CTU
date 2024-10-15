@@ -24,6 +24,7 @@ import ui.DefindUI;
 import modules.AccountManager;
 import modules.ImageManager;
 import modules.LoadLater;
+import modules.MusicManager;
 import modules.ThreadCustom;
 
 public class PlayerController {
@@ -353,12 +354,12 @@ public class PlayerController {
     });
 
     return () -> {
-      MediaPlayer mediaPlayer = App.getMusicManager().getMediaPlayer();
+      MusicManager musicManager = App.getMusicManager();
       volumeSlider.setMin(0);
       volumeSlider.setMax(100);
-      volumeSlider.setValue(mediaPlayer.getVolume() * 100);
+      volumeSlider.setValue(musicManager.getVolume() * 100);
       volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
-        mediaPlayer.setVolume(newVal.doubleValue() / 100);
+        musicManager.setVolume(newVal.doubleValue() / 100);
         if (newVal.doubleValue() == 0) {
           volumeImage.setImage(ImageManager.getImage(ImageManager.VOLUMEOFF));
         } else {

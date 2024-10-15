@@ -12,7 +12,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
+import modules.AccountManager;
 import modules.ImageManager;
 import modules.MusicManager;
 import modules.NotificationManager;
@@ -55,21 +55,30 @@ public class App extends Application {
         stage.show();
 
         new Thread(() -> {
+            // auto login
+            System.out.println("Auto login");
+            AccountManager.autoLogin();
+
             // init music media
+            System.out.println("Init music media");
             musicManager = new MusicManager();
             primaryStage = stage;
 
             // load images
+            System.out.println("Load images");
             ImageManager.loadImages();
 
             // load layout
+            System.out.println("Load layout cache");
             layoutCache = new LayoutCache();
             layoutCache.load();
 
             // load search manager
+            System.out.println("Load search manager");
             searchManager = new SearchManager();
 
             // load notification manager
+            System.out.println("Load notification manager");
             notificationManager = new NotificationManager(primaryStage);
 
             try {
@@ -86,6 +95,7 @@ public class App extends Application {
 
                 // set scene
                 Platform.runLater(() -> {
+                    System.out.println("Set scene");
                     scene.setRoot(rootLayout);
                     runEventChangePage();
                 });

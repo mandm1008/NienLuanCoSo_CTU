@@ -30,3 +30,5 @@ application/target/
 # api keys
 application/src/main/resources/access/*.json
 
+# private keys
+*.jks

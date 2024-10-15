@@ -10,6 +10,7 @@ import java.util.LinkedList;
 
 import db.PlaylistModel;
 import db.PlaylistSongModel;
+import db.SettingModel;
 import db.SongModel;
 
 public class MusicManager {
@@ -32,21 +33,50 @@ public class MusicManager {
 
   // for state
   private boolean isPlaying = false;
+  private double defaultVolume = 1.0;
 
   public MusicManager() {
-    this.playlist = new LinkedList<SongModel>(SongModel.getNewSongs(9));
+    loadSetting();
+
+    System.out.println("Playlist size: " + playlist.size());
+
+    if (this.playlist.size() == 0)
+      this.playlist = new LinkedList<SongModel>(SongModel.getNewSongs(9));
+
     this.index = 0;
     reLoadData();
   }
 
-  public MusicManager(SongModel song) {
-    setSong(song);
-  }
+  private boolean loadSetting() {
+    SettingModel setting = AccountManager.getSetting();
+    if (setting == null) {
+      return false;
+    }
 
-  public MusicManager(LinkedList<SongModel> playlist) {
-    this.playlist = new LinkedList<SongModel>(playlist);
-    this.index = 0;
-    reLoadData();
+    // set playlist
+    if (setting.getPlaylistId() == 0) {
+      this.playlist = SongModel.getNewSongs(9);
+    } else if (setting.getPlaylistId() == 1) {
+      this.playlist = SongModel.getMostViewSongs(9);
+    } else {
+      PlaylistSongModel psm = new PlaylistSongModel();
+      LinkedList<SongModel> songs = psm.getSongsByPlaylistId(setting.getPlaylistId());
+      if (songs.size() > 0) {
+        this.playlistInfo = setting.getPlaylist();
+        this.playlist = songs;
+      }
+    }
+
+    // set shuffle mode
+    modeShuffle = setting.getShuff();
+
+    // play now
+    isPlaying = setting.getPlayNow();
+
+    // set volume
+    defaultVolume = setting.getVolume() / 100.0;
+
+    return true;
   }
 
   private void setting() {
@@ -79,6 +109,8 @@ public class MusicManager {
       System.out.println("Error occurred: " + mediaPlayer.getError().getMessage());
       reLoadData();
     });
+
+    this.mediaPlayer.setVolume(defaultVolume);
   }
 
   private void reLoadData() {
@@ -96,9 +128,6 @@ public class MusicManager {
     // reload setting
     setting();
 
-    // increase view
-    playlist.get(index).increaseView();
-
     // update ui
     runEventOnChange();
   }
@@ -107,6 +136,15 @@ public class MusicManager {
     this.playlist.add(song);
     this.index = playlist.size() - 1;
     reLoadData();
+  }
+
+  public double getVolume() {
+    return this.defaultVolume;
+  }
+
+  public void setVolume(double volume) {
+    this.defaultVolume = volume;
+    this.mediaPlayer.setVolume(volume);
   }
 
   public void setPlaylistInfo(PlaylistModel playlistInfo) {
@@ -177,6 +215,11 @@ public class MusicManager {
     reLoadData();
     System.out.println("Change music to: " + playlist.get(index).getTitle() + "and play");
     playMusic();
+
+    // increase view
+    new Thread(() -> {
+      playlist.get(index).increaseView();
+    }).start();
   }
 
   public void changeMusic(SongModel song) {

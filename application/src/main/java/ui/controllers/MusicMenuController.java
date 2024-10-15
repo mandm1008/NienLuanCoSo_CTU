@@ -12,7 +12,7 @@ import modules.NotificationManager;
 import ui.App;
 import db.SongModel;
 
-public class MusicMenuController {
+public class MusicMenuController extends MenuMusic {
   @FXML
   private Label title;
   @FXML
@@ -107,6 +107,7 @@ public class MusicMenuController {
   }
 
   @SuppressWarnings("exports")
+  @Override
   public void setSong(SongModel song) {
     songData = song;
     title.setText("-- " + song.getTitle() + " --");

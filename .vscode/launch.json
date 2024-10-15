@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "SettingModel",
+      "request": "launch",
+      "mainClass": "ui/db.SettingModel",
+      "projectName": "application"
+    },
+    {
+      "type": "java",
       "name": "ConnectDB",
       "request": "launch",
       "mainClass": "ui/db.ConnectDB",

@@ -13,8 +13,8 @@ public class PlaylistSongModel extends Model {
       "playlist_song_id INT AUTO_INCREMENT PRIMARY KEY, " +
       "playlist_id INT, " +
       "song_id INT, " +
-      "FOREIGN KEY (playlist_id) REFERENCES Playlists(playlist_id)," +
-      "FOREIGN KEY (song_id) REFERENCES Songs(song_id))";
+      "FOREIGN KEY (playlist_id) REFERENCES Playlists(playlist_id) ON DELETE CASCADE," +
+      "FOREIGN KEY (song_id) REFERENCES Songs(song_id) ON DELETE CASCADE)";
   private final String tableName = "Playlist_Songs";
   private final String idName = "playlist_song_id";
 

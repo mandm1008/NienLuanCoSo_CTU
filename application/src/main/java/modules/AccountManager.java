@@ -1,5 +1,6 @@
 package modules;
 
+import java.security.KeyStore;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -11,21 +12,26 @@ import ui.App;
 import db.ArtistModel;
 import db.PlaylistModel;
 import db.PlaylistSongModel;
+import db.SettingModel;
 import db.SongModel;
+import db.UserLikes;
 
 public class AccountManager {
   private static final String DEFAULT_AVATAR = AccountManager.class.getResource("/images/avatar_default.png")
       .toExternalForm();
+  private static final String ACCOUNT_ALIAS = "account";
 
   private static int id = -1;
   private static String username = null;
   private static String email = null;
   private static String avatar = null;
+  private static SettingModel setting = null;
 
   private static HashMap<String, Runnable> eventLogin = new HashMap<String, Runnable>();
   private static HashMap<String, Runnable> eventLogout = new HashMap<String, Runnable>();
   private static HashMap<String, Runnable> eventChangePlaylist = new HashMap<String, Runnable>();
   private static HashMap<String, Runnable> eventUpload = new HashMap<String, Runnable>();
+  private static HashMap<String, Runnable> eventChangeSetting = new HashMap<String, Runnable>();
 
   public static int getId() {
     return id;
@@ -41,6 +47,20 @@ public class AccountManager {
 
   public static String getAvatar() {
     return avatar == null ? DEFAULT_AVATAR : avatar;
+  }
+
+  public static SettingModel getSetting() {
+    if (setting == null) {
+      setting = SettingModel.findDataByUserId(id);
+
+      if (setting == null) {
+        setting = new SettingModel(id);
+        if (id >= 0)
+          setting.insert();
+      }
+    }
+
+    return setting;
   }
 
   public static boolean register(String username, String email, String password, String avatar) {
@@ -69,6 +89,11 @@ public class AccountManager {
     // run event login
     runEventLogin();
 
+    new Thread(() -> {
+      // auto save account
+      autoSaveAccount(username, password);
+    }).start();
+
     return true;
   }
 
@@ -80,6 +105,11 @@ public class AccountManager {
 
     // run event logout
     runEventLogout();
+
+    new Thread(() -> {
+      // remove account
+      unSaveAccount();
+    }).start();
   }
 
   public static void likeSong(int songId) {
@@ -125,6 +155,10 @@ public class AccountManager {
     eventUpload.put(key, handler);
   }
 
+  public static void addEventChangeSetting(String key, Runnable handler) {
+    eventChangeSetting.put(key, handler);
+  }
+
   private static void runEventLogin() {
     eventLogin.forEach((key, handler) -> {
       handler.run();
@@ -150,6 +184,13 @@ public class AccountManager {
     eventUpload.forEach((key, handler) -> {
       handler.run();
       System.out.println("Run upload event: " + key);
+    });
+  }
+
+  public static void runEventChangeSetting() {
+    eventChangeSetting.forEach((key, handler) -> {
+      handler.run();
+      System.out.println("Run change setting event: " + key);
     });
   }
 
@@ -272,6 +313,15 @@ public class AccountManager {
     return song.getSongsByUserId(id);
   }
 
+  public static LinkedList<SongModel> getLikedSongs() {
+    if (AccountManager.id < 0) {
+      return null;
+    }
+
+    UserLikes userLikes = new UserLikes(AccountManager.id);
+    return userLikes.getLikedSongs();
+  }
+
   public static boolean uploadSong(String songName, String artistName, String audioHref, String imageHref) {
     // save artist
     ArtistModel artist = new ArtistModel(artistName);
@@ -299,6 +349,97 @@ public class AccountManager {
       return true;
     } else {
       return false;
+    }
+  }
+
+  public static void saveSetting() {
+    if (setting.updateAll()) {
+      App.getNotificationManager().notify("Lưu cài đặt thành công", NotificationManager.SUCCESS);
+    } else {
+      App.getNotificationManager().notify("Lưu cài đặt thất bại! Vui lòng thử lại", NotificationManager.ERROR);
+    }
+
+    runEventChangeSetting();
+  }
+
+  public static void updateUsername(String username) {
+    if (AccountManager.id < 0) {
+      return;
+    }
+
+    UserModel user = new UserModel(AccountManager.id, AccountManager.username);
+    if (user.updateUsername(username)) {
+      AccountManager.username = username;
+      App.getNotificationManager().notify("Cập nhật tên thành công", NotificationManager.SUCCESS);
+    } else {
+      App.getNotificationManager().notify("Cập nhật tên thất bại! Vui lòng thử lại", NotificationManager.ERROR);
+    }
+  }
+
+  public static void autoLogin() {
+    // get keystore
+    KeyStoreManager keyStoreManager = new KeyStoreManager();
+    KeyStore keyStore;
+    try {
+      keyStore = keyStoreManager.loadKeyStore();
+    } catch (Exception e) {
+      e.printStackTrace();
+      return;
+    }
+
+    try {
+      // get username password
+      String[] credentials = keyStoreManager.loadUserInfo(keyStore, ACCOUNT_ALIAS);
+      String username = credentials[0];
+      String password = credentials[1];
+
+      if (username == null || password == null) {
+        return;
+      }
+
+      // login
+      AccountManager.login(username, password);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return;
+    }
+  }
+
+  public static void autoSaveAccount(String username, String password) {
+    // get keystore
+    KeyStoreManager keyStoreManager = new KeyStoreManager();
+    KeyStore keyStore;
+    try {
+      keyStore = keyStoreManager.loadKeyStore();
+    } catch (Exception e) {
+      e.printStackTrace();
+      return;
+    }
+
+    try {
+      // save username password
+      keyStoreManager.saveUserInfo(keyStore, ACCOUNT_ALIAS, username, password);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return;
+    }
+  }
+
+  public static void unSaveAccount() {
+    // get keystore
+    KeyStoreManager keyStoreManager = new KeyStoreManager();
+    KeyStore keyStore;
+    try {
+      keyStore = keyStoreManager.loadKeyStore();
+    } catch (Exception e) {
+      e.printStackTrace();
+      return;
+    }
+
+    try {
+      keyStoreManager.deleteUserInfo(keyStore, ACCOUNT_ALIAS);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 }

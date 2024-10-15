@@ -143,7 +143,8 @@ public class HeaderController {
     avartaMenu = new ContextMenu();
 
     // add menu item
-    MenuItem settingItem = new MenuItem("Cài đặt");
+    MenuItem nameItem = new MenuItem("@" + AccountManager.getUsername());
+    MenuItem settingItem = new MenuItem("Tài khoản");
     MenuItem upLoadSong = new MenuItem("Tải lên bài hát");
     MenuItem logoutItem = new MenuItem("Đăng xuất");
 
@@ -167,10 +168,17 @@ public class HeaderController {
     settingItem.setStyle(itemStyle);
     upLoadSong.setStyle(itemStyle);
     logoutItem.setStyle(itemStyle);
+    nameItem.setStyle(itemStyle);
+
+    nameItem.setOnAction(event -> {
+      // handle profile
+      App.redirect(DefindUI.getUserPage());
+    });
 
     settingItem.setOnAction(event -> {
       // handle setting
       System.out.println("Go to Setting");
+      App.redirect(DefindUI.getSetting());
     });
 
     upLoadSong.setOnAction(event -> {
@@ -191,7 +199,7 @@ public class HeaderController {
     });
 
     // add item to menu
-    avartaMenu.getItems().addAll(settingItem, upLoadSong, logoutItem);
+    avartaMenu.getItems().addAll(nameItem, settingItem, upLoadSong, logoutItem);
 
     // avarta action
     avartaButton.setOnAction(e -> {

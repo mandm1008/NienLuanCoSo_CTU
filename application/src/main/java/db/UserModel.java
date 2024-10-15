@@ -55,6 +55,11 @@ public class UserModel extends Model {
     this.userId = userId;
   }
 
+  public UserModel(int userId, String username) {
+    this.userId = userId;
+    this.username = new String(username);
+  }
+
   public UserModel(String username, String password, String email) {
     this.username = new String(username);
     this.password = new String(password);
@@ -263,6 +268,19 @@ public class UserModel extends Model {
     userLikes.findData();
 
     userLikes.delete();
+  }
+
+  public boolean updateUsername(String username) {
+    this.username = username;
+
+    return super.update("UPDATE " + getTableName() + " SET username = ? WHERE " + getIdName() + " = ?", (pstmt) -> {
+      try {
+        pstmt.setString(1, username);
+        pstmt.setInt(2, userId);
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    });
   }
 
 }

@@ -23,6 +23,9 @@ public class DefindUI {
   private static final String musicMenu = "music-menu";
   private static final String upload = "upload";
   private static final String favorite = "favorite";
+  private static final String setting = "setting";
+  private static final String userPage = "user-page";
+  private static final String musicUserMenu = "music-user-menu";
 
   public static String getLayout() {
     return layout;
@@ -94,6 +97,18 @@ public class DefindUI {
 
   public static String getFavorite() {
     return favorite;
+  }
+
+  public static String getSetting() {
+    return setting;
+  }
+
+  public static String getUserPage() {
+    return userPage;
+  }
+
+  public static String getMusicUserMenu() {
+    return musicUserMenu;
   }
 
   @SuppressWarnings("exports")

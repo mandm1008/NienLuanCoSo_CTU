@@ -292,6 +292,7 @@ public class PlaylistCreateController {
                 handleLoadCurrentMusic();
               });
             });
+            controller.removePlayBtn();
           } catch (IOException err) {
             err.printStackTrace();
           }
