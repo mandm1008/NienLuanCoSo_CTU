@@ -74,7 +74,6 @@ public class UserPageController {
 
           // set data
           MusicItemController musicItemController = fxmlLoader.getController();
-          musicItemController.setSrcMenu(DefindUI.getMusicUserMenu());
           musicItemController.setSong(songs.get(i));
         } catch (IOException e) {
           e.printStackTrace();

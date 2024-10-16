@@ -16,17 +16,72 @@
   </columnConstraints>
   <rowConstraints>
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
   <children>
     <Label fx:id="title" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="music-menu-title" text="-- Tên --" />
-    <Button fx:id="editButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="    Chỉnh sửa" GridPane.rowIndex="1">
+      <Button fx:id="likeButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="    Thích" GridPane.rowIndex="1">
+         <graphic>
+            <StackPane styleClass="music-menu-image">
+               <children>
+                  <ImageView fx:id="likeImage" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/heart-solid.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </StackPane>
+         </graphic>
+         <styleClass>
+            <String fx:value="clear-button" />
+            <String fx:value="music-menu-text" />
+         </styleClass>
+      </Button>
+      <Button fx:id="playNowButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="    Phát ngay" GridPane.rowIndex="2">
+         <graphic>
+            <StackPane styleClass="music-menu-image">
+               <children>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" styleClass="music-menu-image">
+                     <image>
+                        <Image url="@../images/play-solid.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </StackPane>
+         </graphic>
+         <styleClass>
+            <String fx:value="clear-button" />
+            <String fx:value="music-menu-text" />
+         </styleClass>
+      </Button>
+      <Button fx:id="addPlaylistButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="    Thêm vào danh sách phát" GridPane.rowIndex="3">
+         <graphic>
+            <StackPane styleClass="music-menu-image">
+               <children>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/square-plus-solid.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </StackPane>
+         </graphic>
+         <styleClass>
+            <String fx:value="clear-button" />
+            <String fx:value="music-menu-text" />
+         </styleClass>
+      </Button>
+    <Button fx:id="editButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="    Đổi tên" GridPane.rowIndex="4">
       <graphic>
         <StackPane styleClass="music-menu-image">
           <children>
-            <ImageView fx:id="likeImage" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../images/pen-to-square-solid.png" />
               </image>
@@ -39,7 +94,7 @@
         <String fx:value="music-menu-text" />
       </styleClass>
     </Button>
-    <Button fx:id="saveDeleteButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="    Tải xuống &amp; xoá" GridPane.rowIndex="2">
+    <Button fx:id="saveDeleteButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="    Tải xuống &amp; xoá" GridPane.rowIndex="5">
       <graphic>
         <StackPane styleClass="music-menu-image">
           <children>
@@ -56,7 +111,7 @@
         <String fx:value="music-menu-text" />
       </styleClass>
     </Button>
-    <Button fx:id="downloadButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="    Tải xuống" GridPane.rowIndex="3">
+    <Button fx:id="downloadButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="    Tải xuống" GridPane.rowIndex="6">
       <graphic>
         <StackPane styleClass="music-menu-image">
           <children>
@@ -73,6 +128,23 @@
         <String fx:value="music-menu-text" />
       </styleClass>
     </Button>
+      <Button fx:id="shareButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="    Chia sẻ" GridPane.rowIndex="7">
+         <graphic>
+            <StackPane styleClass="music-menu-image">
+               <children>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/share-from-square-regular.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </StackPane>
+         </graphic>
+         <styleClass>
+            <String fx:value="clear-button" />
+            <String fx:value="music-menu-text" />
+         </styleClass>
+      </Button>
   </children>
   <styleClass>
     <String fx:value="music-box" />

@@ -106,10 +106,7 @@ public class MenuController {
       }
 
       // check current page
-      if (App.getCurrentContent() != DefindUI.getFavorite()) {
-        App.redirect(DefindUI.getFavorite());
-        return;
-      }
+      App.redirect(DefindUI.getUserPage());
     });
 
     return () -> {

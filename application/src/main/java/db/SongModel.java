@@ -421,4 +421,16 @@ public class SongModel extends Model {
     return songs;
   }
 
+  public boolean updateTitle(String newTitle) {
+    title = newTitle;
+    return super.update("UPDATE Songs SET title = ? WHERE song_id = ?", (pstmt) -> {
+      try {
+        pstmt.setString(1, title);
+        pstmt.setInt(2, songId);
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    });
+  }
+
 }

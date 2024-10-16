@@ -78,8 +78,6 @@ public abstract class Model {
         pstmt.setInt(1, getId());
       } catch (SQLException e) {
         e.printStackTrace();
-      } finally {
-        new ConnectDB().closeConnect();
       }
     });
   }

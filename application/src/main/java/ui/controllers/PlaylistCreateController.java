@@ -44,6 +44,7 @@ public class PlaylistCreateController {
   private CustomDialog dialog;
   private PlaylistModel choicePlaylistModel;
   private SearchManager searchManager;
+  LinkedList<SongModel> songsChoice = new LinkedList<>();
 
   public void initialize() {
     // init search manager
@@ -177,6 +178,7 @@ public class PlaylistCreateController {
     // show playlist
     currentPlaylistGridPane.getChildren().clear();
     LinkedList<SongModel> songs = psm.getSongsByPlaylistId(choicePlaylistModel.getPlaylistId());
+    songsChoice = songs;
 
     for (int index = 0; index < songs.size(); index++) {
       SongModel song = songs.get(index);
@@ -218,6 +220,16 @@ public class PlaylistCreateController {
 
       });
     }
+
+    // reload search
+    new Thread(() -> {
+      Platform.runLater(handleSearch());
+    }).start();
+
+    // reload user
+    new Thread(() -> {
+      Platform.runLater(handleUser());
+    }).start();
   }
 
   private void handleSearchField() {
@@ -238,6 +250,9 @@ public class PlaylistCreateController {
       };
     }
 
+    // filter songs
+    songs.removeIf(song -> songsChoice.stream().anyMatch(s -> s.getSongId() == song.getSongId()));
+
     return handleLoadMusic(songs, searchGridPane);
   }
 
@@ -249,6 +264,9 @@ public class PlaylistCreateController {
         userListGridPane.getChildren().clear();
       };
     }
+
+    // filter songs
+    songs.removeIf(song -> songsChoice.stream().anyMatch(s -> s.getSongId() == song.getSongId()));
 
     return handleLoadMusic(songs, userListGridPane);
   }
