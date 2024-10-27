@@ -111,7 +111,7 @@ public class DefindUI {
     return musicUserMenu;
   }
 
-  @SuppressWarnings("exports")
+  // @SuppressWarnings("exports")
   public static FXMLLoader loadFXML(String fxml) throws IOException {
     FXMLLoader fxmlLoader = new FXMLLoader(DefindUI.class.getResource(fxml + ".fxml"));
     return fxmlLoader;

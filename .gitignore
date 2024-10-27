@@ -32,3 +32,6 @@ application/src/main/resources/access/*.json
 
 # private keys
 *.jks
+
+# testing files
+test/

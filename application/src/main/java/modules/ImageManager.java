@@ -17,6 +17,8 @@ public class ImageManager {
   public static String DEMO_MUSIC = "demo_music";
   public static String MENU = "menu";
   public static String PLAY_ADD = "play_add";
+  public static String COPY = "copy";
+  public static String EDIT = "edit";
 
   public static void loadImages() {
     images.put(BANNER, new Image(ImageManager.class.getResource("/images/banner-solid.png").toExternalForm()));
@@ -30,6 +32,8 @@ public class ImageManager {
     images.put(DEMO_MUSIC, new Image(ImageManager.class.getResource("/images/demo_music.png").toExternalForm()));
     images.put(MENU, new Image(ImageManager.class.getResource("/images/ellipsis-vertical-solid.png").toExternalForm()));
     images.put(PLAY_ADD, new Image(ImageManager.class.getResource("/images/square-plus-solid.png").toExternalForm()));
+    images.put(COPY, new Image(ImageManager.class.getResource("/images/clone-solid.png").toExternalForm()));
+    images.put(EDIT, new Image(ImageManager.class.getResource("/images/pen-to-square-solid.png").toExternalForm()));
   }
 
   public static Image getImage(String key) {

@@ -19,7 +19,7 @@ public class PlaylistMenuController {
     this.title.setText(title);
   }
 
-  @SuppressWarnings("exports")
+  // @SuppressWarnings("exports")
   public void setData(PlaylistModel playlist) {
     this.playlist = playlist;
 

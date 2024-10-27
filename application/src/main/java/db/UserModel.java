@@ -81,13 +81,18 @@ public class UserModel extends Model {
     this.avatar = new String(user.avatar);
   }
 
+  public static String hashPassword(String password) {
+    return password;
+  }
+
   public static UserModel match(String username, String password) {
     // call mysql to find user match username and password
     ConnectDB connectDB = new ConnectDB();
 
     try {
       Statement stmt = connectDB.getConnect().createStatement();
-      String sql = "SELECT * FROM Users WHERE username = '" + username + "' AND password = '" + password + "'";
+      String sql = "SELECT * FROM Users WHERE username = '" + username + "' AND password = '" + hashPassword(password)
+          + "'";
 
       ResultSet result = stmt.executeQuery(sql);
 

@@ -95,7 +95,7 @@ public class MusicItemController {
     LoadLater.addLoader(src, callback);
   }
 
-  @SuppressWarnings("exports")
+  // @SuppressWarnings("exports")
   public void setSong(SongModel song) {
     songData = song;
     setTitle(song.getTitle());
@@ -116,7 +116,7 @@ public class MusicItemController {
     handleMenuButton();
   }
 
-  @SuppressWarnings("exports")
+  // @SuppressWarnings("exports")
   public void setSong(SongModel song, String srcMenu) {
     setSrcMenu(srcMenu);
     setSong(song);

@@ -196,6 +196,8 @@ public class RegisterController {
     // Start register
     System.out.println("Username: " + username);
     System.out.println("Password: " + password);
+    // hash password
+    password = AccountManager.hashPassword(password);
     if (AccountManager.register(username, email, password, href)) {
       actionMessage.setText("Đăng ký thành công!");
       App.getNotificationManager().notify("Đăng ký thành công!", NotificationManager.SUCCESS);

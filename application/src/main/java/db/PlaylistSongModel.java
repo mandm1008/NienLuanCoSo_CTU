@@ -210,4 +210,17 @@ public class PlaylistSongModel extends Model {
       return false;
     }
   }
+
+  public boolean copyPlaylist(int fromPlaylistId, int toPlaylistId) {
+    LinkedList<SongModel> songs = getSongsByPlaylistId(fromPlaylistId);
+
+    for (SongModel song : songs) {
+      PlaylistSongModel playlistSong = new PlaylistSongModel(toPlaylistId, song.getSongId());
+      if (!playlistSong.insert()) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 }

@@ -216,7 +216,7 @@ public class MusicUserMenuController extends MenuMusic {
     });
   }
 
-  @SuppressWarnings("exports")
+  // @SuppressWarnings("exports")
   @Override
   public void setSong(SongModel song) {
     songData = song;

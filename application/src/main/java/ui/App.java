@@ -170,17 +170,17 @@ public class App extends Application {
         return currentContent;
     }
 
-    @SuppressWarnings("exports")
+    // @SuppressWarnings("exports")
     public static MusicManager getMusicManager() {
         return musicManager;
     }
 
-    @SuppressWarnings("exports")
+    // @SuppressWarnings("exports")
     public static SearchManager getSearchManager() {
         return searchManager;
     }
 
-    @SuppressWarnings("exports")
+    // @SuppressWarnings("exports")
     public static NotificationManager getNotificationManager() {
         return notificationManager;
     }

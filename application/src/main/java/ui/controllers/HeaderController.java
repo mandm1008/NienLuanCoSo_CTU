@@ -172,6 +172,7 @@ public class HeaderController {
 
     nameItem.setOnAction(event -> {
       // handle profile
+      UserPageController.resetTarget();
       App.redirect(DefindUI.getUserPage());
     });
 

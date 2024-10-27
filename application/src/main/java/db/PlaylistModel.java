@@ -139,6 +139,35 @@ public class PlaylistModel extends Model {
     return false;
   }
 
+  public boolean getDataByUserIdAndName() {
+    try {
+      QueryResult qr = super.query("SELECT * FROM " + getTableName() + " WHERE user_id = ? AND name = ?", (pstmt) -> {
+        try {
+          pstmt.setInt(1, userId);
+          pstmt.setString(2, name);
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      });
+      ResultSet rs = qr.getResultSet();
+
+      if (rs.next()) {
+        this.playlistId = rs.getInt("playlist_id");
+        this.name = rs.getString("name");
+        this.userId = rs.getInt("user_id");
+
+        qr.close();
+        return true;
+      }
+
+      qr.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    return false;
+  }
+
   public String getName() {
     return name;
   }
@@ -186,6 +215,23 @@ public class PlaylistModel extends Model {
     }
 
     return playlists;
+  }
+
+  public boolean copyToUser(int userId) {
+    return copyToUser(userId, 0);
+  }
+
+  public boolean copyToUser(int userId, int count) {
+    String newName = name + ((count > 0) ? (" (" + count + ")") : "");
+    PlaylistModel playlist = new PlaylistModel(newName, userId);
+
+    if (playlist.insert()) {
+      playlist.getDataByUserIdAndName();
+      PlaylistSongModel playlistSong = new PlaylistSongModel();
+      return playlistSong.copyPlaylist(playlistId, playlist.getPlaylistId());
+    } else {
+      return copyToUser(userId, count + 1);
+    }
   }
 
 }

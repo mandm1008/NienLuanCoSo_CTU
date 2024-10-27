@@ -106,7 +106,7 @@ public class PlaylistCreateController {
     handleUser().run();
   }
 
-  @SuppressWarnings("exports")
+  // @SuppressWarnings("exports")
   public void setDialog(CustomDialog dialog) {
     this.dialog = dialog;
   }

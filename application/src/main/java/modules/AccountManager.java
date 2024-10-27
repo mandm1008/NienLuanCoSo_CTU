@@ -63,6 +63,10 @@ public class AccountManager {
     return setting;
   }
 
+  public static String hashPassword(String password) {
+    return UserModel.hashPassword(password);
+  }
+
   public static boolean register(String username, String email, String password, String avatar) {
     UserModel user = new UserModel(username, password, email, avatar);
     return user.insert();
@@ -441,5 +445,14 @@ public class AccountManager {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  public static boolean copyPlaylist(PlaylistModel pl) {
+    boolean rs = pl.copyToUser(id);
+    if (rs) {
+      runEventChangePlaylist();
+    }
+
+    return rs;
   }
 }
