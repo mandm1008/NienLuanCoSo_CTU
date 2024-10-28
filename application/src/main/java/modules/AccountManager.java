@@ -86,10 +86,10 @@ public class AccountManager {
     AccountManager.avatar = user.getAvatar();
 
     // log id and username email avatar
-    System.out.println("id: " + AccountManager.id);
-    System.out.println("username: " + AccountManager.username);
-    System.out.println("email: " + AccountManager.email);
-    System.out.println("avatar: " + AccountManager.avatar);
+    // System.out.println("id: " + AccountManager.id);
+    // System.out.println("username: " + AccountManager.username);
+    // System.out.println("email: " + AccountManager.email);
+    // System.out.println("avatar: " + AccountManager.avatar);
 
     // run event login
     runEventLogin();

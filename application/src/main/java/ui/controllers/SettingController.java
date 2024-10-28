@@ -152,9 +152,9 @@ public class SettingController {
 
     // Set the setting
     String playlistDefaultValue = playlistDefault.getValue();
-    if (playlistDefaultValue == "Mới nhất") {
+    if (playlistDefaultValue.equals("Mới nhất")) {
       setting.setPlaylistId(0);
-    } else if (playlistDefaultValue == "Nhiều lượt nghe") {
+    } else if (playlistDefaultValue.equals("Nhiều lượt nghe")) {
       setting.setPlaylistId(1);
     } else {
       setting.setPlaylistId(playlists.stream().filter(playlist -> playlist.getName().equals(playlistDefaultValue))
