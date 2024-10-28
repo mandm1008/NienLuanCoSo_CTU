@@ -11,7 +11,6 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.api.client.http.FileContent;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
@@ -26,10 +25,8 @@ public class FileService {
   public static Drive getDriveService() throws GeneralSecurityException,
       IOException {
     // Load JSON file credentials
-    FileInputStream serviceAccountStream = new FileInputStream(
-        FileService.class.getResource(CREDENTIALS_FILE_PATH).getPath());
-
-    GoogleCredentials credentials = ServiceAccountCredentials.fromStream(serviceAccountStream)
+    GoogleCredentials credentials = ServiceAccountCredentials
+        .fromStream(FileService.class.getResourceAsStream(CREDENTIALS_FILE_PATH))
         .createScoped(Collections.singleton(DriveScopes.DRIVE_FILE));
 
     return new Drive.Builder(
@@ -59,7 +56,13 @@ public class FileService {
     makeFilePublic(service, file.getId());
 
     // Share to admin
-    shareToAdmin(service, file.getId());
+    new Thread(() -> {
+      try {
+        shareToAdmin(service, file.getId());
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    });
 
     return "https://drive.google.com/uc?export=download&id=" + file.getId();
   }

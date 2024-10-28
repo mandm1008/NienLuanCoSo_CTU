@@ -199,6 +199,16 @@ public class UploadController {
       new Thread(() -> {
         YoutubeData data = YoutubeData.download(link);
         if (data == null) {
+          loadingStateYT.setText("Không tìm thấy!");
+          PauseTransition pause = new PauseTransition(Duration.millis(500));
+          pause.setOnFinished(event -> {
+            FadeTransition fadeOut = new FadeTransition(Duration.millis(500), loadingStateYT);
+            fadeOut.setFromValue(1.0);
+            fadeOut.setToValue(0.0);
+            fadeOut.play();
+            checkLinkButtonYT.setDisable(false);
+          });
+          pause.play();
           return;
         }
         if (!data.upload()) {
@@ -210,7 +220,9 @@ public class UploadController {
             fadeOut.setFromValue(1.0);
             fadeOut.setToValue(0.0);
             fadeOut.play();
+            checkLinkButtonYT.setDisable(false);
           });
+          pause.play();
           return;
         }
         youtubeData = data;

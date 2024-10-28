@@ -81,6 +81,10 @@ public class YoutubeData {
   }
 
   public static YoutubeData download(String youtubeUrl) {
+    if (youtubeUrl.indexOf("&") != -1) {
+      youtubeUrl = youtubeUrl.substring(0, youtubeUrl.indexOf("&"));
+    }
+
     YoutubeData data = YoutubeDownloader.getYouTubeInfo(youtubeUrl);
 
     if (data == null) {

@@ -8,6 +8,9 @@ import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -17,6 +20,7 @@ import modules.ImageManager;
 import modules.MusicManager;
 import modules.NotificationManager;
 import modules.SearchManager;
+import modules.ThreadCustom;
 
 /**
  * JavaFX App
@@ -52,6 +56,27 @@ public class App extends Application {
         stage.setMaximized(true);
         stage.setTitle("Your Music");
         stage.getIcons().add(new Image(App.class.getResource("/images/banner-solid.png").toExternalForm()));
+        stage.setOnCloseRequest(event -> {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.initOwner(stage);
+            alert.setTitle("Thoát Your Music");
+            alert.setHeaderText("Bạn có chắc chắn muốn thoát ứng dụng không?");
+            alert.setContentText("Nhấn OK để thoát, BYE BYE! (^.^)");
+
+            // css
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("/css/alert.css").toExternalForm());
+
+            if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
+                for (Stage st : Stage.getWindows().filtered(window -> window instanceof Stage).toArray(Stage[]::new)) {
+                    st.close();
+                }
+                ThreadCustom.stopAll();
+                Platform.exit();
+                System.exit(0);
+            } else {
+                event.consume();
+            }
+        });
         stage.show();
 
         new Thread(() -> {

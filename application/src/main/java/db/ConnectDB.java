@@ -41,6 +41,7 @@ public class ConnectDB {
       conn.createStatement().execute(SongModel.getCreateTable());
       conn.createStatement().execute(UserLikes.getCreateTable());
       conn.createStatement().execute(PlaylistSongModel.getCreateTable());
+      conn.createStatement().execute(SettingModel.getCreateTable());
 
       return true;
     } catch (SQLException e) {

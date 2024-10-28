@@ -13,7 +13,7 @@ public class SettingModel extends Model {
       "playlist_id INT NULL," +
       "shuff BOOLEAN," +
       "play_now BOOLEAN," +
-      "volume INT CHECK (volume BETWEEN 0 AND 100) DEFAULT 100," +
+      "volume INT DEFAULT 100 CHECK (volume BETWEEN 0 AND 100)," +
       "user_id INT," +
       "FOREIGN KEY (playlist_id) REFERENCES Playlists(playlist_id) ON DELETE SET NULL," +
       "FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE);";
