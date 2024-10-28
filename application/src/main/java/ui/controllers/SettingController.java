@@ -11,6 +11,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import modules.AccountManager;
+import ui.App;
+import ui.DefindUI;
 
 public class SettingController {
   @FXML
@@ -60,6 +62,9 @@ public class SettingController {
 
     // handle username
     handleUsername();
+
+    // handle change password
+    passChangeButton.setOnAction(event -> handleChangePassword());
   }
 
   private void handleUsername() {
@@ -134,6 +139,11 @@ public class SettingController {
         playlistDefault.getItems().add(playlist.getName());
       }
     };
+  }
+
+  private void handleChangePassword() {
+    // Change password
+    App.redirect(DefindUI.getNoLayout(), DefindUI.getChangePassword());
   }
 
   private void handleSaveSettings() {

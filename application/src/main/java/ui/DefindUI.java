@@ -26,6 +26,7 @@ public class DefindUI {
   private static final String setting = "setting";
   private static final String userPage = "user-page";
   private static final String musicUserMenu = "music-user-menu";
+  private static final String changePassword = "change-password";
 
   public static String getLayout() {
     return layout;
@@ -109,6 +110,10 @@ public class DefindUI {
 
   public static String getMusicUserMenu() {
     return musicUserMenu;
+  }
+
+  public static String getChangePassword() {
+    return changePassword;
   }
 
   // @SuppressWarnings("exports")

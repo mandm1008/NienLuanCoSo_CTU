@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import ui.App;
+import ui.DefindUI;
 import db.ArtistModel;
 import db.PlaylistModel;
 import db.PlaylistSongModel;
@@ -454,5 +455,21 @@ public class AccountManager {
     }
 
     return rs;
+  }
+
+  public static boolean changePassword(String oldPassword, String newPassword) {
+    if (AccountManager.id < 0) {
+      return false;
+    }
+
+    if (UserModel.changePassword(username, oldPassword, newPassword)) {
+      App.getNotificationManager().notify("Đổi mật khẩu thành công", NotificationManager.SUCCESS);
+      logout();
+      App.redirect(DefindUI.getNoLayout(), DefindUI.getLogin());
+      return true;
+    } else {
+      App.getNotificationManager().notify("Mật khẩu cũ không đúng!", NotificationManager.ERROR);
+      return false;
+    }
   }
 }

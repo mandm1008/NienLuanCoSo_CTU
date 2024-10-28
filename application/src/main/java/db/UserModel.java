@@ -288,4 +288,22 @@ public class UserModel extends Model {
     });
   }
 
+  public static boolean changePassword(String username, String oldPassword, String newPassword) {
+    UserModel currentUser = match(username, oldPassword);
+    if (currentUser == null) {
+      return false;
+    }
+
+    return currentUser.update(
+        "UPDATE " + currentUser.getTableName() + " SET password = ? WHERE " + currentUser.getIdName() + " = ?",
+        (pstmt) -> {
+          try {
+            pstmt.setString(1, newPassword);
+            pstmt.setInt(2, currentUser.getId());
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        });
+  }
+
 }

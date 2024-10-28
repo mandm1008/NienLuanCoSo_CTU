@@ -40,7 +40,9 @@ public class PlaylistController {
     playlistBox.getChildren().add(title);
 
     // add playlist item
-    for (SongModel song : playlist) {
+    for (int i = 0; i < playlist.size(); i++) {
+      SongModel song = playlist.get(i);
+
       // load fxml
       try {
         FXMLLoader loader = DefindUI.loadFXML(DefindUI.getPlaylistItem());
@@ -54,7 +56,7 @@ public class PlaylistController {
         controller.setTitle(song.getTitle());
         controller.setArtist(song.getArtist().getName());
         controller.setImage(song.getImage());
-        controller.setIndex(playlist.indexOf(song));
+        controller.setIndex(i);
       } catch (IOException e) {
         continue;
       }
