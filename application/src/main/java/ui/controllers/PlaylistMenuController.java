@@ -2,6 +2,7 @@ package ui.controllers;
 
 import db.PlaylistModel;
 import javafx.fxml.FXML;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import modules.MusicManager;
@@ -30,8 +31,15 @@ public class PlaylistMenuController {
     setTitle(playlist.getName());
 
     playButton.setOnAction(e -> {
+      playButton.setDisable(true);
       MusicManager musicManager = App.getMusicManager();
       musicManager.setPlaylistInfo(playlist);
+
+      musicManager.addEventOnChange("playlist-menu-playlist-play", () -> {
+        Platform.runLater(() -> {
+          playButton.setDisable(false);
+        });
+      });
     });
   }
 

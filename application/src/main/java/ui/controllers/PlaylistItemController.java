@@ -37,6 +37,8 @@ public class PlaylistItemController {
   public void initialize() {
     playButton.setOnAction(e -> {
       playImage.setImage(ImageManager.getImage(ImageManager.PAUSE));
+      box.getStyleClass().add("playlist-onplay");
+
       // change song
       if (App.getMusicManager().getIndex() != index)
         App.getMusicManager().changeMusic(index);
@@ -48,15 +50,15 @@ public class PlaylistItemController {
 
   private Runnable changePlayImage() {
     return () -> {
-      System.out.println("Platlist-item: " + index + " change play image - " + App.getMusicManager().getIndex());
+      System.out.println("Playlist-item: " + index + " change play image - " + App.getMusicManager().getIndex());
       if (App.getMusicManager().getIndex() == index) {
         playImage.setImage(ImageManager.getImage(ImageManager.PAUSE));
         box.getStyleClass().add("playlist-onplay");
-        System.out.println("add class");
+        System.out.println("add class: " + box);
       } else {
         playImage.setImage(ImageManager.getImage(ImageManager.PLAY));
-        box.getStyleClass().remove("playlist-onplay");
-        System.out.println("remove class");
+        box.getStyleClass().removeIf(style -> style.equals("playlist-onplay"));
+        System.out.println("remove class: " + box);
       }
     };
   }
@@ -88,6 +90,10 @@ public class PlaylistItemController {
   public void setIndex(int index) {
     this.index = index;
 
+    if (this.index == -999) {
+      return;
+    }
+
     // add event on change
     Platform.runLater(changePlayImage());
     App.getMusicManager().addEventOnChange("playlist-item-" + this.index, () -> Platform.runLater(changePlayImage()));
@@ -99,12 +105,14 @@ public class PlaylistItemController {
 
   public void removeBtn() {
     removeButton.setOnAction(e -> {
+      removeButton.setDisable(true);
       App.getMusicManager().removeMusic(index);
     });
   }
 
   public void setActionRemoveBtn(Runnable runnable) {
     removeButton.setOnAction(e -> {
+      removeButton.setDisable(true);
       runnable.run();
     });
   }
@@ -112,7 +120,6 @@ public class PlaylistItemController {
   public void removePlayBtn() {
     playButton.setOpacity(0);
     playButton.setDisable(true);
-    App.getMusicManager().removeEventOnChange("playlist-item-" + index);
   }
 
   public void setStyleBox(String style) {

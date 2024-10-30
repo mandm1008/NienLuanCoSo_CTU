@@ -67,9 +67,6 @@ public class App extends Application {
             alert.getDialogPane().getStylesheets().add(getClass().getResource("/css/alert.css").toExternalForm());
 
             if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
-                for (Stage st : Stage.getWindows().filtered(window -> window instanceof Stage).toArray(Stage[]::new)) {
-                    st.close();
-                }
                 ThreadCustom.stopAll();
                 Platform.exit();
                 System.exit(0);

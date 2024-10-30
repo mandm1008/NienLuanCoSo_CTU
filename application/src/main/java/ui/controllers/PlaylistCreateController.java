@@ -16,6 +16,8 @@ import modules.CustomDialog;
 import modules.ImageManager;
 import modules.NotificationManager;
 import modules.SearchManager;
+import modules.YoutubeData;
+import ui.App;
 import ui.DefindUI;
 import db.PlaylistModel;
 import db.PlaylistSongModel;
@@ -40,6 +42,10 @@ public class PlaylistCreateController {
   private GridPane searchGridPane;
   @FXML
   private GridPane userListGridPane;
+  @FXML
+  private TextField youtubeTextField;
+  @FXML
+  private Button youtubeButton;
 
   private CustomDialog dialog;
   private PlaylistModel choicePlaylistModel;
@@ -104,6 +110,23 @@ public class PlaylistCreateController {
       Platform.runLater(handleUser());
     });
     handleUser().run();
+
+    // youtube
+    youtubeButton.setOnAction(e -> {
+      youtubeButton.setDisable(true);
+
+      new Thread(() -> {
+        if (handleYoutube()) {
+          Platform.runLater(() -> {
+            youtubeTextField.clear();
+          });
+        }
+
+        Platform.runLater(() -> {
+          youtubeButton.setDisable(false);
+        });
+      }).start();
+    });
   }
 
   // @SuppressWarnings("exports")
@@ -192,9 +215,14 @@ public class PlaylistCreateController {
           // controller
           PlaylistItemController controller = loader.getController();
           controller.setTitle(song.getTitle());
-          controller.setArtist(song.getArtist().getName());
+          if (song.getArtistId() <= 0) {
+            controller.setArtist(song.getArtistName());
+          } else {
+            controller.setArtist(song.getArtist().getName());
+          }
           controller.setImage(song.getImage());
           controller.setStyleBox("-fx-background-color: #664E88; -fx-background-radius: 5px; -fx-padding: 10px;");
+          controller.setIndex(-999);
           controller.removePlayBtn();
 
           controller.setActionRemoveBtn(() -> {
@@ -318,5 +346,43 @@ public class PlaylistCreateController {
         });
       }
     };
+  }
+
+  private boolean handleYoutube() {
+    String url = youtubeTextField.getText();
+    if (url.isEmpty()) {
+      return false;
+    }
+
+    // https://www.youtube.com/watch?v=xWWkx7oJylI
+    if (!url.contains("https://www.youtube.com/watch?v=")) {
+      App.getNotificationManager().notify("Link không hợp lệ!", NotificationManager.ERROR);
+    }
+
+    // remake url
+    if (url.contains("&")) {
+      url = url.substring(0, url.indexOf("&"));
+    }
+
+    YoutubeData ytData = YoutubeData.download(url);
+
+    if (ytData == null) {
+      return false;
+    }
+
+    // link-playlist-song
+    PlaylistSongModel psm = new PlaylistSongModel(choicePlaylistModel.getPlaylistId(), url);
+    if (psm.insertExternal()) {
+      dialog.getNotificationManager().notify("Thêm " + ytData.getTitle() + " thành công!", NotificationManager.SUCCESS);
+    } else {
+      dialog.getNotificationManager().notify("Thêm " + ytData.getTitle() + " thất bại!", NotificationManager.ERROR);
+      return false;
+    }
+
+    Platform.runLater(() -> {
+      handleLoadCurrentMusic();
+    });
+
+    return true;
   }
 }

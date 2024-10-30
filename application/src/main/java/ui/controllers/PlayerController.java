@@ -135,7 +135,11 @@ public class PlayerController {
       Platform.runLater(() -> {
         musicTitle.setText(song.getTitle());
         Tooltip.install(musicTitle, new Tooltip(song.getTitle()));
-        musicArtist.setText(song.getArtist().getName());
+        if (song.getArtistId() <= 0) {
+          musicArtist.setText(song.getArtistName());
+        } else {
+          musicArtist.setText(song.getArtist().getName());
+        }
       });
     };
   }

@@ -54,7 +54,11 @@ public class PlaylistController {
         // set title, artist, image, play button action, play image
         PlaylistItemController controller = loader.getController();
         controller.setTitle(song.getTitle());
-        controller.setArtist(song.getArtist().getName());
+        if (song.getArtistId() <= 0) {
+          controller.setArtist(song.getArtistName());
+        } else {
+          controller.setArtist(song.getArtist().getName());
+        }
         controller.setImage(song.getImage());
         controller.setIndex(i);
       } catch (IOException e) {

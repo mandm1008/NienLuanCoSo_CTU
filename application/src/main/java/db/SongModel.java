@@ -48,6 +48,7 @@ public class SongModel extends Model {
   private String href;
   private String image;
   private int view;
+  private String external = null;
 
   public SongModel() {
     this.songId = -1;
@@ -74,6 +75,13 @@ public class SongModel extends Model {
     this.title = new String(title);
     this.artistId = artistId;
     this.href = new String(href);
+    this.image = new String(image);
+  }
+
+  public SongModel(String title, String artistName, String href, String image) {
+    this.title = new String(title);
+    this.artistName = new String(artistName);
+    this.href = href;
     this.image = new String(image);
   }
 
@@ -152,6 +160,14 @@ public class SongModel extends Model {
     }
 
     return false;
+  }
+
+  public void setExternal(String external) {
+    this.external = external;
+  }
+
+  public String getExternal() {
+    return external;
   }
 
   public void findByTitleAndHref() {

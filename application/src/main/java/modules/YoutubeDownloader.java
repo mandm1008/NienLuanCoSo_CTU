@@ -96,17 +96,31 @@ public class YoutubeDownloader {
     return fileName.replaceAll("[\\\\/:*?\"<>|]", "_");
   }
 
+  public static Path storeDir() {
+    Path jarDir = Paths.get("").toAbsolutePath();
+
+    Path outputDir = jarDir.resolve("downloads").normalize();
+
+    File downloadDirectory = outputDir.toFile();
+
+    if (!downloadDirectory.exists()) {
+      downloadDirectory.mkdirs();
+    }
+
+    return outputDir;
+  }
+
   public static String downloadVideo(String videoUrl, String title) {
     try {
-      String userHome = System.getProperty("user.home");
+      Path outputDir = storeDir();
 
-      Path outputDir = Paths.get(userHome, "Downloads");
-
-      File downloadDirectory = outputDir.toFile();
-      if (!downloadDirectory.exists()) {
-        downloadDirectory.mkdirs();
-      }
       String pathToFile = outputDir.resolve(sanitizeFileName(title) + ".mp4").toAbsolutePath().toString();
+
+      // check if video is already downloaded
+      File videoFile = new File(pathToFile);
+      if (videoFile.exists()) {
+        return pathToFile;
+      }
 
       File ytDownloader = extractYTDownloader();
       ProcessBuilder processBuilder = new ProcessBuilder(
@@ -139,17 +153,17 @@ public class YoutubeDownloader {
 
   public static String downloadThumbnail(String thumbnailUrl, String title) {
     try {
-      String userHome = System.getProperty("user.home");
-
-      Path outputDir = Paths.get(userHome, "Downloads");
-
-      File downloadDirectory = outputDir.toFile();
-      if (!downloadDirectory.exists()) {
-        downloadDirectory.mkdirs();
-      }
+      Path outputDir = storeDir();
 
       String pathToFileWebp = outputDir.resolve(sanitizeFileName(title) + ".webp").toAbsolutePath().toString();
       String pathToFile = outputDir.resolve(sanitizeFileName(title) + ".jpg").toAbsolutePath().toString();
+
+      // check if thumbnail is already downloaded
+      File thumbnailFile = new File(pathToFile);
+      if (thumbnailFile.exists()) {
+        return pathToFile;
+      }
+
       ProcessBuilder processBuilder = new ProcessBuilder(
           "curl",
           "-o",
@@ -174,12 +188,14 @@ public class YoutubeDownloader {
   }
 
   public static void cleanVideo(YoutubeData data) {
+    cleanVideo(data.getTitle());
+  }
+
+  public static void cleanVideo(String title) {
     try {
-      String userHome = System.getProperty("user.home");
+      Path outputDir = storeDir();
 
-      Path outputDir = Paths.get(userHome, "Downloads");
-
-      File videoFile = outputDir.resolve(sanitizeFileName(data.getTitle()) + ".mp4").toFile();
+      File videoFile = outputDir.resolve(sanitizeFileName(title) + ".mp4").toFile();
       if (videoFile.exists()) {
         videoFile.delete();
       }
@@ -189,16 +205,18 @@ public class YoutubeDownloader {
   }
 
   public static void cleanThumbnail(YoutubeData data) {
+    cleanThumbnail(data.getTitle());
+  }
+
+  public static void cleanThumbnail(String title) {
     try {
-      String userHome = System.getProperty("user.home");
+      Path outputDir = storeDir();
 
-      Path outputDir = Paths.get(userHome, "Downloads");
-
-      File thumbnailFile = outputDir.resolve(sanitizeFileName(data.getTitle()) + ".jpg").toFile();
+      File thumbnailFile = outputDir.resolve(sanitizeFileName(title) + ".jpg").toFile();
       if (thumbnailFile.exists()) {
         thumbnailFile.delete();
       }
-      File thumbnailWebpFile = outputDir.resolve(sanitizeFileName(data.getTitle()) + ".webp").toFile();
+      File thumbnailWebpFile = outputDir.resolve(sanitizeFileName(title) + ".webp").toFile();
       if (thumbnailWebpFile.exists()) {
         thumbnailWebpFile.delete();
       }
@@ -258,6 +276,7 @@ public class YoutubeDownloader {
 
     YoutubeData d = getYouTubeInfo(videoUrl);
     // downloadVideo(videoUrl);
-    downloadThumbnail(d.getThumbnail(), d.getTitle());
+    String href = downloadThumbnail(d.getThumbnail(), d.getTitle());
+    System.out.println("Thumbnail: " + href);
   }
 }

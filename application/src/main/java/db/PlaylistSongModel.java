@@ -4,6 +4,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.nio.file.Path;
+
+import modules.YoutubeData;
+import modules.YoutubeDownloader;
 
 public class PlaylistSongModel extends Model {
 
@@ -11,8 +15,9 @@ public class PlaylistSongModel extends Model {
   private static final String createTable = "" +
       "CREATE TABLE IF NOT EXISTS Playlist_Songs (" +
       "playlist_song_id INT AUTO_INCREMENT PRIMARY KEY, " +
-      "playlist_id INT, " +
+      "playlist_id INT NOT NULL, " +
       "song_id INT, " +
+      "external VARCHAR(255), " +
       "FOREIGN KEY (playlist_id) REFERENCES Playlists(playlist_id) ON DELETE CASCADE," +
       "FOREIGN KEY (song_id) REFERENCES Songs(song_id) ON DELETE CASCADE)";
   private final String tableName = "Playlist_Songs";
@@ -36,6 +41,7 @@ public class PlaylistSongModel extends Model {
   private int playlistSongId;
   private int playlistId;
   private int songId;
+  private String external = null;
 
   public PlaylistSongModel() {
     this.playlistSongId = -1;
@@ -50,6 +56,11 @@ public class PlaylistSongModel extends Model {
   public PlaylistSongModel(int playlistId, int songId) {
     this.playlistId = playlistId;
     this.songId = songId;
+  }
+
+  public PlaylistSongModel(int playlistId, String external) {
+    this.playlistId = playlistId;
+    this.external = external;
   }
 
   public PlaylistSongModel(PlaylistSongModel playlistSong) {
@@ -105,6 +116,22 @@ public class PlaylistSongModel extends Model {
     return false;
   }
 
+  public boolean insertExternal() {
+    try {
+      return super.update("INSERT INTO " + getTableName() + " (playlist_id, external) VALUES (?, ?)", (pstmt) -> {
+        try {
+          pstmt.setInt(1, playlistId);
+          pstmt.setString(2, external);
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      });
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+
   public boolean findData() {
     if (playlistSongId == -1) {
       return false;
@@ -116,6 +143,7 @@ public class PlaylistSongModel extends Model {
       if (rs.next()) {
         this.playlistId = rs.getInt("playlist_id");
         this.songId = rs.getInt("song_id");
+        this.external = rs.getString("external");
 
         qr.close();
         return true;
@@ -169,6 +197,14 @@ public class PlaylistSongModel extends Model {
     return playlistSongId;
   }
 
+  public String getExternal() {
+    return external;
+  }
+
+  public boolean isExternal() {
+    return external != null;
+  }
+
   public LinkedList<SongModel> getSongsByPlaylistId(int playlistId) {
     LinkedList<SongModel> songs = new LinkedList<>();
 
@@ -183,7 +219,21 @@ public class PlaylistSongModel extends Model {
       ResultSet rs = qr.getResultSet();
 
       while (rs.next()) {
-        SongModel song = new SongModel(rs.getInt("song_id"));
+        String exString = rs.getString("external");
+
+        if (exString != null) {
+          YoutubeData ytData = YoutubeData.getYoutubeInfo(exString);
+          String thumbnailLocal = YoutubeDownloader.downloadThumbnail(ytData.getThumbnail(), ytData.getTitle());
+          SongModel s = new SongModel(ytData.getTitle(), ytData.getChannelTitle(), ytData.getHrefLocal(),
+              Path.of(thumbnailLocal).toUri().toString());
+          s.setExternal(exString);
+          songs.add(s);
+          System.out.println("External song: " + s.getTitle() + " - " + ytData.getChannelTitle());
+          continue;
+        }
+
+        int songId = rs.getInt("song_id");
+        SongModel song = new SongModel(songId);
         song.findData();
         songs.add(song);
       }
@@ -215,6 +265,14 @@ public class PlaylistSongModel extends Model {
     LinkedList<SongModel> songs = getSongsByPlaylistId(fromPlaylistId);
 
     for (SongModel song : songs) {
+      if (song.getSongId() <= 0) {
+        PlaylistSongModel playlistSong = new PlaylistSongModel(toPlaylistId, song.getExternal());
+        if (!playlistSong.insertExternal()) {
+          return false;
+        }
+        continue;
+      }
+
       PlaylistSongModel playlistSong = new PlaylistSongModel(toPlaylistId, song.getSongId());
       if (!playlistSong.insert()) {
         return false;

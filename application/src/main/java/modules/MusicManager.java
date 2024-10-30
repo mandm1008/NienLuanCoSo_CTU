@@ -5,7 +5,9 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import ui.App;
 
+import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import db.PlaylistModel;
@@ -85,11 +87,16 @@ public class MusicManager {
       if (modeRepeat) {
         this.mediaPlayer.seek(Duration.ZERO);
         this.mediaPlayer.play();
-      } else if (modeShuffle) {
-        int newIndex = (int) (Math.random() * playlist.size());
-        changeMusic(newIndex);
       } else {
-        forwardMusic();
+        if (modeShuffle) {
+          int newIndex;
+          do {
+            newIndex = (int) (Math.random() * playlist.size());
+          } while (newIndex == this.index);
+          changeMusic(newIndex);
+        } else {
+          forwardMusic();
+        }
       }
     });
 
@@ -121,8 +128,18 @@ public class MusicManager {
     if (this.mediaPlayer != null)
       this.mediaPlayer.stop();
 
-    // load new media
-    Media media = new Media(playlist.get(index).getHref());
+    // check youtube external
+    String external = playlist.get(index).getExternal();
+    Media media = null;
+    if (external != null) {
+      String href = YoutubeData.download(external).getHrefLocal();
+      Path path = Path.of(href);
+      media = new Media(path.toUri().toString());
+    } else {
+      // load new media
+      media = new Media(playlist.get(index).getHref());
+    }
+
     this.mediaPlayer = new MediaPlayer(media);
 
     // reload setting
@@ -380,6 +397,15 @@ public class MusicManager {
   }
 
   public void runEventOnChangePlaylist() {
+    // clear onChange key "playlist-item-*"
+    Iterator<String> iterator = eventOnChange.keySet().iterator();
+    while (iterator.hasNext()) {
+      String key = iterator.next();
+      if (key.contains("playlist-item-")) {
+        iterator.remove();
+      }
+    }
+
     for (String key : eventOnChangePlaylist.keySet()) {
       eventOnChangePlaylist.get(key).run();
       System.out.println("Run event onChangePlaylist: " + key);

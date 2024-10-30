@@ -136,6 +136,13 @@
                         </GridPane>
                      </content>
                   </ScrollPane>
+                  <HBox alignment="CENTER_LEFT" spacing="36.0">
+                     <children>
+                        <Label maxWidth="1.7976931348623157E308" styleClass="playlist-title" text="Liên kết từ Youtube:" />
+                        <TextField fx:id="youtubeTextField" maxWidth="-Infinity" prefWidth="300.0" promptText="https://www.youtube.com/watch?v= ..." />
+                        <Button fx:id="youtubeButton" mnemonicParsing="false" style="-fx-background-color: #1f1156; -fx-text-fill: #fff; -fx-cursor: hand;" styleClass="clear-button" text="Thêm" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children>
