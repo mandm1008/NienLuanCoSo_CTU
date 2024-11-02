@@ -79,8 +79,12 @@ public class ConnectDB {
     // user 0
     UserModel user0 = new UserModel("system", "system", "system@system.system");
     user0.insert();
-    user0.update("UPDATE Users SET user_id = 0 WHERE user_id = 1", (pstm) -> {
-
+    user0.update("UPDATE Users SET user_id = 0 WHERE user_id = ?", (pstm) -> {
+      try {
+        pstm.setInt(1, 1);
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
     });
     // user 1
     UserModel user1 = new UserModel("admin", "admin", "admin@admin.admin");
@@ -143,14 +147,22 @@ public class ConnectDB {
     PlaylistModel playlist1 = new PlaylistModel("Mới nhất", 0);
     playlist1.insert();
     // set id 0 for playlist 1
-    playlist1.update("UPDATE Playlists SET playlist_id = 0 WHERE playlist_id = 1", (pstm) -> {
-
+    playlist1.update("UPDATE Playlists SET playlist_id = 0 WHERE playlist_id = ?", (pstm) -> {
+      try {
+        pstm.setInt(1, 1);
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
     });
     PlaylistModel playlist2 = new PlaylistModel("Nhiều lượt nghe", 0);
     playlist2.insert();
     // set id 1 for playlist 2
-    playlist2.update("UPDATE Playlists SET playlist_id = 1 WHERE playlist_id = 2", (pstm) -> {
-
+    playlist2.update("UPDATE Playlists SET playlist_id = 1 WHERE playlist_id = ?", (pstm) -> {
+      try {
+        pstm.setInt(1, 2);
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
     });
 
     System.out.println("Init data for Playlists");

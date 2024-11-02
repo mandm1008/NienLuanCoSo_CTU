@@ -3,6 +3,7 @@ package modules;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import javafx.application.Platform;
 import ui.App;
 
 import java.nio.file.Path;
@@ -167,11 +168,21 @@ public class MusicManager {
   public void setPlaylistInfo(PlaylistModel playlistInfo) {
     // load Playlist
     new Thread(() -> {
-      PlaylistSongModel psm = new PlaylistSongModel();
-      LinkedList<SongModel> songs = psm.getSongsByPlaylistId(playlistInfo.getPlaylistId());
+      LinkedList<SongModel> songs;
+
+      if (playlistInfo.getUserId() == -127) {
+        songs = Downloader.getDownloadedSongs();
+      } else {
+        PlaylistSongModel psm = new PlaylistSongModel();
+        songs = psm.getSongsByPlaylistId(playlistInfo.getPlaylistId());
+      }
 
       if (songs.size() == 0) {
-        App.getNotificationManager().notify("Danh sách phát trống", NotificationManager.ERROR);
+        Platform.runLater(() -> {
+          App.getNotificationManager().notify("Danh sách phát trống", NotificationManager.ERROR);
+        });
+
+        eventOnChange.get("playlist-menu-playlist-play").run();
         return;
       }
 

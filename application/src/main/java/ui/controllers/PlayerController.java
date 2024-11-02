@@ -151,7 +151,7 @@ public class PlayerController {
     }
 
     // like button
-    likeButton.setOnAction(e -> {
+    likeButton.setOnAction(_ -> {
       if (AccountManager.getId() < 0) {
         return;
       }
@@ -181,7 +181,7 @@ public class PlayerController {
 
   private void handleShare() {
     // share button
-    shareButton.setOnAction(e -> {
+    shareButton.setOnAction(_ -> {
       // share music
       SongModel song = App.getMusicManager().getCurrentSong();
       System.out.println("Share: " + song.getHref());
@@ -190,7 +190,7 @@ public class PlayerController {
 
   private Runnable handleLoadTime() {
     // time slider
-    timeSlider.setOnMouseReleased(event -> {
+    timeSlider.setOnMouseReleased(_ -> {
       MediaPlayer mediaPlayer = App.getMusicManager().getMediaPlayer();
       mediaPlayer.seek(Duration.seconds(Math.round(timeSlider.getValue())));
     });
@@ -224,7 +224,7 @@ public class PlayerController {
     });
 
     // hide tooltip
-    timeSlider.setOnMouseExited(event -> {
+    timeSlider.setOnMouseExited(_ -> {
       tooltip.hide();
     });
 
@@ -248,7 +248,7 @@ public class PlayerController {
 
   private Runnable handleControl() {
     // play pause loading logic
-    playButton.setOnAction(e -> {
+    playButton.setOnAction(_ -> {
       // play or pause music
       if (App.getMusicManager().getMediaPlayer().getStatus() == MediaPlayer.Status.PLAYING) {
         App.getMusicManager().pauseMusic();
@@ -260,25 +260,25 @@ public class PlayerController {
     });
 
     // prev button
-    prevButton.setOnAction(e -> {
+    prevButton.setOnAction(_ -> {
       // play previous song
       App.getMusicManager().prev10sMusic();
     });
 
     // next button
-    nextButton.setOnAction(e -> {
+    nextButton.setOnAction(_ -> {
       // play next song
       App.getMusicManager().next10sMusic();
     });
 
     // forward button
-    forwardButton.setOnAction(e -> {
+    forwardButton.setOnAction(_ -> {
       // forward music
       App.getMusicManager().forwardMusic();
     });
 
     // back button
-    backButton.setOnAction(e -> {
+    backButton.setOnAction(_ -> {
       // back music
       App.getMusicManager().backMusic();
     });
@@ -304,7 +304,7 @@ public class PlayerController {
   }
 
   private Runnable handleRepeat() {
-    repeatButton.setOnAction(e -> {
+    repeatButton.setOnAction(_ -> {
       // repeat music
       if (App.getMusicManager().isRepeat()) {
         App.getMusicManager().setRepeat(false);
@@ -325,7 +325,7 @@ public class PlayerController {
   }
 
   private Runnable handleShuffle() {
-    shuffButton.setOnAction(e -> {
+    shuffButton.setOnAction(_ -> {
       // shuffle music
       if (App.getMusicManager().isShuffle()) {
         App.getMusicManager().setShuffle(false);
@@ -346,7 +346,7 @@ public class PlayerController {
   }
 
   private Runnable handleLoadVolume() {
-    volumeButton.setOnAction(e -> {
+    volumeButton.setOnAction(_ -> {
       // change icon
       if (volumeSlider.getValue() > 0) {
         volumeSlider.setValue(0);
@@ -362,7 +362,7 @@ public class PlayerController {
       volumeSlider.setMin(0);
       volumeSlider.setMax(100);
       volumeSlider.setValue(musicManager.getVolume() * 100);
-      volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+      volumeSlider.valueProperty().addListener((_, _, newVal) -> {
         musicManager.setVolume(newVal.doubleValue() / 100);
         if (newVal.doubleValue() == 0) {
           volumeImage.setImage(ImageManager.getImage(ImageManager.VOLUMEOFF));
@@ -390,7 +390,7 @@ public class PlayerController {
       popup.setAutoHide(true);
       popup.getContent().add(playlist);
 
-      playlistButton.setOnAction(e -> {
+      playlistButton.setOnAction(_ -> {
         if (popup.isShowing()) {
           popup.hide();
         } else {

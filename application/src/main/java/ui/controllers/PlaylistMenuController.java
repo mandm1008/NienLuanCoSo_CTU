@@ -30,7 +30,7 @@ public class PlaylistMenuController {
   private void load() {
     setTitle(playlist.getName());
 
-    playButton.setOnAction(e -> {
+    playButton.setOnAction(_ -> {
       playButton.setDisable(true);
       MusicManager musicManager = App.getMusicManager();
       musicManager.setPlaylistInfo(playlist);

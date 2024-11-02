@@ -48,11 +48,14 @@ public class MusicItemController {
 
       MenuMusic controller = loader.getController();
       controller.setSong(songData);
+      controller.setOnActionEvent(() -> {
+        menuPopup.hide();
+      });
     } catch (IOException e) {
       e.printStackTrace();
     }
 
-    menuButton.setOnAction(e -> {
+    menuButton.setOnAction(_ -> {
       if (menuPopup.isShowing()) {
         menuPopup.hide();
       } else {

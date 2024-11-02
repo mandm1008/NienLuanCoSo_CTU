@@ -66,7 +66,7 @@ public class MenuController {
   }
 
   private Runnable handleExploreButton() {
-    exploreButton.setOnAction(e -> {
+    exploreButton.setOnAction(_ -> {
       if (App.getCurrentContent() != DefindUI.getHome()) {
         App.redirect(DefindUI.getHome());
       }
@@ -82,7 +82,7 @@ public class MenuController {
   }
 
   private Runnable handleSearchButton() {
-    searchButton.setOnAction(e -> {
+    searchButton.setOnAction(_ -> {
       if (App.getCurrentContent() != DefindUI.getSearch()) {
         App.redirect(DefindUI.getSearch());
       }
@@ -98,7 +98,7 @@ public class MenuController {
   }
 
   private Runnable handleFavoriteButton() {
-    favoriteButton.setOnAction(e -> {
+    favoriteButton.setOnAction(_ -> {
       // check user login
       if (AccountManager.getId() < 0) {
         App.redirect(DefindUI.getLogin());
@@ -119,7 +119,7 @@ public class MenuController {
   }
 
   private void handlePlaylistsButton() {
-    playlistsButton.setOnAction(e -> {
+    playlistsButton.setOnAction(_ -> {
       // check user login
       if (AccountManager.getId() < 0) {
         App.redirect(DefindUI.getLogin());
@@ -143,6 +143,20 @@ public class MenuController {
         return;
       }
 
+      PlaylistModel localPlaylist = new PlaylistModel("Đã tải", -127);
+      try {
+        FXMLLoader loader = DefindUI.loadFXML(DefindUI.getPlaylistMenu());
+        Parent playlistItem = loader.load();
+
+        // set data
+        PlaylistMenuController controller = loader.getController();
+        controller.setData(localPlaylist);
+
+        playlistBox.add(playlistItem, 0, 0);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+
       // add playlist item
       for (int i = 0; i < playlists.size(); i++) {
         try {
@@ -153,7 +167,7 @@ public class MenuController {
           PlaylistMenuController controller = loader.getController();
           controller.setData(playlists.get(i));
 
-          playlistBox.add(playlistItem, 0, i);
+          playlistBox.add(playlistItem, 0, i + 1);
         } catch (IOException e) {
           e.printStackTrace();
         }
@@ -181,7 +195,7 @@ public class MenuController {
     }
 
     // create playlist button
-    createPlaylistButton.setOnAction(e -> {
+    createPlaylistButton.setOnAction(_ -> {
       showCreatePlaylistDialog();
     });
   }

@@ -87,7 +87,7 @@ public class UploadController {
   }
 
   private void handleChooseSrc() {
-    chooseSrcBtn.setOnAction(e -> {
+    chooseSrcBtn.setOnAction(_ -> {
       FileChooser fileChooser = new FileChooser();
       fileChooser.setTitle("Chọn file nhạc");
 
@@ -100,7 +100,7 @@ public class UploadController {
   }
 
   private void handleChooseImage() {
-    chooseImageBtn.setOnAction(e -> {
+    chooseImageBtn.setOnAction(_ -> {
       FileChooser fileChooser = new FileChooser();
       fileChooser.setTitle("Chọn file ảnh");
 
@@ -113,7 +113,7 @@ public class UploadController {
   }
 
   private void handleCheckImage() {
-    checkImageBtn.setOnAction(e -> {
+    checkImageBtn.setOnAction(_ -> {
       String path = imageField.getText();
       if (path.isEmpty()) {
         return;
@@ -131,19 +131,19 @@ public class UploadController {
   }
 
   private void handleChooseName() {
-    chooseNameBtn.setOnAction(e -> {
+    chooseNameBtn.setOnAction(_ -> {
 
     });
   }
 
   private void handleChooseArtist() {
-    chooseArtistBtn.setOnAction(e -> {
+    chooseArtistBtn.setOnAction(_ -> {
 
     });
   }
 
   private void handleUpload() {
-    uploadBtn.setOnAction(e -> {
+    uploadBtn.setOnAction(_ -> {
       String fileSRCString = srcField.getText();
       String imageSRCString = imageField.getText();
       String nameString = nameField.getText();
@@ -180,7 +180,7 @@ public class UploadController {
 
   // for Youtube
   private void handleCheckLinkYT() {
-    checkLinkButtonYT.setOnAction(e -> {
+    checkLinkButtonYT.setOnAction(_ -> {
       checkLinkButtonYT.setDisable(true);
       uploadBtnYT.setDisable(true);
       loadingStateYT.setOpacity(1);
@@ -201,7 +201,7 @@ public class UploadController {
         if (data == null) {
           loadingStateYT.setText("Không tìm thấy!");
           PauseTransition pause = new PauseTransition(Duration.millis(500));
-          pause.setOnFinished(event -> {
+          pause.setOnFinished(_ -> {
             FadeTransition fadeOut = new FadeTransition(Duration.millis(500), loadingStateYT);
             fadeOut.setFromValue(1.0);
             fadeOut.setToValue(0.0);
@@ -215,7 +215,7 @@ public class UploadController {
           App.getNotificationManager().notify("Upload thất bại!", NotificationManager.ERROR);
           loadingStateYT.setText("Không tìm thấy!");
           PauseTransition pause = new PauseTransition(Duration.millis(500));
-          pause.setOnFinished(event -> {
+          pause.setOnFinished(_ -> {
             FadeTransition fadeOut = new FadeTransition(Duration.millis(500), loadingStateYT);
             fadeOut.setFromValue(1.0);
             fadeOut.setToValue(0.0);
@@ -251,7 +251,7 @@ public class UploadController {
           checkLinkButtonYT.setDisable(false);
         });
         PauseTransition pause = new PauseTransition(Duration.millis(500));
-        pause.setOnFinished(event -> {
+        pause.setOnFinished(_ -> {
           FadeTransition fadeOut = new FadeTransition(Duration.millis(500), loadingStateYT);
           fadeOut.setFromValue(1.0);
           fadeOut.setToValue(0.0);
@@ -263,7 +263,7 @@ public class UploadController {
   }
 
   private void handleUploadYT() {
-    uploadBtnYT.setOnAction(e -> {
+    uploadBtnYT.setOnAction(_ -> {
       if (youtubeData == null) {
         App.getNotificationManager().notify("Chưa kiểm tra link!", NotificationManager.ERROR);
         return;
@@ -294,7 +294,7 @@ public class UploadController {
 
       loadingStateYT.setText("Đã xong!");
       PauseTransition pause = new PauseTransition(Duration.millis(500));
-      pause.setOnFinished(event -> {
+      pause.setOnFinished(_ -> {
         FadeTransition fadeOut = new FadeTransition(Duration.millis(500), loadingStateYT);
         fadeOut.setFromValue(1.0);
         fadeOut.setToValue(0.0);

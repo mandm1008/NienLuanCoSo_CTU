@@ -60,7 +60,7 @@ public class HeaderController {
   }
 
   private void toHome() {
-    homeBtn.setOnAction(e -> {
+    homeBtn.setOnAction(_ -> {
       Platform.runLater(() -> {
         App.redirect(DefindUI.getHome());
       });
@@ -73,7 +73,7 @@ public class HeaderController {
       rotateTransition = new RotateTransition(Duration.millis(2000), reloadBtn);
       rotateTransition.setByAngle(360);
       rotateTransition.setCycleCount(1);
-      rotateTransition.setOnFinished(e -> {
+      rotateTransition.setOnFinished(_ -> {
         if (isStopRotate) {
           rotateTransition.stop();
           isStopRotate = false;
@@ -83,7 +83,7 @@ public class HeaderController {
       });
     }
 
-    reloadBtn.setOnAction(e -> {
+    reloadBtn.setOnAction(_ -> {
       // start rotate
       rotateTransition.play();
       App.reload();
@@ -97,7 +97,7 @@ public class HeaderController {
 
   private void setupSearch() {
     // search button
-    searchBtn.setOnAction(e -> {
+    searchBtn.setOnAction(_ -> {
       // check empty
       if (searchField.getText().isEmpty()) {
         return;
@@ -170,19 +170,19 @@ public class HeaderController {
     logoutItem.setStyle(itemStyle);
     nameItem.setStyle(itemStyle);
 
-    nameItem.setOnAction(event -> {
+    nameItem.setOnAction(_ -> {
       // handle profile
       UserPageController.resetTarget();
       App.redirect(DefindUI.getUserPage());
     });
 
-    settingItem.setOnAction(event -> {
+    settingItem.setOnAction(_ -> {
       // handle setting
       System.out.println("Go to Setting");
       App.redirect(DefindUI.getSetting());
     });
 
-    upLoadSong.setOnAction(event -> {
+    upLoadSong.setOnAction(_ -> {
       // check user login
       if (AccountManager.getId() <= -1) {
         App.redirect(DefindUI.getNoLayout(), DefindUI.getLogin());
@@ -193,7 +193,7 @@ public class HeaderController {
       App.redirect(DefindUI.getUpload());
     });
 
-    logoutItem.setOnAction(event -> {
+    logoutItem.setOnAction(_ -> {
       // handle logout
       AccountManager.logout();
       App.redirect(DefindUI.getNoLayout(), DefindUI.getLogin());
@@ -203,7 +203,7 @@ public class HeaderController {
     avartaMenu.getItems().addAll(nameItem, settingItem, upLoadSong, logoutItem);
 
     // avarta action
-    avartaButton.setOnAction(e -> {
+    avartaButton.setOnAction(_ -> {
       // if no login
       if (AccountManager.getId() <= -1) {
         App.redirect(DefindUI.getNoLayout(), DefindUI.getLogin());

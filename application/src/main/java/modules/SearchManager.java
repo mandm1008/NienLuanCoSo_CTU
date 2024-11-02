@@ -42,7 +42,7 @@ public class SearchManager {
   }
 
   public void runEventOnSearch() {
-    eventOnSearch.forEach((key, event) -> {
+    eventOnSearch.forEach((_, event) -> {
       event.run();
     });
   }

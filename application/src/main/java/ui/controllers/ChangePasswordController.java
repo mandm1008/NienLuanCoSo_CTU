@@ -25,15 +25,15 @@ public class ChangePasswordController {
 
   public void initialize() {
     // back
-    backButton.setOnAction(event -> handleBack());
+    backButton.setOnAction(_ -> handleBack());
 
     // change password
-    changePasswordButton.setOnAction(event -> handleChangePassword());
+    changePasswordButton.setOnAction(_ -> handleChangePassword());
 
     // clear error
-    oldPasswordField.setOnKeyTyped(event -> clearError());
-    newPasswordField.setOnKeyTyped(event -> clearError());
-    confirmPasswordField.setOnKeyTyped(event -> clearError());
+    oldPasswordField.setOnKeyTyped(_ -> clearError());
+    newPasswordField.setOnKeyTyped(_ -> clearError());
+    confirmPasswordField.setOnKeyTyped(_ -> clearError());
   }
 
   public void handleBack() {

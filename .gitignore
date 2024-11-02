@@ -36,3 +36,4 @@ application/src/main/resources/access/*.json
 # testing files
 test/
 downloads/
+musics/

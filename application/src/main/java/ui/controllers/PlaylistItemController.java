@@ -35,7 +35,7 @@ public class PlaylistItemController {
   private int index;
 
   public void initialize() {
-    playButton.setOnAction(e -> {
+    playButton.setOnAction(_ -> {
       playImage.setImage(ImageManager.getImage(ImageManager.PAUSE));
       box.getStyleClass().add("playlist-onplay");
 
@@ -104,14 +104,14 @@ public class PlaylistItemController {
   }
 
   public void removeBtn() {
-    removeButton.setOnAction(e -> {
+    removeButton.setOnAction(_ -> {
       removeButton.setDisable(true);
       App.getMusicManager().removeMusic(index);
     });
   }
 
   public void setActionRemoveBtn(Runnable runnable) {
-    removeButton.setOnAction(e -> {
+    removeButton.setOnAction(_ -> {
       removeButton.setDisable(true);
       runnable.run();
     });

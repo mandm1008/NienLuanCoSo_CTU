@@ -28,15 +28,15 @@ public class LoginController {
   public void initialize() {
     // backToHomeButton
     backToHomeButton.toFront();
-    backToHomeButton.setOnAction(e -> {
+    backToHomeButton.setOnAction(_ -> {
       // back
       System.out.println("Back to Home");
       App.redirect(DefindUI.getHome());
     });
 
     // clear errors
-    txtUsername.setOnKeyTyped(e -> clearErrors());
-    txtPassword.setOnKeyTyped(e -> clearErrors());
+    txtUsername.setOnKeyTyped(_ -> clearErrors());
+    txtPassword.setOnKeyTyped(_ -> clearErrors());
   }
 
   // Submit handler

@@ -258,7 +258,7 @@ public class AccountManager {
     defaultPlayButton.getStyleClass().add("playlist-hover");
     defaultPlayButton.setStyle("-fx-text-fill: white; -fx-text-alignment: left;");
     defaultPlayButton.setMaxWidth(Double.MAX_VALUE);
-    defaultPlayButton.setOnAction(e -> {
+    defaultPlayButton.setOnAction(_ -> {
       App.getMusicManager().addToPlaylist(song);
       popup.hide();
     });
@@ -271,7 +271,7 @@ public class AccountManager {
       button.getStyleClass().add("playlist-hover");
       button.setStyle("-fx-text-fill: white; -fx-text-alignment: left;");
       button.setMaxWidth(Double.MAX_VALUE);
-      button.setOnAction(e -> {
+      button.setOnAction(_ -> {
         AccountManager.addToPlaylist(song, playlist);
         popup.hide();
       });

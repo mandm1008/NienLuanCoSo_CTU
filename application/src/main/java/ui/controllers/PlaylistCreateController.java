@@ -67,7 +67,7 @@ public class PlaylistCreateController {
     AccountManager.addEventChangePlaylist("playlist-create-current", handleChoiceBox());
 
     // create button
-    createButton.setOnAction(e -> {
+    createButton.setOnAction(_ -> {
       String name = nameField.getText();
       if (name.isEmpty()) {
         return;
@@ -85,12 +85,12 @@ public class PlaylistCreateController {
     });
 
     // cancel button
-    cancelButton.setOnAction(e -> {
+    cancelButton.setOnAction(_ -> {
       nameField.clear();
     });
 
     // delete button
-    deleteButton.setOnAction(e -> {
+    deleteButton.setOnAction(_ -> {
       if (choicePlaylistModel == null) {
         return;
       }
@@ -112,7 +112,7 @@ public class PlaylistCreateController {
     handleUser().run();
 
     // youtube
-    youtubeButton.setOnAction(e -> {
+    youtubeButton.setOnAction(_ -> {
       youtubeButton.setDisable(true);
 
       new Thread(() -> {
@@ -175,7 +175,7 @@ public class PlaylistCreateController {
       }
 
       // event
-      choiceBox.setOnAction(e -> {
+      choiceBox.setOnAction(_ -> {
         System.out.println("Run set on action choice box");
         handleLoadCurrentMusic(playlists);
       });

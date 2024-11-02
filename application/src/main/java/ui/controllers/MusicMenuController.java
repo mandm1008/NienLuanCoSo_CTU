@@ -28,6 +28,8 @@ public class MusicMenuController extends MenuMusic {
   @FXML
   private Button downloadButton;
 
+  private Runnable onActionEventRunner = null;
+
   private SongModel songData = new SongModel();
 
   public void initialize() {
@@ -55,7 +57,7 @@ public class MusicMenuController extends MenuMusic {
     }
 
     // like button
-    likeButton.setOnAction(e -> {
+    likeButton.setOnAction(_ -> {
       if (AccountManager.checkLikedSong(songData.getSongId())) {
         AccountManager.unlikeSong(songData.getSongId());
         likeImage.setImage(ImageManager.getImage(ImageManager.LIKED));
@@ -79,13 +81,17 @@ public class MusicMenuController extends MenuMusic {
   }
 
   private void handlePlayNowButton() {
-    playNowButton.setOnAction(e -> {
+    playNowButton.setOnAction(_ -> {
       App.getMusicManager().changeMusic(songData);
+
+      if (onActionEventRunner != null) {
+        onActionEventRunner.run();
+      }
     });
   }
 
   private void handleAddPlaylistButton() {
-    addPlaylistButton.setOnAction(e -> {
+    addPlaylistButton.setOnAction(_ -> {
       double x = addPlaylistButton.localToScreen(addPlaylistButton.getBoundsInLocal()).getMaxX();
       double y = addPlaylistButton.localToScreen(addPlaylistButton.getBoundsInLocal()).getMinY();
       AccountManager.addToPlaylist(songData, x, y);
@@ -93,16 +99,33 @@ public class MusicMenuController extends MenuMusic {
   }
 
   private void handleShareButton() {
-    shareButton.setOnAction(e -> {
+    shareButton.setOnAction(_ -> {
+      if (onActionEventRunner != null) {
+        onActionEventRunner.run();
+      }
+
       System.out.println("Share: " + songData.getHref());
       App.getNotificationManager().notify("Share: " + songData.getTitle(), NotificationManager.SUCCESS);
     });
   }
 
   private void handleDownloadButton() {
-    downloadButton.setOnAction(e -> {
+    downloadButton.setOnAction(_ -> {
+      if (onActionEventRunner != null) {
+        onActionEventRunner.run();
+      }
+
       System.out.println("Download: " + songData.getHref());
-      Downloader.run(songData.getHref(), songData.getTitle() + ".mp3");
+      new Thread(() -> {
+        try {
+          Downloader.download(songData.getHref());
+          Downloader.download(songData.getImage());
+        } catch (Exception e) {
+          e.printStackTrace();
+          Downloader.download(songData.getHref(), songData.getTitle() + ".mp3");
+          Downloader.download(songData.getImage(), songData.getTitle() + ".jpg");
+        }
+      }).start();
     });
   }
 
@@ -111,5 +134,10 @@ public class MusicMenuController extends MenuMusic {
   public void setSong(SongModel song) {
     songData = song;
     title.setText("-- " + song.getTitle() + " --");
+  }
+
+  @Override
+  public void setOnActionEvent(Runnable runner) {
+    onActionEventRunner = runner;
   }
 }

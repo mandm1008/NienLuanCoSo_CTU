@@ -35,6 +35,8 @@ public class MusicUserMenuController extends MenuMusic {
   @FXML
   private Button downloadButton;
 
+  private Runnable onActionEventRunner = null;
+
   private SongModel songData = new SongModel();
 
   public void initialize() {
@@ -68,7 +70,7 @@ public class MusicUserMenuController extends MenuMusic {
     }
 
     // like button
-    likeButton.setOnAction(e -> {
+    likeButton.setOnAction(_ -> {
       if (AccountManager.checkLikedSong(songData.getSongId())) {
         AccountManager.unlikeSong(songData.getSongId());
         likeImage.setImage(ImageManager.getImage(ImageManager.LIKED));
@@ -92,13 +94,17 @@ public class MusicUserMenuController extends MenuMusic {
   }
 
   private void handlePlayNowButton() {
-    playNowButton.setOnAction(e -> {
+    playNowButton.setOnAction(_ -> {
+      if (onActionEventRunner != null) {
+        onActionEventRunner.run();
+      }
+
       App.getMusicManager().changeMusic(songData);
     });
   }
 
   private void handleAddPlaylistButton() {
-    addPlaylistButton.setOnAction(e -> {
+    addPlaylistButton.setOnAction(_ -> {
       double x = addPlaylistButton.localToScreen(addPlaylistButton.getBoundsInLocal()).getMaxX();
       double y = addPlaylistButton.localToScreen(addPlaylistButton.getBoundsInLocal()).getMinY();
       AccountManager.addToPlaylist(songData, x, y);
@@ -106,7 +112,11 @@ public class MusicUserMenuController extends MenuMusic {
   }
 
   private void handleShareButton() {
-    shareButton.setOnAction(e -> {
+    shareButton.setOnAction(_ -> {
+      if (onActionEventRunner != null) {
+        onActionEventRunner.run();
+      }
+
       System.out.println("Share: " + songData.getHref());
       App.getNotificationManager().notify("Share: " + songData.getTitle(), NotificationManager.SUCCESS);
     });
@@ -156,10 +166,10 @@ public class MusicUserMenuController extends MenuMusic {
     buttonBox.getChildren().addAll(saveButton, cancelButton);
 
     // events
-    nameField.textProperty().addListener((observable, oldValue, newValue) -> {
+    nameField.textProperty().addListener((_, _, newValue) -> {
       saveButton.setDisable(songData.getTitle().equals(newValue));
     });
-    saveButton.setOnAction(e -> {
+    saveButton.setOnAction(_ -> {
       System.out.println("Save: " + songData.getTitle());
       if (songData.updateTitle(nameField.getText())) {
         App.getNotificationManager().notify("Đổi tên bài hát thành công", NotificationManager.SUCCESS);
@@ -168,7 +178,7 @@ public class MusicUserMenuController extends MenuMusic {
       }
       popup.hide();
     });
-    cancelButton.setOnAction(e -> {
+    cancelButton.setOnAction(_ -> {
       System.out.println("Cancel: " + songData.getTitle());
       popup.hide();
     });
@@ -179,7 +189,7 @@ public class MusicUserMenuController extends MenuMusic {
     // add to popup
     popup.getContent().add(box);
 
-    editButton.setOnAction(e -> {
+    editButton.setOnAction(_ -> {
       System.out.println("Edit: " + songData.getTitle());
       nameField.setText(songData.getTitle());
       // get position
@@ -196,9 +206,9 @@ public class MusicUserMenuController extends MenuMusic {
   }
 
   private void handleSaveDeleteButton() {
-    saveDeleteButton.setOnAction(e -> {
+    saveDeleteButton.setOnAction(_ -> {
       System.out.println("Save/Delete: " + songData.getTitle());
-      Downloader.run(songData.getHref(), songData.getTitle() + ".mp3");
+      Downloader.run(songData.getHref());
 
       // delete
       if (songData.delete()) {
@@ -210,9 +220,20 @@ public class MusicUserMenuController extends MenuMusic {
   }
 
   private void handleDownloadButton() {
-    downloadButton.setOnAction(e -> {
+    downloadButton.setOnAction(_ -> {
+      if (onActionEventRunner != null) {
+        onActionEventRunner.run();
+      }
+
       System.out.println("Download: " + songData.getHref());
-      Downloader.run(songData.getHref(), songData.getTitle() + ".mp3");
+      new Thread(() -> {
+        try {
+          Downloader.download(songData.getHref());
+          Downloader.download(songData.getImage());
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }).start();
     });
   }
 
@@ -221,5 +242,10 @@ public class MusicUserMenuController extends MenuMusic {
   public void setSong(SongModel song) {
     songData = song;
     title.setText("-- " + song.getTitle() + " --");
+  }
+
+  @Override
+  public void setOnActionEvent(Runnable runner) {
+    onActionEventRunner = runner;
   }
 }

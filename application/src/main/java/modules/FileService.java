@@ -12,7 +12,9 @@ import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.api.client.http.FileContent;
 
 import java.io.IOException;
+import java.net.URI;
 import java.security.GeneralSecurityException;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class FileService {
@@ -92,6 +94,29 @@ public class FileService {
   public static void delete(String fileId) throws Exception {
     Drive service = getDriveService();
     service.files().delete(fileId).execute();
+  }
+
+  public static String getFileName(String downloadUrl) throws Exception {
+    String fileId = extractFileId(downloadUrl);
+
+    if (fileId == null || fileId.isEmpty()) {
+      throw new IllegalArgumentException("Invalid Google Drive URL");
+    }
+
+    Drive service = getDriveService();
+    File file = service.files().get(fileId).setFields("name").execute();
+    return file.getName();
+  }
+
+  private static String extractFileId(String url) throws Exception {
+    URI uri = new URI(url);
+    String query = uri.getQuery();
+
+    return Arrays.stream(query.split("&"))
+        .filter(param -> param.startsWith("id="))
+        .map(param -> param.split("=")[1])
+        .findFirst()
+        .orElse(null);
   }
 
 }

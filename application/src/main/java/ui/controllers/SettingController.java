@@ -58,17 +58,17 @@ public class SettingController {
     AccountManager.addEventChangePlaylist("setting", loadSetting());
 
     // save setting
-    saveSettingButton.setOnAction(event -> handleSaveSettings());
+    saveSettingButton.setOnAction(_ -> handleSaveSettings());
 
     // handle username
     handleUsername();
 
     // handle change password
-    passChangeButton.setOnAction(event -> handleChangePassword());
+    passChangeButton.setOnAction(_ -> handleChangePassword());
   }
 
   private void handleUsername() {
-    nameCheck.onActionProperty().set(event -> {
+    nameCheck.onActionProperty().set(_ -> {
       if (nameCheck.isSelected()) {
         nameField.setDisable(false);
       } else {
@@ -78,7 +78,7 @@ public class SettingController {
       }
     });
 
-    nameField.textProperty().addListener((observable, oldValue, newValue) -> {
+    nameField.textProperty().addListener((_, _, newValue) -> {
       if (newValue.equals(AccountManager.getUsername())) {
         nameButton.setDisable(true);
       } else {
@@ -86,7 +86,7 @@ public class SettingController {
       }
     });
 
-    nameButton.setOnAction(event -> {
+    nameButton.setOnAction(_ -> {
       AccountManager.updateUsername(nameField.getText());
 
       nameButton.setDisable(true);

@@ -62,7 +62,7 @@ public class RegisterController {
   public void initialize() {
     // backToHomeButton
     backToHomeButton.toFront();
-    backToHomeButton.setOnAction(e -> {
+    backToHomeButton.setOnAction(_ -> {
       // back
       App.redirect(DefindUI.getHome());
     });
@@ -108,30 +108,30 @@ public class RegisterController {
     handleSetAvatar1();
 
     // chooseAvatarButton1
-    chooseAvatarButton1.setOnAction(e -> {
+    chooseAvatarButton1.setOnAction(_ -> {
       handleSetAvatar1();
     });
 
     // chooseAvatarButton2
-    chooseAvatarButton2.setOnAction(e -> {
+    chooseAvatarButton2.setOnAction(_ -> {
       handleSetAvatar2();
     });
 
     // chooseAvatarButton3
-    chooseAvatarButton3.setOnAction(e -> {
+    chooseAvatarButton3.setOnAction(_ -> {
       handleSetAvatar3();
     });
 
     // chooseAvatarButton4
-    chooseAvatarButton4.setOnAction(e -> {
+    chooseAvatarButton4.setOnAction(_ -> {
       handleSetAvatar4();
     });
 
     // clear errors
-    txtUsername.setOnKeyTyped(e -> clearErrors());
-    txtEmail.setOnKeyTyped(e -> clearErrors());
-    txtPassword.setOnKeyTyped(e -> clearErrors());
-    txtConfirmPassword.setOnKeyTyped(e -> clearErrors());
+    txtUsername.setOnKeyTyped(_ -> clearErrors());
+    txtEmail.setOnKeyTyped(_ -> clearErrors());
+    txtPassword.setOnKeyTyped(_ -> clearErrors());
+    txtConfirmPassword.setOnKeyTyped(_ -> clearErrors());
   }
 
   // Submit handler
