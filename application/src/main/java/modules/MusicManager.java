@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentHashMap;
 
 import db.PlaylistModel;
 import db.PlaylistSongModel;
@@ -28,7 +29,7 @@ public class MusicManager {
   private boolean modeShuffle = false;
 
   // for event
-  private HashMap<String, Runnable> eventOnChange = new HashMap<>();
+  private ConcurrentHashMap<String, Runnable> eventOnChange = new ConcurrentHashMap<>();
   private HashMap<String, Runnable> eventOnPlay = new HashMap<>();
   private HashMap<String, Runnable> eventOnLoad = new HashMap<>();
   private HashMap<String, Runnable> eventOnChangePlaylist = new HashMap<>();
@@ -41,13 +42,39 @@ public class MusicManager {
   public MusicManager() {
     loadSetting();
 
-    System.out.println("Playlist size: " + playlist.size());
-
-    if (this.playlist.size() == 0)
-      this.playlist = new LinkedList<SongModel>(SongModel.getNewSongs(9));
+    try {
+      if (this.playlist.size() == 0)
+        this.playlist = new LinkedList<SongModel>(SongModel.getNewSongs(9));
+    } catch (Exception e) {
+      this.playlist = Downloader.getDownloadedSongs();
+    }
 
     this.index = 0;
     reLoadData();
+  }
+
+  public MusicManager(PlaylistModel playlistInfo) {
+    this.playlistInfo = playlistInfo;
+
+    try {
+      if (playlistInfo.getUserId() == -127) {
+        this.playlist = Downloader.getDownloadedSongs();
+      } else {
+        PlaylistSongModel psm = new PlaylistSongModel();
+        this.playlist = psm.getSongsByPlaylistId(playlistInfo.getPlaylistId());
+      }
+    } catch (Exception e) {
+      this.playlist = new LinkedList<SongModel>(SongModel.getNewSongs(9));
+    }
+
+    this.index = 0;
+    reLoadData();
+  }
+
+  public void clearMusicManager() {
+    if (this.mediaPlayer != null) {
+      this.mediaPlayer.stop();
+    }
   }
 
   private boolean loadSetting() {
@@ -246,7 +273,8 @@ public class MusicManager {
 
     // increase view
     new Thread(() -> {
-      playlist.get(index).increaseView();
+      if (App.isInternet)
+        playlist.get(index).increaseView();
     }).start();
   }
 

@@ -117,6 +117,13 @@ public class AccountManager {
     }).start();
   }
 
+  public static void clear() {
+    AccountManager.id = -1;
+    AccountManager.username = null;
+    AccountManager.email = null;
+    AccountManager.avatar = null;
+  }
+
   public static void likeSong(int songId) {
     if (AccountManager.id < 0) {
       return;

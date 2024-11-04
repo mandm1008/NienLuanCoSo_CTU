@@ -38,14 +38,6 @@ public class ThreadCustom {
     this.delay = delay;
   }
 
-  public void runnerLater(Runnable runnable) {
-    Runnable runner = () -> {
-      Platform.runLater(runnable);
-    };
-
-    scheduled.scheduleAtFixedRate(runner, delay, period, TimeUnit.MILLISECONDS);
-  }
-
   public void runner(String key, Runnable runnable) {
     theadOnRun.put(key, this);
     Runnable runner = () -> {

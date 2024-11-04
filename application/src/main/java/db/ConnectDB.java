@@ -29,6 +29,8 @@ public class ConnectDB {
       conn.close();
     } catch (SQLException e) {
       e.printStackTrace();
+    } catch (NullPointerException e) {
+      System.out.println("Connection is null");
     }
   }
 

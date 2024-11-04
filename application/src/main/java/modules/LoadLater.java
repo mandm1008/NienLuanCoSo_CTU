@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import javafx.scene.image.Image;
 import javafx.util.Callback;
+import ui.App;
 
 public class LoadLater {
   private static HashMap<String, Image> images = new HashMap<>();
@@ -20,7 +21,8 @@ public class LoadLater {
       if (image.isError()) {
         System.out.println(image.getException().toString());
         System.out.println("Error loading image: " + src);
-        addLoader(src, callback);
+        if (App.isInternet)
+          addLoader(src, callback);
         return;
       }
 

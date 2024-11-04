@@ -20,6 +20,8 @@ import ui.DefindUI;
 
 public class HeaderController {
   @FXML
+  private HBox box;
+  @FXML
   private Button homeBtn;
   @FXML
   private Button reloadBtn;
@@ -57,6 +59,10 @@ public class HeaderController {
 
     // setup menu
     setupMenu();
+
+    if (!App.isInternet) {
+      box.setDisable(true);
+    }
   }
 
   private void toHome() {

@@ -171,7 +171,7 @@ public class PlayerController {
       SongModel song = App.getMusicManager().getCurrentSong();
       UserModel user = new UserModel(AccountManager.getId());
 
-      if (user.checkLikedSong(song.getSongId())) {
+      if (App.isInternet && user.checkLikedSong(song.getSongId())) {
         likeImage.setImage(ImageManager.getImage(ImageManager.LIKED));
       } else {
         likeImage.setImage(ImageManager.getImage(ImageManager.LIKE));

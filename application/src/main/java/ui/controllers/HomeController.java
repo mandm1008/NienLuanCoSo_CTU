@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.GridPane;
+import ui.App;
 import ui.DefindUI;
 import db.SongModel;
 
@@ -17,14 +18,16 @@ public class HomeController {
   private GridPane mostViewGridPane;
 
   public void initialize() {
-    new Thread(() -> {
-      try {
-        loadRelease();
-        loadMostView();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }).start();
+    if (App.isInternet) {
+      new Thread(() -> {
+        try {
+          loadRelease();
+          loadMostView();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }).start();
+    }
   }
 
   public void loadRelease() {

@@ -20,6 +20,8 @@ import ui.DefindUI;
 
 public class MenuController {
   @FXML
+  private StackPane box;
+  @FXML
   private Button exploreButton;
   @FXML
   private Button searchButton;
@@ -63,6 +65,10 @@ public class MenuController {
 
     // create playlist button
     Platform.runLater(() -> handleCreatePlaylistButton());
+
+    if (!App.isInternet) {
+      box.setDisable(true);
+    }
   }
 
   private Runnable handleExploreButton() {
@@ -139,10 +145,6 @@ public class MenuController {
       // load playlist
       LinkedList<PlaylistModel> playlists = AccountManager.getPlaylists();
 
-      if (playlists == null) {
-        return;
-      }
-
       PlaylistModel localPlaylist = new PlaylistModel("Đã tải", -127);
       try {
         FXMLLoader loader = DefindUI.loadFXML(DefindUI.getPlaylistMenu());
@@ -155,6 +157,10 @@ public class MenuController {
         playlistBox.add(playlistItem, 0, 0);
       } catch (IOException e) {
         e.printStackTrace();
+      }
+
+      if (playlists == null) {
+        return;
       }
 
       // add playlist item

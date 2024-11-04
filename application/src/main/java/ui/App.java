@@ -3,6 +3,7 @@ package ui;
 import java.io.IOException;
 import java.util.HashMap;
 
+import db.PlaylistModel;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Parent;
@@ -18,6 +19,7 @@ import javafx.stage.Stage;
 import modules.AccountManager;
 import modules.ImageManager;
 import modules.MusicManager;
+import modules.NetworkCheck;
 import modules.NotificationManager;
 import modules.SearchManager;
 import modules.ThreadCustom;
@@ -39,6 +41,9 @@ public class App extends Application {
 
     private static HashMap<String, Runnable> eventChangePage = new HashMap<>();
     private static HashMap<String, Runnable> eventReloadAll = new HashMap<>();
+
+    // for internet
+    public static boolean isInternet = true;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -74,16 +79,102 @@ public class App extends Application {
                 event.consume();
             }
         });
+
+        loadAll(stage, scene);
+
         stage.show();
 
+        NetworkCheck networkCheck = new NetworkCheck();
+        networkCheck.setRunOnInternet(() -> {
+            if (!NetworkCheck.check()) {
+                isInternet = false;
+                return;
+            }
+
+            if (isSwitchToOnline(stage)) {
+                Platform.runLater(() -> {
+                    try {
+                        loadAll(stage, scene);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+        });
+
+        networkCheck.setRunOnNoInternet(() -> {
+            if (NetworkCheck.check()) {
+                isInternet = true;
+                return;
+            }
+
+            Platform.runLater(() -> {
+                try {
+                    loadAll(stage, scene);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        });
+
+        networkCheck.start();
+    }
+
+    private static boolean isSwitchToOnline(Stage st) {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.initOwner(st);
+        alert.setTitle("Chuyển sang chế độ Online");
+        alert.setHeaderText("Đã có kết nối Internet");
+        alert.setContentText("Bạn có muốn chuyển sang Online không?");
+
+        // css
+        alert.getDialogPane().getStylesheets().add(App.class.getResource("/css/alert.css").toExternalForm());
+
+        return alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK;
+    }
+
+    public static void loadAll(Stage stage, Scene scene) throws IOException {
+        // show loading screen
+        StackPane stackLayout = new StackPane();
+        ProgressIndicator progressIndicator = new ProgressIndicator(-1.0);
+        stackLayout.getChildren().add(progressIndicator);
+
+        // set scene
+        scene.setRoot(stackLayout);
+
         new Thread(() -> {
+            isInternet = NetworkCheck.check();
+
+            // title
+            if (isInternet) {
+                Platform.runLater(() -> {
+                    stage.setTitle("Your Music");
+                });
+            } else {
+                Platform.runLater(() -> {
+                    stage.setTitle("Your Music (Offline)");
+                });
+            }
+
             // auto login
             System.out.println("Auto login");
-            AccountManager.autoLogin();
+            if (isInternet) {
+                AccountManager.autoLogin();
+            } else {
+                AccountManager.clear();
+            }
 
             // init music media
             System.out.println("Init music media");
-            musicManager = new MusicManager();
+            if (musicManager != null) {
+                musicManager.clearMusicManager();
+            }
+            if (isInternet) {
+                musicManager = new MusicManager();
+            } else {
+                musicManager = new MusicManager(new PlaylistModel("Đã tải", -127));
+            }
+
             primaryStage = stage;
 
             // load images
@@ -102,6 +193,11 @@ public class App extends Application {
             // load notification manager
             System.out.println("Load notification manager");
             notificationManager = new NotificationManager(primaryStage);
+
+            if (!isInternet) {
+                notificationManager.notify("Không có kết nối internet, Ứng dụng sẽ chạy ở chế độ offline",
+                        NotificationManager.WARNING);
+            }
 
             try {
                 // load layout
@@ -192,17 +288,14 @@ public class App extends Application {
         return currentContent;
     }
 
-    // @SuppressWarnings("exports")
     public static MusicManager getMusicManager() {
         return musicManager;
     }
 
-    // @SuppressWarnings("exports")
     public static SearchManager getSearchManager() {
         return searchManager;
     }
 
-    // @SuppressWarnings("exports")
     public static NotificationManager getNotificationManager() {
         return notificationManager;
     }
