@@ -23,6 +23,7 @@ import modules.NetworkCheck;
 import modules.NotificationManager;
 import modules.SearchManager;
 import modules.ThreadCustom;
+import modules.YoutubeDownloader;
 
 /**
  * JavaFX App
@@ -72,8 +73,16 @@ public class App extends Application {
             alert.getDialogPane().getStylesheets().add(getClass().getResource("/css/alert.css").toExternalForm());
 
             if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
+                // clean youtube data
+                YoutubeDownloader.cleanAll();
+
+                // stop all scheduled
                 ThreadCustom.stopAll();
+
+                // exit all stage
                 Platform.exit();
+
+                // exit application
                 System.exit(0);
             } else {
                 event.consume();

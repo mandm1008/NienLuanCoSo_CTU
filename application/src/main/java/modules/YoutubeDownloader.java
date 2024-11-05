@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -33,7 +34,14 @@ public class YoutubeDownloader {
     return "unknown";
   }
 
+  // cache the extracted yt-dlp file
+  private static File YTDLPFile = null;
+
   public static File extractYTDownloader() throws IOException {
+    if (YTDLPFile != null) {
+      return YTDLPFile;
+    }
+
     String os = getOS();
     String resourcePath = "";
 
@@ -67,6 +75,8 @@ public class YoutubeDownloader {
     if (os.equals("linux") || os.equals("mac")) {
       tempFile.setExecutable(true);
     }
+
+    YTDLPFile = tempFile;
 
     return tempFile;
   }
@@ -225,7 +235,14 @@ public class YoutubeDownloader {
     }
   }
 
+  // cache youtube data
+  private static HashMap<String, YoutubeData> cacheYTData = new HashMap<>();
+
   public static YoutubeData getYouTubeInfo(String videoUrl) {
+    if (cacheYTData.containsKey(videoUrl)) {
+      return cacheYTData.get(videoUrl);
+    }
+
     try {
       File ytDownloader = extractYTDownloader();
 
@@ -263,11 +280,29 @@ public class YoutubeDownloader {
       System.out.println("Thumbnail: " + (mediumThumbnailUrl != null ? mediumThumbnailUrl : "Not found!"));
 
       YoutubeData data = new YoutubeData(title, channel, mediumThumbnailUrl);
+
+      cacheYTData.put(videoUrl, data);
+
       return data;
 
     } catch (Exception e) {
       e.printStackTrace();
       return null;
+    }
+  }
+
+  public static void cleanAll() {
+    cacheYTData.clear();
+    try {
+      Path outputDir = storeDir();
+
+      File downloadDirectory = outputDir.toFile();
+      File[] files = downloadDirectory.listFiles();
+      for (File file : files) {
+        file.delete();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
