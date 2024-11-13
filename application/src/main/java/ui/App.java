@@ -45,6 +45,11 @@ public class App extends Application {
 
     // for internet
     public static boolean isInternet = true;
+    private static final int ONLINE_MODE = 0;
+    private static final int OFFLINE_MODE = 1;
+    private static int currentMode = ONLINE_MODE; // 0: online, 1: offline
+    private static Alert alertOnInternet;
+    private static Alert alertNoInternet;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -100,7 +105,10 @@ public class App extends Application {
                 return;
             }
 
-            if (isSwitchToOnline(stage)) {
+            if (alertNoInternet != null)
+                alertNoInternet.close();
+
+            if (currentMode != ONLINE_MODE && isSwitchToOnline(stage)) {
                 Platform.runLater(() -> {
                     try {
                         loadAll(stage, scene);
@@ -117,29 +125,49 @@ public class App extends Application {
                 return;
             }
 
-            Platform.runLater(() -> {
-                try {
-                    loadAll(stage, scene);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
+            if (alertOnInternet != null)
+                alertOnInternet.close();
+
+            if (currentMode != OFFLINE_MODE && isSwitchToOffline(stage)) {
+                Platform.runLater(() -> {
+                    try {
+                        loadAll(stage, scene);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
         });
 
         networkCheck.start();
     }
 
     private static boolean isSwitchToOnline(Stage st) {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.initOwner(st);
-        alert.setTitle("Chuyển sang chế độ Online");
-        alert.setHeaderText("Đã có kết nối Internet");
-        alert.setContentText("Bạn có muốn chuyển sang Online không?");
+        alertOnInternet = new Alert(AlertType.CONFIRMATION);
+        alertOnInternet.initOwner(st);
+        alertOnInternet.setTitle("Chuyển sang chế độ Online");
+        alertOnInternet.setHeaderText("Đã có kết nối Internet");
+        alertOnInternet.setContentText("Bạn có muốn chuyển sang Online không?");
 
         // css
-        alert.getDialogPane().getStylesheets().add(App.class.getResource("/css/alert.css").toExternalForm());
+        alertOnInternet.getDialogPane().getStylesheets().add(App.class.getResource("/css/alert.css").toExternalForm());
 
-        return alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK;
+        return alertOnInternet.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK;
+    }
+
+    private static boolean isSwitchToOffline(Stage st) {
+        alertNoInternet = new Alert(AlertType.INFORMATION);
+        alertNoInternet.initOwner(st);
+        alertNoInternet.setTitle("Chuyển sang chế độ Offline");
+        alertNoInternet.setHeaderText("Mất kết nối Internet");
+        alertNoInternet.setContentText("Bạn có muốn chuyển sang Offline không?");
+
+        // css
+        alertNoInternet.getDialogPane().getStylesheets().add(App.class.getResource("/css/alert.css").toExternalForm());
+
+        alertNoInternet.getButtonTypes().setAll(ButtonType.OK);
+
+        return alertNoInternet.showAndWait().orElse(ButtonType.CANCEL) != ButtonType.CANCEL;
     }
 
     public static void loadAll(Stage stage, Scene scene) throws IOException {
@@ -153,6 +181,13 @@ public class App extends Application {
 
         new Thread(() -> {
             isInternet = NetworkCheck.check();
+
+            // set mode
+            if (isInternet) {
+                currentMode = ONLINE_MODE;
+            } else {
+                currentMode = OFFLINE_MODE;
+            }
 
             // title
             if (isInternet) {

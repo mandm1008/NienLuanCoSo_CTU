@@ -22,6 +22,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class YoutubeDownloader {
+  public static final String DOWNLOAD_DIR = "downloads";
+
   public static String getOS() {
     String os = System.getProperty("os.name").toLowerCase();
     if (os.contains("win")) {
@@ -109,7 +111,7 @@ public class YoutubeDownloader {
   public static Path storeDir() {
     Path jarDir = Paths.get("").toAbsolutePath();
 
-    Path outputDir = jarDir.resolve("downloads").normalize();
+    Path outputDir = jarDir.resolve(DOWNLOAD_DIR).normalize();
 
     File downloadDirectory = outputDir.toFile();
 

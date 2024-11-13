@@ -165,6 +165,7 @@ public class MusicManager {
       media = new Media(path.toUri().toString());
     } else {
       // load new media
+      System.out.println("Playing music link::: " + playlist.get(index).getHref());
       media = new Media(playlist.get(index).getHref());
     }
 
