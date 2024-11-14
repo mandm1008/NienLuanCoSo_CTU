@@ -15,7 +15,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane style="-fx-padding: 0;" styleClass="home-box" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.UploadController">
+<AnchorPane style="-fx-padding: 0;" styleClass="home-box"
+   xmlns="http://javafx.com/javafx/22"
+   xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.UploadController">
    <children>
       <ScrollPane hbarPolicy="NEVER" style="-fx-background-color: #1e1e2e;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
@@ -61,14 +63,12 @@
                                        <children>
                                           <Label styleClass="upload-item--text" text="Tên bài hát: " />
                                           <TextField fx:id="nameField" styleClass="upload-item--field" />
-                                          <Button fx:id="chooseNameBtn" mnemonicParsing="false" styleClass="upload-item--button" text="Dán" />
                                        </children>
                                     </HBox>
                                     <HBox styleClass="upload-item--box">
                                        <children>
                                           <Label styleClass="upload-item--text" text="Tác giả: " />
                                           <TextField fx:id="artistField" styleClass="upload-item--field" />
-                                          <Button fx:id="chooseArtistBtn" mnemonicParsing="false" styleClass="upload-item--button" text="Dán" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER" style="-fx-alignment: center;" styleClass="upload-item--box">

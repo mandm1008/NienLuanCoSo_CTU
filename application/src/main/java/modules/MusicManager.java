@@ -337,6 +337,10 @@ public class MusicManager {
     // check shuffle mode
     if (modeShuffle) {
       int newIndex = (int) (Math.random() * playlist.size());
+      if (index == newIndex) {
+        forwardMusic();
+        return;
+      }
       changeMusic(newIndex);
       return;
     }
@@ -350,6 +354,10 @@ public class MusicManager {
     // check shuffle mode
     if (modeShuffle) {
       int newIndex = (int) (Math.random() * playlist.size());
+      if (index == newIndex) {
+        backMusic();
+        return;
+      }
       changeMusic(newIndex);
       return;
     }

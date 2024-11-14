@@ -38,6 +38,8 @@ public class HeaderController {
   @FXML
   private ContextMenu avartaMenu;
 
+  private MenuItem nameItem = null;
+
   private RotateTransition rotateTransition = null;
   private boolean isStopRotate = false;
 
@@ -140,6 +142,11 @@ public class HeaderController {
       Image image = new Image(avatarSrc);
       Platform.runLater(() -> {
         avartaBox.setFill(new ImagePattern(image));
+
+        // update name
+        if (nameItem != null) {
+          nameItem.setText("@" + AccountManager.getUsername());
+        }
       });
     };
   }
@@ -149,7 +156,7 @@ public class HeaderController {
     avartaMenu = new ContextMenu();
 
     // add menu item
-    MenuItem nameItem = new MenuItem("@" + AccountManager.getUsername());
+    nameItem = new MenuItem("@" + AccountManager.getUsername());
     MenuItem settingItem = new MenuItem("Tài khoản");
     MenuItem upLoadSong = new MenuItem("Tải lên bài hát");
     MenuItem logoutItem = new MenuItem("Đăng xuất");

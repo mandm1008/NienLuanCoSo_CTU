@@ -208,11 +208,15 @@ public class MusicUserMenuController extends MenuMusic {
   private void handleSaveDeleteButton() {
     saveDeleteButton.setOnAction(_ -> {
       System.out.println("Save/Delete: " + songData.getTitle());
-      Downloader.run(songData.getHref());
+
+      new Thread(() -> {
+        Downloader.run(songData.getHref());
+      }).start();
 
       // delete
       if (songData.delete()) {
         App.getNotificationManager().notify("Xóa bài hát thành công", NotificationManager.SUCCESS);
+        App.reloadPage();
       } else {
         App.getNotificationManager().notify("Xóa bài hát thất bại", NotificationManager.ERROR);
       }

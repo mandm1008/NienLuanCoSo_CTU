@@ -42,11 +42,7 @@ public class UploadController {
   @FXML
   private TextField nameField;
   @FXML
-  private Button chooseNameBtn;
-  @FXML
   private TextField artistField;
-  @FXML
-  private Button chooseArtistBtn;
   @FXML
   private Button uploadBtn;
 
@@ -74,8 +70,6 @@ public class UploadController {
     handleChooseSrc();
     handleChooseImage();
     handleCheckImage();
-    handleChooseName();
-    handleChooseArtist();
     handleUpload();
 
     // youtube
@@ -130,43 +124,41 @@ public class UploadController {
     });
   }
 
-  private void handleChooseName() {
-    chooseNameBtn.setOnAction(_ -> {
-
-    });
-  }
-
-  private void handleChooseArtist() {
-    chooseArtistBtn.setOnAction(_ -> {
-
-    });
-  }
-
   private void handleUpload() {
     uploadBtn.setOnAction(_ -> {
+      uploadBtn.setDisable(true);
+
       String fileSRCString = srcField.getText();
       String imageSRCString = imageField.getText();
       String nameString = nameField.getText();
       String artistString = artistField.getText();
 
-      String audioHref;
-      String imageHref;
+      new Thread(() -> {
+        String audioHref;
+        String imageHref;
 
-      try {
-        // upload .mp3 file
-        audioHref = FileService.uploadFile(fileSRCString, "audio/mpeg", nameString);
-        // upload image file
-        imageHref = FileService.uploadFile(imageSRCString, "image/png", nameString + "_image");
+        try {
+          // upload .mp3 file
+          audioHref = FileService.uploadFile(fileSRCString, "audio/mpeg", nameString);
+          // upload image file
+          imageHref = FileService.uploadFile(imageSRCString, "image/png", nameString + "_image");
 
-        if (AccountManager.uploadSong(nameString, artistString, audioHref, imageHref)) {
-          clearFields();
-          App.getNotificationManager().notify("Upload thành công!", NotificationManager.SUCCESS);
-        } else {
-          App.getNotificationManager().notify("Upload thất bại!", NotificationManager.ERROR);
+          if (AccountManager.uploadSong(nameString, artistString, audioHref, imageHref)) {
+            Platform.runLater(() -> {
+              clearFields();
+              uploadBtn.setDisable(false);
+            });
+            App.getNotificationManager().notify("Upload thành công!", NotificationManager.SUCCESS);
+          } else {
+            App.getNotificationManager().notify("Upload thất bại!", NotificationManager.ERROR);
+            Platform.runLater(() -> {
+              uploadBtn.setDisable(false);
+            });
+          }
+        } catch (Exception err) {
+          err.printStackTrace();
         }
-      } catch (Exception err) {
-        err.printStackTrace();
-      }
+      }).start();
     });
   }
 

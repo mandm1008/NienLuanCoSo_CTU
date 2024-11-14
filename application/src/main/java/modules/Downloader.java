@@ -205,16 +205,3 @@ public class Downloader {
     return songs;
   }
 }
-
-// %C3%8D -> I%CC%81
-// file:///D:/CTU/NienLuanCoSo/musics/KARIK%20-%20K%C3%8DU%20(FT.%20MIU%20L%C3%8A)%20_%20Official%20Visualizer.mp4
-// file:///D:/CTU/NienLuanCoSo/musics/KARIK%20-%20KI%CC%81U%20(FT.%20MIU%20L%C3%8A)%20_%20Official%20Visualizer.mp4
-
-// file:///D:/CTU/NienLuanCoSo/./musics/KARIK%20-%20M%E1%BB%9Di%20Ng%C6%B0%E1%BB%9Di%20K%E1%BA%BF%20Ti%E1%BA%BFp%20(ft.%20Only%20C)%20_%20OFFICIAL%20MUSIC%20VIDEO.mp4
-// file:///D:/CTU/NienLuanCoSo/musics/KARIK%20-%20M%C6%A1%CC%80i%20Ng%C6%B0%C6%A1%CC%80i%20K%C3%AA%CC%81%20Ti%C3%AA%CC%81p%20(ft.%20Only%20C)%20_%20OFFICIAL%20MUSIC%20VIDEO.mp4
-// D:\CTU\NienLuanCoSo\musics\KARIK - Mời Người Kế Tiếp (ft. Only C) _
-// OFFICIAL MUSIC VIDEO.mp4
-// ơ -> %C6%A1%CC%80
-// ơ w -> %E1%BB%9D
-// ế -> %C3%AA%CC%81
-// ế w -> %E1%BA%BF

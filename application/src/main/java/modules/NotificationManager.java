@@ -25,7 +25,6 @@ public class NotificationManager {
 
   public NotificationManager(Stage primaryStage) {
     this.stage = primaryStage;
-    this.container = new VBox();
     this.container = new VBox(10);
     this.container.setAlignment(Pos.TOP_RIGHT);
     this.container.setPadding(new Insets(10));

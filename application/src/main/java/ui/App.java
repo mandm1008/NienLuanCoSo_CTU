@@ -291,6 +291,12 @@ public class App extends Application {
         }).start();
     }
 
+    public static void reloadPage() {
+        Platform.runLater(() -> {
+            redirect(currentLayout, currentContent);
+        });
+    }
+
     public static void redirect(String content) {
         redirect(DefindUI.getLayout(), content);
     }
