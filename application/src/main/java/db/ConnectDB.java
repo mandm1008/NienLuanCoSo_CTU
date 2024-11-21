@@ -1,20 +1,74 @@
 package db;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ConnectDB {
   // local mysql
-  private String url = "jdbc:mysql://localhost:3306/"; // Database URL
-  private String dbName = "your_music"; // Database Name
-  private String driver = "com.mysql.cj.jdbc.Driver"; // Driver Name
-  private String userName = "root"; // Database Username
-  private String password = ""; // Database Password
+  private static final String LOCAL_URL = "jdbc:mysql://localhost:3306/"; // Database URL
+  private static final String LOCAL_DBNAME = "your_music"; // Database Name
+  private static final String LOCAL_DRIVE = "com.mysql.cj.jdbc.Driver"; // Driver Name
+  private static final String LOCAL_USERNAME = "root"; // Database Username
+  private static final String LOCAL_PASSWORD = ""; // Database Password
+
+  private static String url = LOCAL_URL; // Database URL
+  private static String dbName = LOCAL_DBNAME; // Database Name
+  private static String driver = LOCAL_DRIVE; // Driver Name
+  private static String userName = LOCAL_USERNAME; // Database Username
+  private static String password = LOCAL_PASSWORD; // Database Password
 
   private Connection conn = null;
+
+  public static boolean loadProperties() {
+    Properties properties = new Properties();
+
+    try (FileInputStream input = new FileInputStream("config.properties")) {
+      // Load thông tin từ file properties
+      properties.load(input);
+
+      String fUrl = properties.getProperty("db.url");
+      String fDbName = properties.getProperty("db.name");
+      String fUserName = properties.getProperty("db.username");
+      String fPassword = properties.getProperty("db.password");
+
+      System.out.println("Url: " + fUrl);
+      System.out.println("Database Name: " + fDbName);
+      System.out.println("Username: " + fUserName);
+      System.out.println("Password: " + fPassword);
+
+      if (fUrl != null && fDbName != null && fUserName != null && fPassword != null) {
+        url = fUrl;
+        dbName = fDbName;
+        userName = fUserName;
+        password = fPassword;
+      } else {
+        return false;
+      }
+
+      ConnectDB db = new ConnectDB();
+
+      if (db.getConnect() == null) {
+        url = LOCAL_URL;
+        dbName = LOCAL_DBNAME;
+        userName = LOCAL_USERNAME;
+        password = LOCAL_PASSWORD;
+
+        return false;
+      }
+
+      db.closeConnect();
+      return true;
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
 
   public ConnectDB() {
     connectDB();
@@ -173,6 +227,7 @@ public class ConnectDB {
   }
 
   public static void main(String[] args) {
+    loadProperties();
     initDataDB();
   }
 }

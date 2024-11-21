@@ -3,6 +3,7 @@ package ui;
 import java.io.IOException;
 import java.util.HashMap;
 
+import db.ConnectDB;
 import db.PlaylistModel;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -200,6 +201,9 @@ public class App extends Application {
                 });
             }
 
+            // load properties
+            boolean isGlobalDB = ConnectDB.loadProperties();
+
             // auto login
             System.out.println("Auto login");
             if (isInternet) {
@@ -240,6 +244,11 @@ public class App extends Application {
 
             if (!isInternet) {
                 notificationManager.notify("Không có kết nối internet, Ứng dụng sẽ chạy ở chế độ offline",
+                        NotificationManager.WARNING);
+            }
+
+            if (isInternet && !isGlobalDB) {
+                notificationManager.notify("Ứng dụng đang dùng cơ sở dữ liệu cục bộ! Vui lòng kiểm tra file cấu hình.",
                         NotificationManager.WARNING);
             }
 
