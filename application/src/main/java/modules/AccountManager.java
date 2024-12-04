@@ -479,4 +479,16 @@ public class AccountManager {
       return false;
     }
   }
+
+  public static boolean backupPassword(String email, String newPassword) {
+    if (UserModel.changePassword(email, newPassword)) {
+      App.getNotificationManager().notify("Đổi mật khẩu thành công", NotificationManager.SUCCESS);
+      logout();
+      App.redirect(DefindUI.getNoLayout(), DefindUI.getLogin());
+      return true;
+    } else {
+      App.getNotificationManager().notify("Mật khẩu cũ không đúng!", NotificationManager.ERROR);
+      return false;
+    }
+  }
 }

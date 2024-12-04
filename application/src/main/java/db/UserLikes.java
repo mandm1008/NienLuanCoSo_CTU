@@ -13,8 +13,8 @@ public class UserLikes extends Model {
       "user_like_id INT AUTO_INCREMENT PRIMARY KEY, " +
       "user_id INT, " +
       "song_id INT, " +
-      "FOREIGN KEY (user_id) REFERENCES Users(user_id)," +
-      "FOREIGN KEY (song_id) REFERENCES Songs(song_id))";
+      "FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE," +
+      "FOREIGN KEY (song_id) REFERENCES Songs(song_id) ON DELETE CASCADE)";
   private final String tableName = "User_Likes";
   private final String idName = "user_like_id";
 

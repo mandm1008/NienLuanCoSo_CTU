@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 import modules.AccountManager;
 import ui.App;
 import ui.DefindUI;
@@ -35,6 +36,8 @@ public class SettingController {
   private CheckBox playNowCheckBox;
   @FXML
   private Button saveSettingButton;
+  @FXML
+  private StackPane wrapperSP;
 
   LinkedList<PlaylistModel> playlists;
 
@@ -65,6 +68,9 @@ public class SettingController {
 
     // handle change password
     passChangeButton.setOnAction(_ -> handleChangePassword());
+
+    // handle backup password
+    passBackupButton.setOnAction(_ -> handleBackupPassword());
   }
 
   private void handleUsername() {
@@ -144,6 +150,11 @@ public class SettingController {
   private void handleChangePassword() {
     // Change password
     App.redirect(DefindUI.getNoLayout(), DefindUI.getChangePassword());
+  }
+
+  private void handleBackupPassword() {
+    // go to backup
+    App.redirect(DefindUI.getNoLayout(), DefindUI.getBackupPassword());
   }
 
   private void handleSaveSettings() {

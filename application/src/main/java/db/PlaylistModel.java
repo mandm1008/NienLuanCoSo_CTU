@@ -13,7 +13,7 @@ public class PlaylistModel extends Model {
       "playlist_id INT AUTO_INCREMENT PRIMARY KEY, " +
       "name VARCHAR(255) NOT NULL, " +
       "user_id INT, " +
-      "FOREIGN KEY (user_id) REFERENCES Users(user_id))";
+      "FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE)";
   private final String tableName = "Playlists";
   private final String idName = "playlist_id";
 

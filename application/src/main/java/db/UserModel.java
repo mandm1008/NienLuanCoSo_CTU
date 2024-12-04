@@ -116,6 +116,36 @@ public class UserModel extends Model {
     }
   }
 
+  public static UserModel matchEmail(String email) {
+    // call mysql to find user match username and password
+    ConnectDB connectDB = new ConnectDB();
+
+    try {
+      Statement stmt = connectDB.getConnect().createStatement();
+      String sql = "SELECT * FROM Users WHERE email = '" + email + "'";
+
+      ResultSet result = stmt.executeQuery(sql);
+
+      // check if user exists
+      if (result.next()) {
+        UserModel user = new UserModel(result.getString("username"), result.getString("password"),
+            result.getString("email"), result.getString("avatar"));
+
+        user.userId = result.getInt("user_id");
+
+        return user;
+      }
+
+      return null;
+    } catch (SQLException e) {
+      e.printStackTrace();
+
+      return null;
+    } finally {
+      connectDB.closeConnect();
+    }
+  }
+
   @Override
   protected String getInsertString() {
     return "INSERT INTO " + getTableName() + " (username, password, email, avatar) VALUES (?, ?, ?, ?)";
@@ -290,6 +320,24 @@ public class UserModel extends Model {
 
   public static boolean changePassword(String username, String oldPassword, String newPassword) {
     UserModel currentUser = match(username, oldPassword);
+    if (currentUser == null) {
+      return false;
+    }
+
+    return currentUser.update(
+        "UPDATE " + currentUser.getTableName() + " SET password = ? WHERE " + currentUser.getIdName() + " = ?",
+        (pstmt) -> {
+          try {
+            pstmt.setString(1, newPassword);
+            pstmt.setInt(2, currentUser.getId());
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        });
+  }
+
+  public static boolean changePassword(String email, String newPassword) {
+    UserModel currentUser = matchEmail(email);
     if (currentUser == null) {
       return false;
     }

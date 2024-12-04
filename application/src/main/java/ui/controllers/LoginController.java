@@ -72,7 +72,7 @@ public class LoginController {
   @FXML
   protected void handleForgotPassword() {
     // redirect to forgot password page
-    App.redirect(DefindUI.getNoLayout(), DefindUI.getRegister()); // comming soon
+    App.redirect(DefindUI.getNoLayout(), DefindUI.getBackupPassword()); // comming soon
   }
 
   @FXML

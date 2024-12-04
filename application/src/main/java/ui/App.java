@@ -98,6 +98,8 @@ public class App extends Application {
         loadAll(stage, scene);
 
         stage.show();
+        System.out.println("Width: " + stage.getWidth());
+        System.out.println("Height: " + stage.getHeight());
 
         NetworkCheck networkCheck = new NetworkCheck();
         networkCheck.setRunOnInternet(() -> {
@@ -326,6 +328,7 @@ public class App extends Application {
             } else {
                 BorderPane rootLayout = DefindUI.loadFXML(layout).load();
                 Parent main = DefindUI.loadFXML(content).load();
+
                 rootLayout.setCenter(main);
 
                 scene.setRoot(rootLayout);

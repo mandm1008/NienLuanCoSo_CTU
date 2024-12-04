@@ -11,14 +11,18 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.stage.Popup;
 
 import db.SongModel;
 import db.UserModel;
 import modules.LoadLater;
+import ui.App;
 import ui.DefindUI;
 
 public class MusicItemController {
+  @FXML
+  private HBox box;
   @FXML
   private ImageView image;
   @FXML
@@ -35,6 +39,16 @@ public class MusicItemController {
   private String srcMenu = null;
 
   public void initialize() {
+    checkScale();
+  }
+
+  private void checkScale() {
+    double screenWidth = App.getPrimaryStage().getWidth();
+    double scale = screenWidth / DefindUI.DEFAULT_WIDTH;
+    double dfWidth = 360.0;
+    double dfHeight = 72.0;
+
+    box.setPrefSize(dfWidth * scale, dfHeight * scale);
   }
 
   private void handleMenuButton() {

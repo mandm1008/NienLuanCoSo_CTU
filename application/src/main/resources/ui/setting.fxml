@@ -18,9 +18,9 @@
    xmlns="http://javafx.com/javafx/22"
    xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.SettingController">
    <children>
-      <ScrollPane hbarPolicy="NEVER" style="-fx-background-color: #1e1e2e;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: #1e1e2e;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
-            <StackPane fx:id="wrapperSP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1284.0" styleClass="home-box">
+            <StackPane fx:id="wrapperSP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="home-box">
                <children>
                   <VBox maxWidth="1.7976931348623157E308" prefHeight="1000.0" spacing="24.0">
                      <children>

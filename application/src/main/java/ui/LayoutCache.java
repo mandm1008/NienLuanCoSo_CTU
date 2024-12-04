@@ -22,7 +22,7 @@ public class LayoutCache {
   public void reload() {
     try {
       // reload layout
-      header = DefindUI.loadFXML(DefindUI.getHeader()).load(); // --> skip header
+      header = DefindUI.loadFXML(DefindUI.getHeader()).load();
       menu = DefindUI.loadFXML(DefindUI.getMenu()).load();
       player = DefindUI.loadFXML(DefindUI.getPlayer()).load();
     } catch (IOException e) {

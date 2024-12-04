@@ -5,6 +5,8 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 
 public class DefindUI {
+  public static final double DEFAULT_WIDTH = 1550.0;
+  public static final double DEFAULT_HEIGHT = 830.0;
   private static final String layout = "layout";
   private static final String noLayout = "no_layout";
   private static final String home = "home";
@@ -27,6 +29,7 @@ public class DefindUI {
   private static final String userPage = "user-page";
   private static final String musicUserMenu = "music-user-menu";
   private static final String changePassword = "change-password";
+  private static final String backupPassword = "backup-password";
 
   public static String getLayout() {
     return layout;
@@ -114,6 +117,10 @@ public class DefindUI {
 
   public static String getChangePassword() {
     return changePassword;
+  }
+
+  public static String getBackupPassword() {
+    return backupPassword;
   }
 
   // @SuppressWarnings("exports")

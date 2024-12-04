@@ -14,13 +14,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane fx:id="box" alignment="BOTTOM_CENTER" stylesheets="@../css/menu.css"
-   xmlns="http://javafx.com/javafx/22"
-   xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.MenuController">
+<StackPane fx:id="box" alignment="BOTTOM_CENTER" stylesheets="@../css/menu.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.MenuController">
    <children>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="menu-panel">
 
-         <Label styleClass="section-title" text="App" />
+         <Label style="-fx-padding: 0;" styleClass="section-title" text="App" />
          <Button fx:id="exploreButton" prefHeight="32.0" styleClass="menu-item" text="   Khám phá">
             <graphic>
                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" styleClass="icon">
@@ -46,7 +44,7 @@
             </graphic>
          </Button>
 
-         <Label styleClass="section-title" text="Cá nhân" />
+         <Label style="-fx-padding: 0;" styleClass="section-title" text="Cá nhân" />
          <Button fx:id="favoriteButton" layoutX="30.0" layoutY="160.0" prefHeight="32.0" styleClass="menu-item" text="   Yêu thích">
             <graphic>
                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" styleClass="icon">
@@ -74,7 +72,7 @@
                <Insets />
             </VBox.margin>
          </Button>
-         <ScrollPane fx:id="scrollPlaylist" hbarPolicy="NEVER" maxHeight="-Infinity" pannable="true" prefWidth="200.0" style="-fx-background-color: #1e1e2e;" vbarPolicy="ALWAYS">
+         <ScrollPane fx:id="scrollPlaylist" hbarPolicy="NEVER" maxHeight="-Infinity" minHeight="90.0" pannable="true" prefWidth="200.0" style="-fx-background-color: #1e1e2e;" vbarPolicy="ALWAYS">
             <content>
                <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="200.0" style="-fx-background-color: #1e1e2e;">
                   <children>

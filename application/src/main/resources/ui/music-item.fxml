@@ -9,7 +9,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox alignment="CENTER_LEFT" prefHeight="72.0" prefWidth="320.0" spacing="12.0" styleClass="music-box" stylesheets="@../css/music.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.MusicItemController">
+<HBox fx:id="box" alignment="CENTER_LEFT" prefHeight="72.0" prefWidth="320.0" spacing="12.0" styleClass="music-box" stylesheets="@../css/music.css"
+   xmlns="http://javafx.com/javafx/22"
+   xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.MusicItemController">
    <children>
       <StackPane maxHeight="1.7976931348623157E308" minWidth="-Infinity" prefWidth="72.0">
          <children>
